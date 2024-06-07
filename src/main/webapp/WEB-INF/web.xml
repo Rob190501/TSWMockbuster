@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
-  <display-name>Mockbuster</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-  </welcome-file-list>
+<display-name>Mockbuster</display-name>
+  
+	<welcome-file-list>
+		<welcome-file>common/index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+	    <servlet-class>control.common.LoginServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>LogoutServlet</servlet-name>
+	    <servlet-class>control.common.LogoutServlet</servlet-class>
+	</servlet>
+	
+	<!-- <servlet-mapping>
+		<servlet-name>LogoutServlet</servlet-name>
+	    <url-pattern>/LogoutServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+	    <url-pattern>/LoginServlet</url-pattern>
+	</servlet-mapping> -->
+	
+	<filter>
+		<filter-name>AccessControlFilter</filter-name>
+		<filter-class>control.filters.AccessControlFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessControlFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	  
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>All</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
 </web-app>
