@@ -1,8 +1,6 @@
 package control.filters;
 
 import java.io.IOException;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,28 +14,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.User;
+
 @WebFilter("/AccessControlFilter")
 public class AccessControlFilter extends HttpFilter implements Filter {
-       
+
     public AccessControlFilter() {
         super();
     }
 
+	@Override
 	public void destroy() {
 	}
 
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest httpRequest = (HttpServletRequest) request; 
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String path = httpRequest.getServletPath();
-		Boolean isAdmin = (Boolean) httpRequest.getSession().getAttribute("isAdmin");
 		String indexPath = httpRequest.getContextPath() + "/common/index.jsp";
+		Boolean isAdmin = null;
 		
-		if(path.toLowerCase().contains("admin") && isNotAdmin(isAdmin)) {
-			httpResponse.sendRedirect(indexPath);
-			return;
+		//Boolean isAdmin = (Boolean) httpRequest.getSession().getAttribute("isAdmin");
+		User user = (User)httpRequest.getSession().getAttribute("user");
+		
+		if(user != null) {
+			isAdmin = user.isAdmin();
 		}
-		if(path.toLowerCase().contains("browse") && isAdmin == null) {
+		
+		if((path.toLowerCase().contains("admin") && isNotAdmin(isAdmin)) || (path.toLowerCase().contains("browse") && isAdmin == null)) {
 			httpResponse.sendRedirect(indexPath);
 			return;
 		}
@@ -45,14 +50,15 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 			httpResponse.sendRedirect(indexPath);
 			return;
 		}
-		
+
 		chain.doFilter(request, response);
 	}
-	
+
 	private Boolean isNotAdmin(Boolean isAdmin) {
 		return isAdmin == null? Boolean.TRUE : !isAdmin;
 	}
 
+	@Override
 	public void init(FilterConfig fConfig) throws ServletException {
 	}
 

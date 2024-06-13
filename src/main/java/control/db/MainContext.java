@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 @WebListener
 public class MainContext implements ServletContextListener {
 
+	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		ServletContext context = sce.getServletContext();
 
@@ -24,11 +25,12 @@ public class MainContext implements ServletContextListener {
 
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
-		}		
+		}
 
-		context.setAttribute("DataSource", ds);	
+		context.setAttribute("DataSource", ds);
 	}
 
+	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 	}
 }
