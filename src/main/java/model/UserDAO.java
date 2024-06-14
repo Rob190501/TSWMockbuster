@@ -1,9 +1,9 @@
 package model;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,13 +24,19 @@ public class UserDAO implements BeanDAO<User> {
 	@Override
 	public void save(User bean) throws DAOException {
 		String query = "INSERT INTO " + table + " " +
-					   "(username, password, is_admin) VALUES (?, ?, ?)";
+					   "(username, password) VALUES (?, ?)";
 		
-		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query)) {
+		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 			pstmt.setString(1, bean.getUsername());
 			pstmt.setString(2, bean.getPassword());
-			pstmt.setBoolean(3, bean.isAdmin());
 			pstmt.executeUpdate();
+			
+			try(ResultSet rs = pstmt.getGeneratedKeys()) {
+				if(rs.next()) {
+					bean.setId(rs.getInt(1));
+				}
+			}
+			
 		} catch (SQLException e) {
 			throw new DAOException(table);
 		}

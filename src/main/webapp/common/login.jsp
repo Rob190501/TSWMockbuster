@@ -22,5 +22,6 @@
 		<br>
 		<input type="submit" value="log in">
 	</form>
+	<a href="signup.jsp">Sign up</a>
 </body>
 </html>

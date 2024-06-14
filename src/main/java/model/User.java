@@ -14,11 +14,11 @@ public class User {
 		this.isAdmin = isAdmin;
 	}
 	
-	public User(String username, String password, Boolean isAdmin) {
+	public User(String username, String password) {
 		this.id = -1;
 		this.username = username;
 		this.password = password;
-		this.isAdmin = isAdmin;
+		this.isAdmin = Boolean.FALSE;
 	}
 
 	public int getId() {
