@@ -31,25 +31,36 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		String path = httpRequest.getServletPath();
+		
+		String targetPath = httpRequest.getServletPath().toLowerCase();
 		String indexPath = httpRequest.getContextPath() + "/common/index.jsp";
-		Boolean isAdmin = null;
 		
-		//Boolean isAdmin = (Boolean) httpRequest.getSession().getAttribute("isAdmin");
 		User user = (User)httpRequest.getSession().getAttribute("user");
+		Boolean isAdmin = user == null? null : user.isAdmin();
 		
-		if(user != null) {
-			isAdmin = user.isAdmin();
-		}
-		
-		if((path.toLowerCase().contains("admin") && isNotAdmin(isAdmin)) || (path.toLowerCase().contains("browse") && isAdmin == null)) {
+		/*if(!targetPath.contains("common") && user == null) {
 			httpResponse.sendRedirect(indexPath);
 			return;
 		}
-		if(path.toLowerCase().contains("login") && isAdmin != null) {
+		
+		if(targetPath.contains("admin") && isNotAdmin(isAdmin)) {
+			httpResponse.sendRedirect(indexPath);
+			return;
+		}*/
+		
+		//if(path.contains("login"))
+		
+		
+		if((targetPath.contains("admin") && isNotAdmin(isAdmin)) || (targetPath.contains("browse") && isAdmin == null)) {
 			httpResponse.sendRedirect(indexPath);
 			return;
 		}
+		if(targetPath.contains("login") && isAdmin != null) {
+			httpResponse.sendRedirect(indexPath);
+			return;
+		}
+		
+		
 
 		chain.doFilter(request, response);
 	}

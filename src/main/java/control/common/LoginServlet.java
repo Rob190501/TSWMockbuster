@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import control.exceptions.DAOException;
 import model.User;
 import model.UserDAO;
 
@@ -78,8 +79,8 @@ public class LoginServlet extends HttpServlet {
 		User user = null;
 		
 		try {
-			 user = userDAO.doRetrieveByUsrAndPsw(username, password);
-		} catch (SQLException e) {
+			 user = userDAO.retrieveByUsrAndPsw(username, password);
+		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 

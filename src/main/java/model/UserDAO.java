@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import control.exceptions.DAOException;
+
 public class UserDAO implements BeanDAO<User> {
 
 	private DataSource ds = null;
@@ -20,68 +22,77 @@ public class UserDAO implements BeanDAO<User> {
 	}
 
 	@Override
-	public void doSave(User bean) throws SQLException {
-		String query = "Select * from user";
-		Connection con = ds.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(query);
-		ResultSet rs = pstmt.executeQuery();
-		while(rs.next()) {
-			System.out.println(rs.getString("username"));
-		}
-	}
-
-	@Override
-	public boolean doDelete(int id) throws SQLException {
-		return true;
-	}
-
-	@Override
-	public User doRetrieveByKey(int id) throws SQLException {
+	public void save(User bean) throws DAOException {
+		String query = "INSERT INTO " + table + " " +
+					   "(username, password, is_admin) VALUES (?, ?, ?)";
 		
+		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query)) {
+			pstmt.setString(1, bean.getUsername());
+			pstmt.setString(2, bean.getPassword());
+			pstmt.setBoolean(3, bean.isAdmin());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(table);
+		}
+		
+		return;
+	}
+
+	@Override
+	public void delete(int id) throws DAOException {
+		return;
+	}
+
+	@Override
+	public User retrieveByID(int id) throws DAOException {
 		return null;
 	}
 	
-	public User doRetrieveByUsrAndPsw(String usr, String psw) throws SQLException {
+	public User retrieveByUsrAndPsw(String usr, String psw) throws DAOException {
 		User user = null;
 		String query = "SELECT * " +
 					   "FROM " + table + " " +
 					   "WHERE username = ? AND password = ?";
 		
-		Connection con = ds.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(query);
-		pstmt.setString(1, usr);
-		pstmt.setString(2, psw);
-		
-		ResultSet rs = pstmt.executeQuery();
-		if (rs.next()) {
-			int id = rs.getInt("id");
-			String username = rs.getString("username");
-			String password = rs.getString("password");
-			Boolean isAdmin = rs.getBoolean("is_admin"); 
+		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query)) {
+			pstmt.setString(1, usr);
+			pstmt.setString(2, psw);
 			
-			user = new User(id, username, password, isAdmin);
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					int id = rs.getInt("id");
+					String username = rs.getString("username");
+					String password = rs.getString("password");
+					Boolean isAdmin = rs.getBoolean("is_admin"); 
+					
+					user = new User(id, username, password, isAdmin);
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(table);
 		}
 		
 		return user;
 	}
 
 	@Override
-	public Collection<User> doRetrieveAll(String order) throws SQLException {
+	public Collection<User> retrieveAll(String order) throws DAOException {
 		List<User> userList = new ArrayList<User>();
 		String query = "SELECT * " +
 					   "FROM " + table;
 		
-		Connection con = ds.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(query);
-		
-		ResultSet rs = pstmt.executeQuery();
-		while(rs.next()) {
-			int id = rs.getInt("id");
-			String username = rs.getString("username");
-			String password = rs.getString("password");
-			Boolean isAdmin = rs.getBoolean("is_admin"); 
-			
-			userList.add(new User(id, username, password, isAdmin));
+		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery()) {
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String username = rs.getString("username");
+				String password = rs.getString("password");
+				Boolean isAdmin = rs.getBoolean("is_admin"); 
+				
+				userList.add(new User(id, username, password, isAdmin));
+			}
+		} catch (SQLException e) {
+			throw new DAOException(table);
 		}
 		
 		return userList;

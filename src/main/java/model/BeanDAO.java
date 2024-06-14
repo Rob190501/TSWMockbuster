@@ -1,14 +1,14 @@
 package model;
 
-import java.sql.SQLException;
 import java.util.Collection;
+import control.exceptions.DAOException;
 
 public interface BeanDAO<T> {
-	public void doSave(T bean) throws SQLException;
+	public void save(T bean) throws DAOException;
 
-	public boolean doDelete(int id) throws SQLException;
+	public void delete(int id) throws DAOException;
 
-	public T doRetrieveByKey(int id) throws SQLException;
+	public T retrieveByID(int id) throws DAOException;
 
-	public Collection<T> doRetrieveAll(String order) throws SQLException;
+	public Collection<T> retrieveAll(String order) throws DAOException;
 }
