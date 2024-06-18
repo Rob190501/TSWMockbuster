@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.User;
+import model.Utente;
 
 @WebFilter("/AccessControlFilter")
 public class AccessControlFilter extends HttpFilter implements Filter {
@@ -35,8 +35,8 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		String targetPath = httpRequest.getServletPath().toLowerCase();
 		String indexPath = httpRequest.getContextPath() + "/common/index.jsp";
 		
-		User user = (User)httpRequest.getSession().getAttribute("user");
-		Boolean isAdmin = user == null? null : user.isAdmin();
+		Utente utente = (Utente)httpRequest.getSession().getAttribute("utente");
+		Boolean isAdmin = utente == null? null : utente.isAdmin();
 		
 		/*if(!targetPath.contains("common") && user == null) {
 			httpResponse.sendRedirect(indexPath);

@@ -8,8 +8,9 @@
 </head>
 <body>
 	<form action="<%= request.getContextPath() %>/SignupServlet" method="post">
-		Username <input type="text" name="username"> <br>
+		Email <input type="text" name="email"> <br>
 		Password <input type="password" name="password"> <br>
+		Indirizzo fatturazione <input type="text" name="indirizzoFatturazione"> <br>
 		<input type="submit">
 	</form>
 </body>

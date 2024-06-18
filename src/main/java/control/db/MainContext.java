@@ -21,7 +21,7 @@ public class MainContext implements ServletContextListener {
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-			ds = (DataSource) envCtx.lookup("jdbc/prova");
+			ds = (DataSource) envCtx.lookup("jdbc/mockbuster");
 
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());

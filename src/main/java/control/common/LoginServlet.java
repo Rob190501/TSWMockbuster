@@ -15,8 +15,8 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import control.exceptions.DAOException;
-import model.User;
-import model.UserDAO;
+import model.Utente;
+import model.dao.UtenteDAO;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -33,16 +33,16 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
+		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/common/login.jsp");
 		ArrayList<String> errors = new ArrayList<>();
 		HttpSession session = request.getSession();
 
-		if(username == null || username.trim().equals("")) {
+		if(email == null || email.trim().equals("")) {
 			errors.add("Campo Username vuoto");
 		}
-		if(password == null || username.trim().equals("")) {
+		if(password == null || password.trim().equals("")) {
 			errors.add("Campo Password vuoto");
 		}
 		if(!errors.isEmpty()) {
@@ -51,20 +51,20 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
 
-		username = username.trim();
+		email = email.trim();
 		password = toHash(password.trim());
 		
-		User user = retrieveUser(username, password);
+		Utente utente = retrieveUtente(email, password);
 
-		if(user == null) {
+		if(utente == null) {
 			errors.add("Username e/o password errati");
 			request.setAttribute("errors", errors);
 			dispatcher.forward(request, response);
 			return;
 		}
 		
-		session.setAttribute("user", user);
-		if(user.isAdmin()) {
+		session.setAttribute("utente", utente);
+		if(utente.isAdmin()) {
 			response.sendRedirect(request.getContextPath() + "/admin/adminPage.jsp");
 		}
 		else {
@@ -74,12 +74,12 @@ public class LoginServlet extends HttpServlet {
 		return;
 	}
 
-	private User retrieveUser(String username, String password) {
-		UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
-		User user = null;
+	private Utente retrieveUtente(String email, String password) {
+		UtenteDAO userDAO = new UtenteDAO((DataSource)getServletContext().getAttribute("DataSource"));
+		Utente user = null;
 		
 		try {
-			 user = userDAO.retrieveByUsrAndPsw(username, password);
+			 user = userDAO.retrieveByEmailAndPsw(email, password);
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

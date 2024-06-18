@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import control.exceptions.DAOException;
-import model.User;
-import model.UserDAO;
+import model.Utente;
+import model.dao.UtenteDAO;
 
 @WebServlet("/SignupServlet")
 public class SignupServlet extends HttpServlet {
@@ -27,15 +27,16 @@ public class SignupServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
+		String email = request.getParameter("email");
 		String password = toHash(request.getParameter("password"));
-		User user = new User(username, password);
+		String indirizzoFatturazione = request.getParameter("indirizzoFatturazione");
+		Utente utente = new Utente(email, password, indirizzoFatturazione);
 		
-		UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
+		UtenteDAO userDAO = new UtenteDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		
 		try {
-			userDAO.save(user);
-			request.getSession().setAttribute("user", user);
+			userDAO.save(utente);
+			request.getSession().setAttribute("utente", utente);
 			response.sendRedirect(request.getContextPath() + "/browse/browsePage.jsp");
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block

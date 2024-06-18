@@ -1,9 +1,9 @@
-package model;
+package model.dao;
 
 import java.util.Collection;
 import control.exceptions.DAOException;
 
-public interface BeanDAO<T> {
+public interface DAOInterface<T> {
 	public void save(T bean) throws DAOException;
 
 	public void delete(int id) throws DAOException;

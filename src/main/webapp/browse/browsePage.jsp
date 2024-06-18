@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="model.*, java.util.*"%>
     
-<% User user = (User)session.getAttribute("user"); %>
+<%
+     Utente utente = (Utente)session.getAttribute("utente");
+%>
     
 <!DOCTYPE html>
 <html>
@@ -10,7 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	browse <%= user.getUsername() %>
+	browse <%= utente.getEmail() %>
 	<a href="<%= request.getContextPath() %>/LogoutServlet">Log out</a>
 </body>
 </html>

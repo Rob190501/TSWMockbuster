@@ -1,4 +1,4 @@
-package model;
+package model.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,24 +11,26 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import control.exceptions.DAOException;
+import model.Utente;
 
-public class UserDAO implements BeanDAO<User> {
+public class UtenteDAO implements DAOInterface<Utente> {
 
 	private DataSource ds = null;
-	private static String table = "user";
+	private static String table = "utente";
 
-	public UserDAO(DataSource ds) {
+	public UtenteDAO(DataSource ds) {
 		this.ds = ds;
 	}
 
 	@Override
-	public void save(User bean) throws DAOException {
+	public void save(Utente bean) throws DAOException {
 		String query = "INSERT INTO " + table + " " +
-					   "(username, password) VALUES (?, ?)";
+					   "(email, password, indirizzo_fatturazione) VALUES (?, ?, ?)";
 		
 		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-			pstmt.setString(1, bean.getUsername());
+			pstmt.setString(1, bean.getEmail());
 			pstmt.setString(2, bean.getPassword());
+			pstmt.setString(3, bean.getIndirizzoFatturazione());
 			pstmt.executeUpdate();
 			
 			try(ResultSet rs = pstmt.getGeneratedKeys()) {
@@ -50,28 +52,29 @@ public class UserDAO implements BeanDAO<User> {
 	}
 
 	@Override
-	public User retrieveByID(int id) throws DAOException {
+	public Utente retrieveByID(int id) throws DAOException {
 		return null;
 	}
 	
-	public User retrieveByUsrAndPsw(String usr, String psw) throws DAOException {
-		User user = null;
+	public Utente retrieveByEmailAndPsw(String eml, String psw) throws DAOException {
+		Utente user = null;
 		String query = "SELECT * " +
 					   "FROM " + table + " " +
-					   "WHERE username = ? AND password = ?";
+					   "WHERE email = ? AND password = ?";
 		
 		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query)) {
-			pstmt.setString(1, usr);
+			pstmt.setString(1, eml);
 			pstmt.setString(2, psw);
 			
 			try(ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					int id = rs.getInt("id");
-					String username = rs.getString("username");
+					String email = rs.getString("email");
 					String password = rs.getString("password");
+					String indirizzoFatturazione = rs.getString("indirizzo_fatturazione");
 					Boolean isAdmin = rs.getBoolean("is_admin"); 
 					
-					user = new User(id, username, password, isAdmin);
+					user = new Utente(id, email, password, indirizzoFatturazione, isAdmin);
 				}
 			}
 		} catch (SQLException e) {
@@ -82,8 +85,8 @@ public class UserDAO implements BeanDAO<User> {
 	}
 
 	@Override
-	public Collection<User> retrieveAll(String order) throws DAOException {
-		List<User> userList = new ArrayList<User>();
+	public Collection<Utente> retrieveAll(String order) throws DAOException {
+		List<Utente> userList = new ArrayList<Utente>();
 		String query = "SELECT * " +
 					   "FROM " + table;
 		
@@ -91,11 +94,12 @@ public class UserDAO implements BeanDAO<User> {
 			ResultSet rs = pstmt.executeQuery()) {
 			while(rs.next()) {
 				int id = rs.getInt("id");
-				String username = rs.getString("username");
+				String email = rs.getString("email");
 				String password = rs.getString("password");
+				String indirizzoFatturazione = rs.getString("indirizzo_fatturazione");
 				Boolean isAdmin = rs.getBoolean("is_admin"); 
 				
-				userList.add(new User(id, username, password, isAdmin));
+				userList.add(new Utente(id, email, password, indirizzoFatturazione, isAdmin));
 			}
 		} catch (SQLException e) {
 			throw new DAOException(table);
