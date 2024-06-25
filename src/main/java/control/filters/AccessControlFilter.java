@@ -18,8 +18,9 @@ import model.User;
 
 @WebFilter("/AccessControlFilter")
 public class AccessControlFilter extends HttpFilter implements Filter {
+    private static final long serialVersionUID = 1L;
 
-    public AccessControlFilter() {
+	public AccessControlFilter() {
         super();
     }
 
@@ -34,39 +35,35 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		
 		String targetPath = httpRequest.getServletPath().toLowerCase();
 		String indexPath = httpRequest.getContextPath() + "/common/index.jsp";
+		String adminPath = httpRequest.getContextPath() + "/admin/adminPage.jsp";
+		String browsePath = httpRequest.getContextPath() + "/browse/browsePage.jsp";
 		
 		User user = (User)httpRequest.getSession().getAttribute("user");
-		Boolean isAdmin = user == null? null : user.isAdmin();
 		
-		/*if(!targetPath.contains("common") && user == null) {
+		if(user == null && (targetPath.contains("browse") || targetPath.contains("admin"))) {
 			httpResponse.sendRedirect(indexPath);
 			return;
 		}
 		
-		if(targetPath.contains("admin") && isNotAdmin(isAdmin)) {
-			httpResponse.sendRedirect(indexPath);
-			return;
-		}*/
-		
-		//if(path.contains("login"))
-		
-		
-		if((targetPath.contains("admin") && isNotAdmin(isAdmin)) || (targetPath.contains("browse") && isAdmin == null)) {
-			httpResponse.sendRedirect(indexPath);
-			return;
-		}
-		if(targetPath.contains("login") && isAdmin != null) {
+		if(targetPath.contains("admin") && isNotAdmin(user)) {
 			httpResponse.sendRedirect(indexPath);
 			return;
 		}
 		
+		if((targetPath.contains("login") || targetPath.contains("signup")) && user != null) {
+			if(user.isAdmin()) {
+				httpResponse.sendRedirect(adminPath);
+				return;
+			}
+			httpResponse.sendRedirect(browsePath);
+			return;
+		}
 		
-
 		chain.doFilter(request, response);
 	}
 
-	private Boolean isNotAdmin(Boolean isAdmin) {
-		return isAdmin == null? Boolean.TRUE : !isAdmin;
+	private Boolean isNotAdmin(User user) {
+		return user == null? Boolean.TRUE : !user.isAdmin();
 	}
 
 	@Override
