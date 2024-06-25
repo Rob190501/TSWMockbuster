@@ -1,5 +1,5 @@
 <%@page import="javax.sql.DataSource"%>
-<%@page import="model.dao.UtenteDAO"%>
+<%@page import="model.dao.UserDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.util.*"%>
 

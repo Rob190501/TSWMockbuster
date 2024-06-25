@@ -11,26 +11,28 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import control.exceptions.DAOException;
-import model.Utente;
+import model.User;
 
-public class UtenteDAO implements DAOInterface<Utente> {
+public class UserDAO implements DAOInterface<User> {
 
 	private DataSource ds = null;
-	private static String table = "utente";
+	private static String table = "user";
 
-	public UtenteDAO(DataSource ds) {
+	public UserDAO(DataSource ds) {
 		this.ds = ds;
 	}
 
 	@Override
-	public void save(Utente bean) throws DAOException {
+	public void save(User bean) throws DAOException {
 		String query = "INSERT INTO " + table + " " +
-					   "(email, password, indirizzo_fatturazione) VALUES (?, ?, ?)";
+					   "(email, password, first_name, last_name, billing_address) VALUES (?, ?, ?, ?, ?)";
 		
 		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 			pstmt.setString(1, bean.getEmail());
 			pstmt.setString(2, bean.getPassword());
-			pstmt.setString(3, bean.getIndirizzoFatturazione());
+			pstmt.setString(3, bean.getFirstName());
+			pstmt.setString(4, bean.getLastName());
+			pstmt.setString(5, bean.getBillingAddress());
 			pstmt.executeUpdate();
 			
 			try(ResultSet rs = pstmt.getGeneratedKeys()) {
@@ -52,29 +54,29 @@ public class UtenteDAO implements DAOInterface<Utente> {
 	}
 
 	@Override
-	public Utente retrieveByID(int id) throws DAOException {
+	public User retrieveByID(int id) throws DAOException {
 		return null;
 	}
 	
-	public Utente retrieveByEmailAndPsw(String eml, String psw) throws DAOException {
-		Utente user = null;
+	public User retrieveByEmailAndPassword(String email, String password) throws DAOException {
+		User user = null;
 		String query = "SELECT * " +
 					   "FROM " + table + " " +
 					   "WHERE email = ? AND password = ?";
 		
 		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query)) {
-			pstmt.setString(1, eml);
-			pstmt.setString(2, psw);
+			pstmt.setString(1, email);
+			pstmt.setString(2, password);
 			
 			try(ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					int id = rs.getInt("id");
-					String email = rs.getString("email");
-					String password = rs.getString("password");
-					String indirizzoFatturazione = rs.getString("indirizzo_fatturazione");
+					String firstName = rs.getString("first_name");
+					String lastName = rs.getString("last_name");
+					String billingAddress = rs.getString("billing_address");
 					Boolean isAdmin = rs.getBoolean("is_admin"); 
 					
-					user = new Utente(id, email, password, indirizzoFatturazione, isAdmin);
+					user = new User(id, email, password, firstName, lastName, billingAddress, isAdmin);
 				}
 			}
 		} catch (SQLException e) {
@@ -83,10 +85,31 @@ public class UtenteDAO implements DAOInterface<Utente> {
 		
 		return user;
 	}
+	
+	public Boolean checkEmailAvailability(String email) throws DAOException {
+		Boolean available = Boolean.TRUE;
+		String query = "SELECT * " +
+					   "FROM " + table + " " +
+					   "WHERE email = ?";
+		
+		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query)) {
+			pstmt.setString(1, email);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					available = Boolean.FALSE;
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(table);
+		}
+		
+		return available;
+	}
 
 	@Override
-	public Collection<Utente> retrieveAll(String order) throws DAOException {
-		List<Utente> userList = new ArrayList<Utente>();
+	public Collection<User> retrieveAll(String order) throws DAOException {
+		List<User> usersList = new ArrayList<User>();
 		String query = "SELECT * " +
 					   "FROM " + table;
 		
@@ -96,16 +119,18 @@ public class UtenteDAO implements DAOInterface<Utente> {
 				int id = rs.getInt("id");
 				String email = rs.getString("email");
 				String password = rs.getString("password");
-				String indirizzoFatturazione = rs.getString("indirizzo_fatturazione");
+				String firstName = rs.getString("first_name");
+				String lastName = rs.getString("last_name");
+				String billingAddress = rs.getString("billing_address");
 				Boolean isAdmin = rs.getBoolean("is_admin"); 
 				
-				userList.add(new Utente(id, email, password, indirizzoFatturazione, isAdmin));
+				usersList.add(new User(id, email, password, firstName, lastName, billingAddress, isAdmin));
 			}
 		} catch (SQLException e) {
 			throw new DAOException(table);
 		}
 		
-		return userList;
+		return usersList;
 	}
 
 }

@@ -14,15 +14,10 @@
 		<servlet-name>LogoutServlet</servlet-name>
 	    <servlet-class>control.common.LogoutServlet</servlet-class>
 	</servlet>
-	
-	<!-- <servlet-mapping>
-		<servlet-name>LogoutServlet</servlet-name>
-	    <url-pattern>/LogoutServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>LoginServlet</servlet-name>
-	    <url-pattern>/LoginServlet</url-pattern>
-	</servlet-mapping> -->
+	<servlet>
+		<servlet-name>SignupServlet</servlet-name>
+	    <servlet-class>control.common.SignupServlet</servlet-class>
+	</servlet>
 	
 	<filter>
 		<filter-name>AccessControlFilter</filter-name>
@@ -31,6 +26,15 @@
 	<filter-mapping>
 		<filter-name>AccessControlFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>SignupFormFilter</filter-name>
+		<filter-class>control.filters.SignupFormFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SignupFormFilter</filter-name>
+		<url-pattern>/SignupServlet</url-pattern>
 	</filter-mapping>
 	
 	<resource-ref>

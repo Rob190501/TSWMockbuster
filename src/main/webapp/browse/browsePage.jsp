@@ -2,7 +2,7 @@
     pageEncoding="UTF-8" import="model.*, java.util.*"%>
     
 <%
-     Utente utente = (Utente)session.getAttribute("utente");
+	User user = (User)session.getAttribute("user");
 %>
     
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	browse <%= utente.getEmail() %>
+	browse <%= user.getEmail() %> <%= user.getId() %>
 	<a href="<%= request.getContextPath() %>/LogoutServlet">Log out</a>
 </body>
 </html>

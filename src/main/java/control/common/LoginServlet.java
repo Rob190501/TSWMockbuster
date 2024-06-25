@@ -15,8 +15,8 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import control.exceptions.DAOException;
-import model.Utente;
-import model.dao.UtenteDAO;
+import model.User;
+import model.dao.UserDAO;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -54,17 +54,17 @@ public class LoginServlet extends HttpServlet {
 		email = email.trim();
 		password = toHash(password.trim());
 		
-		Utente utente = retrieveUtente(email, password);
+		User user = retrieveUser(email, password);
 
-		if(utente == null) {
+		if(user == null) {
 			errors.add("Username e/o password errati");
 			request.setAttribute("errors", errors);
 			dispatcher.forward(request, response);
 			return;
 		}
 		
-		session.setAttribute("utente", utente);
-		if(utente.isAdmin()) {
+		session.setAttribute("user", user);
+		if(user.isAdmin()) {
 			response.sendRedirect(request.getContextPath() + "/admin/adminPage.jsp");
 		}
 		else {
@@ -74,12 +74,12 @@ public class LoginServlet extends HttpServlet {
 		return;
 	}
 
-	private Utente retrieveUtente(String email, String password) {
-		UtenteDAO userDAO = new UtenteDAO((DataSource)getServletContext().getAttribute("DataSource"));
-		Utente user = null;
+	private User retrieveUser(String email, String password) {
+		UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
+		User user = null;
 		
 		try {
-			 user = userDAO.retrieveByEmailAndPsw(email, password);
+			 user = userDAO.retrieveByEmailAndPassword(email, password);
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

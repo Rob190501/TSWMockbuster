@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+body {
+	font-size: 1.3em;
+}
+
+div {
+	margin: 10px;
+}
+
+input {
+	font-size: inherit;
+	border: 3px solid black;
+	border-radius: 7px;
+}
+
+input[type="submit"] {
+	color: white;
+	background-color: blue;
+	border: 2px solid blue;
+	border-radius: 7px;
+}
+
+.error {
+	color: red;
+}
+
+input.error {
+	border-color: red;
+}
+
+.valid {
+	color: green;
+}
+
+input.valid {
+	border-color: green;
+}

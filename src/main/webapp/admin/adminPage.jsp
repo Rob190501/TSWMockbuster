@@ -1,15 +1,15 @@
 <%@page import="javax.websocket.Session"%>
-<%@page import="model.dao.UtenteDAO"%>
-<%@page import="model.Utente"%>
+<%@page import="model.dao.UserDAO"%>
+<%@page import="model.User"%>
 <%@page import="javax.sql.DataSource"%>
 <%@page import="java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 
 <%
-	Utente utente = (Utente)session.getAttribute("utente");
-	UtenteDAO utenteDAO = new UtenteDAO((DataSource)getServletContext().getAttribute("DataSource"));
-	List<Utente> userList = (List<Utente>)utenteDAO.retrieveAll("");
+	User user = (User)session.getAttribute("user");
+	UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
+	List<User> usersList = (List<User>)userDAO.retrieveAll("");
 %>
 
 <!DOCTYPE html>
@@ -20,21 +20,26 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Admin <%= utente.getEmail() %>
+	Admin <%=user.getEmail()%>
 	
 	<table style="border: 2px solid black">
 		<tr>
-			<th>Username</th>
-			<th>Password</th>
+			<th>Email</th>
+			<!-- <th>Password</th> -->
+			<th>Nome</th>
+			<th>Cognome</th>
+			<th>Indirizzo Fatturazione</th>
 			<th>isAdmin</th>
 		</tr>
 		<%
-		for(Utente u: userList) {
+		for(User u: usersList) {
 		%>
 		<tr>
 			<td><%= u.getEmail() %></td>
-			<td><%= u.getPassword() %></td>
-			<td><%= u.getIndirizzoFatturazione() %></td>
+			<!-- <td><%= u.getPassword() %></td>-->
+			<td><%= u.getFirstName() %></td>
+			<td><%= u.getLastName() %></td>
+			<td><%= u.getBillingAddress() %></td>
 			<td><%= u.isAdmin() %></td>
 		</tr>
 		<%}%>
