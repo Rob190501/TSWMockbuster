@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Login</title>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 	<%
@@ -15,7 +16,7 @@
 			<%}
 		}
 	%>
-	<form action="<%= request.getContextPath() %>/LoginServlet" method="post">
+	<form action="<%= request.getContextPath() %>/common/LoginServlet" method="post">
 		Email: <input type="text" name="email">
 		<br>
 		Password: <input type="password" name="password">

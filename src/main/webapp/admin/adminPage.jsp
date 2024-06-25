@@ -16,8 +16,9 @@
 
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 	Admin <%=user.getEmail()%>
@@ -25,7 +26,6 @@
 	<table style="border: 2px solid black">
 		<tr>
 			<th>Email</th>
-			<!-- <th>Password</th> -->
 			<th>Nome</th>
 			<th>Cognome</th>
 			<th>Indirizzo Fatturazione</th>
@@ -45,6 +45,6 @@
 		<%}%>
 	</table>
 	
-	<a href="<%= request.getContextPath() %>/LogoutServlet">Log out</a>
+	<a href="<%= request.getContextPath() %>/common/LogoutServlet">Log out</a>
 </body>
 </html>

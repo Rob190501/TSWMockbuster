@@ -33,29 +33,29 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
-		String targetPath = httpRequest.getServletPath().toLowerCase();
-		String indexPath = httpRequest.getContextPath() + "/common/index.jsp";
-		String adminPath = httpRequest.getContextPath() + "/admin/adminPage.jsp";
-		String browsePath = httpRequest.getContextPath() + "/browse/browsePage.jsp";
+		String targetPage = httpRequest.getServletPath().toLowerCase();
+		String indexPage = httpRequest.getContextPath() + "/common/index.jsp";
+		String adminPage = httpRequest.getContextPath() + "/admin/adminPage.jsp";
+		String browsePage = httpRequest.getContextPath() + "/browse/browsePage.jsp";
 		
 		User user = (User)httpRequest.getSession().getAttribute("user");
 		
-		if(user == null && (targetPath.contains("browse") || targetPath.contains("admin"))) {
-			httpResponse.sendRedirect(indexPath);
+		if((targetPage.contains("browse") || targetPage.contains("admin")) && user == null) {
+			httpResponse.sendRedirect(indexPage);
 			return;
 		}
 		
-		if(targetPath.contains("admin") && isNotAdmin(user)) {
-			httpResponse.sendRedirect(indexPath);
+		if(targetPage.contains("admin") && isNotAdmin(user)) {
+			httpResponse.sendRedirect(indexPage);
 			return;
 		}
 		
-		if((targetPath.contains("login") || targetPath.contains("signup")) && user != null) {
+		if((targetPage.contains("login") || targetPage.contains("signup")) && user != null) {
 			if(user.isAdmin()) {
-				httpResponse.sendRedirect(adminPath);
+				httpResponse.sendRedirect(adminPage);
 				return;
 			}
-			httpResponse.sendRedirect(browsePath);
+			httpResponse.sendRedirect(browsePage);
 			return;
 		}
 		

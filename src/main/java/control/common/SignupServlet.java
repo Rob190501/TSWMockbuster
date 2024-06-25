@@ -14,7 +14,6 @@ import control.exceptions.DAOException;
 import model.User;
 import model.dao.UserDAO;
 
-@WebServlet("/SignupServlet")
 public class SignupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

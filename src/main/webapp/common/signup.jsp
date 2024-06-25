@@ -7,12 +7,13 @@
 	
 	<title>Signup</title>
 	
-	<link rel  =  "stylesheet" href  =  "<%= request.getContextPath() %>/styles/signup.css">
+	<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/signup.css">
 	
-	<script type  =  "text/javascript" src  =  "<%= request.getContextPath() %>/scripts/signup.js"></script>
+	<script type = "text/javascript" src = "<%= request.getContextPath() %>/scripts/signup.js"></script>
 </head>
 <body>
-	<form id  =  "signupForm" action = "<%= request.getContextPath() %>/SignupServlet"
+	<form id = "signupForm" action = "<%= request.getContextPath() %>/common/SignupServlet"
 	 	method = "post">
 		<div>
 			<label for = "email">Email</label>
