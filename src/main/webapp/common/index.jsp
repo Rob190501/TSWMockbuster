@@ -6,11 +6,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta charset = "UTF-8">
+	
 	<title>Insert title here</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/common.css">
+	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/header.css">
 </head>
 <body>
-	<a href="<%= request.getContextPath() %>/common/login.jsp">Log in</a>
+	<jsp:include page = "/includes/header.jsp" />
+	
+	SAMPLE
 </body>
 </html>

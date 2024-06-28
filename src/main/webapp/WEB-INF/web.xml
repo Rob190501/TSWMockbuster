@@ -64,7 +64,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>SignupFormFilter</filter-name>
-		<url-pattern>/SignupServlet</url-pattern>
+		<url-pattern>/common/SignupServlet</url-pattern>
 	</filter-mapping>
 	
 	

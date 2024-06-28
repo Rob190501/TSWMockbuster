@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+header {
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0px 0px 10px 0px;
+	padding: 10px 20px;
+	background-color: gray;
+	overflow: hidden;
+}
+
+.userinfo {
+	float: right;
+}

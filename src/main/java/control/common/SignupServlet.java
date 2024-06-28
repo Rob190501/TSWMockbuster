@@ -38,7 +38,7 @@ public class SignupServlet extends HttpServlet {
 		try {
 			userDAO.save(user);
 			request.getSession().setAttribute("user", user);
-			response.sendRedirect(request.getContextPath() + "/browse/browsePage.jsp");
+			response.sendRedirect(request.getContextPath() + "/common/index.jsp");
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
