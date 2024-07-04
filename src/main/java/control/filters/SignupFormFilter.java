@@ -12,6 +12,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebFilter("/SignupFormFilter")
 public class SignupFormFilter extends HttpFilter implements Filter {
@@ -26,13 +28,15 @@ public class SignupFormFilter extends HttpFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String billingAddress = request.getParameter("billingAddress");
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/common/signup.jsp");
+		String email = httpRequest.getParameter("email");
+		String password = httpRequest.getParameter("password");
+		String firstName = httpRequest.getParameter("firstName");
+		String lastName = httpRequest.getParameter("lastName");
+		String billingAddress = httpRequest.getParameter("billingAddress");
+		
+		RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/common/signup.jsp");
 		ArrayList<String> errors = new ArrayList<>();
 		
 		if(!isValidEmail(email)) {
@@ -56,7 +60,7 @@ public class SignupFormFilter extends HttpFilter implements Filter {
 		}
 		
 		if(!errors.isEmpty()) {
-			request.setAttribute("errors", errors);
+			httpRequest.setAttribute("errors", errors);
 			dispatcher.forward(request, response);
 			return;
 		}
@@ -66,22 +70,22 @@ public class SignupFormFilter extends HttpFilter implements Filter {
 	
 	private static boolean isValidEmail(String email) {
         String regex = "[\\w\\.-]+@([\\w-]+\\.)+\\w{2,}";
-        return email.matches(regex);
+        return email == null ? Boolean.FALSE : email.trim().matches(regex);
     }
 	
 	private static boolean isValidName(String name) {
         String regex = "[A-Za-z]+";
-        return name.matches(regex);
+        return name == null ? Boolean.FALSE : name.trim().matches(regex);
     }
 	
 	private static boolean isValidPassword(String password) {
         String regex = "(\\w+){4,10}";
-        return password.matches(regex);
+        return password == null ? Boolean.FALSE : password.trim().matches(regex);
     }
 	
 	private static boolean isValidBillingAddress(String address) {
         String regex = "([A-Za-z]+\\s)+\\d+\\s\\d{5}\\s[A-Za-z]+";
-        return address.matches(regex);
+        return address == null ? Boolean.FALSE : address.trim().matches(regex);
     }
 
 	public void init(FilterConfig fConfig) throws ServletException {

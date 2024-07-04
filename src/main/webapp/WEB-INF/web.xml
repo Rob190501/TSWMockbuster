@@ -46,6 +46,15 @@
         <servlet-name>SignupServlet</servlet-name>
         <url-pattern>/common/SignupServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>MovieUploadServlet</servlet-name>
+	    <servlet-class>control.admin.MovieUploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>MovieUploadServlet</servlet-name>
+        <url-pattern>/admin/MovieUploadServlet</url-pattern>
+    </servlet-mapping>
 	
 	
 	
@@ -65,6 +74,15 @@
 	<filter-mapping>
 		<filter-name>SignupFormFilter</filter-name>
 		<url-pattern>/common/SignupServlet</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>MovieUploadFormFilter</filter-name>
+		<filter-class>control.filters.MovieUploadFormFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MovieUploadFormFilter</filter-name>
+		<url-pattern>/admin/MovieUploadServlet</url-pattern>
 	</filter-mapping>
 	
 	
