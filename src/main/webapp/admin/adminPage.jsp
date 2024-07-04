@@ -29,6 +29,7 @@
 			<th>Nome</th>
 			<th>Cognome</th>
 			<th>Indirizzo Fatturazione</th>
+			<th>Credito</th>
 			<th>isAdmin</th>
 		</tr>
 		<%
@@ -40,6 +41,7 @@
 			<td><%= u.getFirstName() %></td>
 			<td><%= u.getLastName() %></td>
 			<td><%= u.getBillingAddress() %></td>
+			<td><%= u.getCredit() %></td>
 			<td><%= u.isAdmin() %></td>
 		</tr>
 		<%}%>
