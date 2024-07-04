@@ -35,8 +35,6 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		
 		String targetPage = httpRequest.getServletPath().toLowerCase();
 		String indexPage = httpRequest.getContextPath() + "/common/index.jsp";
-		String adminPage = httpRequest.getContextPath() + "/admin/adminPage.jsp";
-		String browsePage = httpRequest.getContextPath() + "/browse/browsePage.jsp";
 		
 		User user = (User)httpRequest.getSession().getAttribute("user");
 		
@@ -51,11 +49,7 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		}
 		
 		if((targetPage.contains("login") || targetPage.contains("signup")) && user != null) {
-			if(user.isAdmin()) {
-				httpResponse.sendRedirect(adminPage);
-				return;
-			}
-			httpResponse.sendRedirect(browsePage);
+			httpResponse.sendRedirect(indexPage);
 			return;
 		}
 		
