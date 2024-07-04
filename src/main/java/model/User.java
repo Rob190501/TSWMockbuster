@@ -2,21 +2,23 @@ package model;
 
 public class User {
 	
-	private int id;
+	private Integer id;
 	private String email;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String billingAddress;
+	private Float credit;
 	private Boolean isAdmin;
 	
-	public User(int id, String email, String password, String firstName, String lastName, String billingAddress, Boolean isAdmin) {
+	public User(Integer id, String email, String password, String firstName, String lastName, String billingAddress, Float credit, Boolean isAdmin) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.billingAddress = billingAddress;
+		this.credit = credit;
 		this.isAdmin = isAdmin;
 	}
 	
@@ -27,14 +29,15 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.billingAddress = billingAddress;
+		this.credit = 0.0f;
 		this.isAdmin = Boolean.FALSE;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -66,7 +69,7 @@ public class User {
 		return lastName;
 	}
 
-	public void setCognome(String lastName) {
+	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
@@ -76,6 +79,14 @@ public class User {
 
 	public void setBillingAddress(String billingAddress) {
 		this.billingAddress = billingAddress;
+	}
+	
+	public Float getCredit() {
+		return credit;
+	}
+
+	public void setCredit(Float credit) {
+		this.credit = credit;
 	}
 
 	public Boolean isAdmin() {

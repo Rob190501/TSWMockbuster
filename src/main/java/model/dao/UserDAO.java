@@ -74,9 +74,10 @@ public class UserDAO implements DAOInterface<User> {
 					String firstName = rs.getString("first_name");
 					String lastName = rs.getString("last_name");
 					String billingAddress = rs.getString("billing_address");
+					Float credit = rs.getFloat("credit");
 					Boolean isAdmin = rs.getBoolean("is_admin"); 
 					
-					user = new User(id, email, password, firstName, lastName, billingAddress, isAdmin);
+					user = new User(id, email, password, firstName, lastName, billingAddress, credit, isAdmin);
 				}
 			}
 		} catch (SQLException e) {
@@ -122,9 +123,10 @@ public class UserDAO implements DAOInterface<User> {
 				String firstName = rs.getString("first_name");
 				String lastName = rs.getString("last_name");
 				String billingAddress = rs.getString("billing_address");
+				Float credit = rs.getFloat("credit");
 				Boolean isAdmin = rs.getBoolean("is_admin"); 
 				
-				usersList.add(new User(id, email, password, firstName, lastName, billingAddress, isAdmin));
+				usersList.add(new User(id, email, password, firstName, lastName, billingAddress, credit, isAdmin));
 			}
 		} catch (SQLException e) {
 			throw new DAOException(table);
