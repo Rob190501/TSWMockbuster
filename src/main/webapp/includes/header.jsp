@@ -11,7 +11,8 @@
 	<% } else { %>
 		Benvenuto <%= user.getFirstName() %> <%= user.getId() %>
 		<% if(user.isAdmin()) { %>
-			<a href = "<%= request.getContextPath() %>/admin/adminPage.jsp">Admin Page</a>	
+			<a href = "<%= request.getContextPath() %>/admin/adminPage.jsp">Admin Page</a>
+			<a href = "<%= request.getContextPath() %>/admin/movieUpload.jsp">Movie upload</a>	
 		<% } %>
 		<a href = "<%= request.getContextPath() %>/browse/browsePage.jsp">Browse Page</a>
 		<a href="<%= request.getContextPath() %>/common/LogoutServlet">Log out</a> 
