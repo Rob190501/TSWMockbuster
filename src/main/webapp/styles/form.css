@@ -1,14 +1,10 @@
 @charset "UTF-8";
 
-body {
-	font-size: 1.3em;
-}
-
 div {
 	margin: 10px;
 }
 
-input {
+input, textarea {
 	font-size: inherit;
 	border: 3px solid black;
 	border-radius: 7px;
@@ -25,7 +21,7 @@ input[type="submit"] {
 	color: red;
 }
 
-input.error {
+input.error, textarea.error {
 	border-color: red;
 }
 
@@ -33,6 +29,6 @@ input.error {
 	color: green;
 }
 
-input.valid {
+input.valid, textarea.valid {
 	border-color: green;
 }
