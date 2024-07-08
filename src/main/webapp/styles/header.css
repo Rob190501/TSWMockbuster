@@ -1,14 +1,65 @@
 @charset "UTF-8";
 
 header {
-	width: 100%;
 	box-sizing: border-box;
-	margin: 0px 0px 10px 0px;
+	width: 95%;
+	height: auto;
+	margin: 15px 2.5%;
 	padding: 10px 20px;
-	background-color: gray;
-	overflow: hidden;
+	
+	position: fixed;
+	
+	background-color: #FBA92C;
+	
+	border-radius: 50px;
+	
+	line-height: 50px;
+}
+
+.logo {
+	font-size: 2em;
+	font-family: Impact, Charcoal, sans-serif;
+	float: left;
+}
+.logo:hover {
+	text-decoration: none;
 }
 
 .userinfo {
 	float: right;
+	margin-right: 10px;
+	
+}
+
+.greetings {
+	float: left;
+	font-weight: bold;
+}
+
+.hamburger {
+	filter: invert(100%) brightness(200%);
+	float: right;
+	margin-left: 10px;
+   	
+   	width: 50px;
+    height: auto;
+    
+    cursor: pointer;
+}
+
+.menu {
+	background-color: #FBA92C;
+	
+	margin-top: 85px;
+	margin-left: 60px;
+	
+	position: fixed;
+	
+	border-radius: 15px;
+	
+	visibility: hidden;
+}
+
+.menu > a {
+	display: block;
 }

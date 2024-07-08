@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +28,8 @@ public class UserDAO implements DAOInterface<User> {
 		String query = "INSERT INTO " + table + " " +
 					   "(email, password, first_name, last_name, billing_address) VALUES (?, ?, ?, ?, ?)";
 		
-		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+		try(Connection conn = ds.getConnection(); 
+			PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 			pstmt.setString(1, bean.getEmail());
 			pstmt.setString(2, bean.getPassword());
 			pstmt.setString(3, bean.getFirstName());
@@ -64,7 +66,8 @@ public class UserDAO implements DAOInterface<User> {
 					   "FROM " + table + " " +
 					   "WHERE email = ? AND password = ?";
 		
-		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query)) {
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
 			
@@ -93,7 +96,8 @@ public class UserDAO implements DAOInterface<User> {
 					   "FROM " + table + " " +
 					   "WHERE email = ?";
 		
-		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query)) {
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
 			pstmt.setString(1, email);
 			
 			try(ResultSet rs = pstmt.executeQuery()) {
@@ -114,7 +118,8 @@ public class UserDAO implements DAOInterface<User> {
 		String query = "SELECT * " +
 					   "FROM " + table;
 		
-		try(PreparedStatement pstmt = ds.getConnection().prepareStatement(query);
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery()) {
 			while(rs.next()) {
 				int id = rs.getInt("id");

@@ -16,7 +16,7 @@
 	
 </head>
 <body>
-	<jsp:include page = "/includes/header.jsp" />
+	<jsp:include page = "/fragments/header.jsp" />
 	
 	<div id = "page">
 		<form id = "movieUploadForm" action = "<%= request.getContextPath() %>/admin/MovieUploadServlet" 

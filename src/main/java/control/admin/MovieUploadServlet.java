@@ -1,5 +1,6 @@
 package control.admin;
 
+import java.io.File;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -8,6 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.sql.DataSource;
+
+import control.exceptions.DAOException;
+import model.Movie;
+import model.dao.MovieDAO;
 
 @MultipartConfig(
 	fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -16,6 +22,7 @@ import javax.servlet.http.Part;
 )
 public class MovieUploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static String IMAGE_DIR = "images/posters";
 
     public MovieUploadServlet() {
         super();
@@ -33,19 +40,20 @@ public class MovieUploadServlet extends HttpServlet {
 		Float dailyRentalPrice = Float.parseFloat((String)request.getAttribute("dailyRentalPrice"));
 		Float purchasePrice = Float.parseFloat((String)request.getAttribute("purchasePrice"));
 		Part poster = request.getPart("poster");
+		String posterName = poster.getSubmittedFileName();
 		
+		Movie movie = new Movie(title, plot, duration, year, availableLicenses, dailyRentalPrice, purchasePrice, posterName);
+		String savePath = request.getServletContext().getRealPath("") + IMAGE_DIR;
 		
-		System.out.println(title);
-		System.out.println(plot);
-		System.out.println(duration);
-		System.out.println(year);
-		System.out.println(availableLicenses);
-		System.out.println(dailyRentalPrice);
-		System.out.println(purchasePrice);
+		MovieDAO movieDAO = new MovieDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		
-		
-		//System.out.println(request.getServletContext().getRealPath(""));
-		
+		try {
+			movieDAO.save(movie);
+			poster.write(savePath + File.separator + posterName);
+			response.sendRedirect(request.getContextPath() + "/common/index.jsp");
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
 }

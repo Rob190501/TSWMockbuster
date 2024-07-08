@@ -55,6 +55,15 @@
         <servlet-name>MovieUploadServlet</servlet-name>
         <url-pattern>/admin/MovieUploadServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>MovieRetrieveServlet</servlet-name>
+	    <servlet-class>control.common.MovieRetrieveServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>MovieRetrieveServlet</servlet-name>
+        <url-pattern>/common/MovieRetrieveServlet</url-pattern>
+    </servlet-mapping>
 	
 	
 	
