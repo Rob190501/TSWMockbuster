@@ -64,7 +64,24 @@
         <servlet-name>MovieRetrieveServlet</servlet-name>
         <url-pattern>/common/MovieRetrieveServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>MoviePageServlet</servlet-name>
+	    <servlet-class>control.browse.MoviePageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>MoviePageServlet</servlet-name>
+        <url-pattern>/browse/MoviePageServlet</url-pattern>
+    </servlet-mapping>
 	
+	<servlet>
+		<servlet-name>GetOrdersServlet</servlet-name>
+	    <servlet-class>control.browse.GetOrdersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>GetOrdersServlet</servlet-name>
+        <url-pattern>/browse/GetOrdersServlet</url-pattern>
+    </servlet-mapping>
 	
 	
 	<filter>

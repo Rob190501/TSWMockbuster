@@ -62,8 +62,35 @@ public class MovieDAO implements DAOInterface<Movie> {
 
 	@Override
 	public Movie retrieveByID(int id) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+		Movie movie = null;
+		String query = "SELECT * " +
+				   "FROM " + table + " " +
+				   "WHERE id = ?";
+	
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query);) {
+			pstmt.setInt(1, id);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				if(rs.next()) {
+					String title = rs.getString("title");
+					String plot = rs.getString("plot");
+					Integer duration = rs.getInt("duration");
+					Integer year = rs.getInt("movie_year");
+					Integer availableLicenses = rs.getInt("available_licenses");
+					Float dailyRentalPrice = rs.getFloat("daily_rental_price");
+					Float purchasePrice = rs.getFloat("purchase_price");
+					Boolean isVisible = rs.getBoolean("is_visible");
+					String posterPath = rs.getString("poster_path");
+					
+					movie = new Movie(id, title, plot, duration, year, availableLicenses, dailyRentalPrice, purchasePrice, isVisible, posterPath);
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(table);
+		}
+		
+		return movie;
 	}
 
 	@Override
@@ -90,11 +117,9 @@ public class MovieDAO implements DAOInterface<Movie> {
 				movieList.add(new Movie(id, title, plot, duration, year, availableLicenses, dailyRentalPrice, purchasePrice, isVisible, posterPath));
 			}
 		} catch (SQLException e) {
-			System.out.println(e);
 			throw new DAOException(table);
 		}
 		
 		return movieList;
 	}
-
 }

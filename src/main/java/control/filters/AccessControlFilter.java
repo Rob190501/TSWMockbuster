@@ -43,6 +43,11 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 			return;
 		}
 		
+		if(targetPage.contains("moviePage.jsp") && request.getAttribute("movie") == null) {
+			httpResponse.sendRedirect(indexPage);
+			return;
+		}
+		
 		if(targetPage.contains("admin") && isNotAdmin(user)) {
 			httpResponse.sendRedirect(indexPage);
 			return;

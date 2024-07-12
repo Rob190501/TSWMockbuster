@@ -16,21 +16,19 @@
 <head>
 	<meta charset = "UTF-8">
 	
-	<title>Insert title here</title>
+	<title>Mockbuster</title>
 	
 	<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
 	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/common.css">
-	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/header.css">
-	
-	<script type="text/javascript" src = "<%= request.getContextPath() %>/scripts/header.js"></script>
+	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/index.css">
 </head>
 <body>
 	<jsp:include page = "/fragments/header.jsp" />
-	<div id = "page">
+	<div class = "page">
 		<%
 			for(Movie movie : movieList) {%>
-				<!-- <%= movie.getTitle() %><br>-->
-				<div class = "container">
+				<div class = "container"
+					onclick = "window.location.href = '<%= request.getContextPath() %>/browse/MoviePageServlet?id=<%= movie.getId() %>'">
 					<img src = "<%= request.getContextPath() %>/images/posters/<%= movie.getPosterPath() %>">
 				</div>
 				<%

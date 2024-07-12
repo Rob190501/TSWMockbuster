@@ -1,19 +1,40 @@
 @charset "UTF-8";
 
-div {
-	margin: 10px;
+.page {
+    padding: 120px 50% 0px 50%;
+    
+}
+
+form {
+	background-color: #FBA92C;
+	padding: 15px;
+	border-radius: 15px;
+	display: inline-block;
+}
+
+form * {
+	margin: auto;
+}
+
+.page div {
+	margin: 25px auto;
+}
+
+label, span {
+	display: block;
+}
+
+label {
+	margin-bottom: 7px;
+}
+
+span {
+	margin-top: 7px;
 }
 
 input, textarea {
 	font-size: inherit;
 	border: 3px solid black;
-	border-radius: 7px;
-}
-
-input[type="submit"] {
-	color: white;
-	background-color: blue;
-	border: 2px solid blue;
 	border-radius: 7px;
 }
 

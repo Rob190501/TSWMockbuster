@@ -16,11 +16,23 @@ header {
 	line-height: 50px;
 }
 
+header a, header a:visited {
+	padding: 0px 10px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+header a:hover {
+	color: #363636;
+	text-decoration: underline;
+}
+
 .logo {
 	font-size: 2em;
 	font-family: Impact, Charcoal, sans-serif;
 	float: left;
 }
+
 .logo:hover {
 	text-decoration: none;
 }
@@ -51,7 +63,7 @@ header {
 	background-color: #FBA92C;
 	
 	margin-top: 85px;
-	margin-left: 60px;
+	margin-left: 50px;
 	
 	position: fixed;
 	
@@ -62,4 +74,5 @@ header {
 
 .menu > a {
 	display: block;
+	text-align: center;
 }

@@ -4,6 +4,10 @@
 	User user = (User)request.getSession().getAttribute("user");
 %>
 
+<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/header.css">
+	
+<script type="text/javascript" src = "<%= request.getContextPath() %>/scripts/header.js"></script>
+
 <header>
 	<a href = "<%= request.getContextPath() %>/common/index.jsp" class = "logo">
 		MOCKBUSTER
@@ -23,8 +27,8 @@
 				<a href = "<%= request.getContextPath() %>/admin/adminPage.jsp">Admin Page</a>
 				<a href = "<%= request.getContextPath() %>/admin/movieUpload.jsp">Movie upload</a>	
 			<% } %>
-			<a href = "<%= request.getContextPath() %>/browse/browsePage.jsp">Browse Page</a>
-			<a href="<%= request.getContextPath() %>/common/LogoutServlet">Log out</a> 
+			<a href="<%= request.getContextPath() %>/browse/ordersPage.jsp">Ordini</a>
+			<a href="<%= request.getContextPath() %>/common/LogoutServlet">Esci</a>
 		</div>
 	<% } %>
 	</div>

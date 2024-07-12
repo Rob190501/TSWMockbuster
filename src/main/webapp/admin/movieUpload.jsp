@@ -9,7 +9,6 @@
 	
 	<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
 	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/common.css">
-	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/header.css">
 	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/form.css">
 	
 	<script type = "text/javascript" src = "<%= request.getContextPath() %>/scripts/movieUpload.js"></script> 
@@ -18,7 +17,7 @@
 <body>
 	<jsp:include page = "/fragments/header.jsp" />
 	
-	<div id = "page">
+	<div class = "page">
 		<form id = "movieUploadForm" action = "<%= request.getContextPath() %>/admin/MovieUploadServlet" 
 			method = "post" enctype="multipart/form-data">
 		    <div>
