@@ -44,7 +44,7 @@ public class GetOrdersServlet extends HttpServlet {
 			try {
 				Order orderDetails = orderDAO.retrieveOrderDetails(userID, orderID);
 				request.setAttribute("order", orderDetails);
-				RequestDispatcher di = request.getRequestDispatcher("/browse/orderDetailPage.jsp");
+				RequestDispatcher di = request.getRequestDispatcher("/browse/orderDetailsPage.jsp");
 				di.forward(request, response);
 				return;
 				

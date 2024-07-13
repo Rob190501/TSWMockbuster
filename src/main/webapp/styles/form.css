@@ -1,19 +1,16 @@
 @charset "UTF-8";
 
-.page {
-    padding: 120px 50% 0px 50%;
-    
-}
+
 
 form {
+	box-sizing: border-box;
+	
 	background-color: #FBA92C;
 	padding: 15px;
 	border-radius: 15px;
-	display: inline-block;
-}
-
-form * {
-	margin: auto;
+	text-align: left;
+	width: 40%;
+	margin: 0 auto;
 }
 
 .page div {
@@ -22,20 +19,20 @@ form * {
 
 label, span {
 	display: block;
-}
-
-label {
-	margin-bottom: 7px;
-}
-
-span {
-	margin-top: 7px;
+	max-width: 95%;
 }
 
 input, textarea {
 	font-size: inherit;
-	border: 3px solid black;
+	border: 3px solid #363636;
 	border-radius: 7px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	width: 95%;
+}
+
+textarea {
+	resize: none;
 }
 
 .error {
@@ -52,4 +49,22 @@ input.error, textarea.error {
 
 input.valid, textarea.valid {
 	border-color: green;
+}
+
+@media screen and (max-width: 750px){
+	form {
+		width: 60%;
+		padding: 2%;
+	}
+}
+
+@media screen and (max-width: 450px){
+	form {
+		
+		width: 100%;
+		padding: 2%;
+		
+		border-radius: 0px;
+	}
+
 }

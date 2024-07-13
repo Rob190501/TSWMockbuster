@@ -29,10 +29,11 @@
 	<jsp:include page = "/fragments/header.jsp" />
 	
 	<div class = "page">
-		<h1><%= movie.getTitle() %></h1>
-		<p><%= movie.getPlot() %></p>
-		<div>
+		<div class = "details">
+			<h1><%= movie.getTitle() %></h1>
+			<p><%= movie.getPlot() %></p>
 		</div>
+		
 	</div>
 </body>
 </html>

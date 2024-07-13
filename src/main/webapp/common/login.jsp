@@ -4,25 +4,55 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Login</title>
+	<title>Accedi</title>
+	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/common.css">
+	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/form.css">
+	
+	<script type = "text/javascript" src = "<%= request.getContextPath() %>/scripts/loginSignup.js"></script>
 </head>
 <body>
-	<%
-		List<String> errors = (List<String>) request.getAttribute("errors");
-		if(errors != null) {
-			for(String e: errors) { %>
-				<%= e %> <br>	
-			<%}
-		}
-	%>
-	<form action="<%= request.getContextPath() %>/common/LoginServlet" method="post">
-		Email: <input type="text" name="email">
-		<br>
-		Password: <input type="password" name="password">
-		<br>
-		<input type="submit" value="log in">
-	</form>
-	<a href="signup.jsp">Sign up</a>
+	<jsp:include page = "/fragments/header.jsp" />
+	
+	<div class = "page">
+		<form id = "loginForm" action = "<%= request.getContextPath() %>/common/LoginServlet"
+			method = "post" >
+			
+			<div>
+				<label for = "email">Email</label>
+				<input type = "email" id = "email" name = "email"
+					required onblur = "validateFormField(this, 'emailErrorSpan', emailError)">
+				<span id = "emailErrorSpan" class = "error"></span>
+			</div>
+			
+			<div>
+				<label for = "password">Password</label>
+				<input type = "password" id = "password" name = "password"
+					required pattern = "^(\w+){4,10}$"
+					onblur = "validateFormField(this, 'passwordErrorSpan', passwordError)">
+				<span id = "passwordErrorSpan" class = "error"></span>
+			</div>
+			
+			<div>
+			<%
+			List<String> errors = (List<String>) request.getAttribute("errors");
+			if(errors != null) {
+				for(String e: errors) { %>
+					<p class = "error"><%= e %></p>	
+				<%}
+			}
+			%>
+			</div>
+			
+			<input type="submit" value="Accedi" onclick="return validateLogin()">
+		</form>
+		
+		<div>
+			Oppure
+			<a href="signup.jsp">Registrati</a>
+		</div>
+	</div>
 </body>
 </html>

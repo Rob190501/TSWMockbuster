@@ -60,7 +60,8 @@
 			<p>
 				<%= movie.getTitle() %> -
 				<%= movie.getDays() %> giorni x 
-				<%= movie.getDailyPrice() %>€
+				<%= movie.getDailyPrice() %>€ = 
+				<%= movie.getDays() * movie.getDailyPrice() %>€
 			</p>
 			<%
 		}

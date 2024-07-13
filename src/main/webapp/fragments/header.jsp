@@ -19,7 +19,8 @@
 		<div class = "greetings">Ciao <%= user.getFirstName() %>!</div>
 		
 		<img src ="<%= request.getContextPath() %>/images/icons/menu.png"
-			class = "hamburger" onclick = "toggleMenuVisibility()">
+			id = "hamburger" class = "hamburger"
+			onclick = "toggleMenuVisibility('<%= request.getContextPath() %>')">
 	
 		
 		<div id = "menu" class = "menu">

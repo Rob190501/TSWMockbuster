@@ -17,14 +17,19 @@ body {
     z-index: 0;
 }
 
-header {
-	z-index: 2;
-}
-
 .page {
 	z-index: 1;
 	position: relative;
 	top: 250px;
+	padding-left: 50px;
+}
+
+header {
+	z-index: 2;
+}
+
+.details {
+	text-align: left;
 }
 
 p {

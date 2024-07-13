@@ -20,7 +20,7 @@ function validateFormField(field, errorSpanId, errorMessage) {
 	return false;	
 }
 
-function validateForm() {
+function validateSignup() {
 	let isValid = true;
 	let form = document.getElementById("signupForm");
 	
@@ -41,6 +41,21 @@ function validateForm() {
 	}
 
 	if(!validateFormField(form.billingAddress, "billingAddressErrorSpan", addressError)) {
+		isValid = false;
+	}
+	
+	return isValid;
+}
+
+function validateLogin() {
+	let isValid = true;
+	let form = document.getElementById("loginForm");
+	
+	if(!validateFormField(form.email, "emailErrorSpan", emailError)) {
+		isValid = false;
+	}
+	
+	if(!validateFormField(form.password, "passwordErrorSpan", passwordError)) {
 		isValid = false;
 	}
 	

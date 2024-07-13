@@ -83,11 +83,8 @@
 		        	onchange = "validateSubmittedFile(this, 'posterErrorSpan', imageError)">
 		        <span id = "posterErrorSpan" class="error"></span>
 		    </div>
-		
-		    <input type = "submit" onclick = "return validateForm()">
-		</form>
-		
-		<div>
+		    
+		    <div>
 			<%
 			List<String> errors = (List<String>) request.getAttribute("errors");
 			if(errors != null) {
@@ -96,8 +93,10 @@
 				<%}
 			}
 			%>
-		</div>
+			</div>
 		
+		    <input type = "submit" value = "Carica" onclick = "return validateForm()">
+		</form>
 	</div>
 </body>
 </html>
