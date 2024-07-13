@@ -58,10 +58,7 @@
 				<span id = "billingAddressErrorSpan" class = "error"></span>
 			</div>
 			
-			<input type = "submit" value = "Registrati" onclick="return validateSignup()">
-		</form>
-		
-		<div>
+			<div>
 			<%
 			List<String> errors = (List<String>) request.getAttribute("errors");
 			if(errors != null) {
@@ -70,7 +67,10 @@
 				<%}
 			}
 			%>
-		</div>
+			</div>
+			
+			<input type = "submit" value = "Registrati" onclick="return validateSignup()">
+		</form>
 	</div>
 </body>
 </html>

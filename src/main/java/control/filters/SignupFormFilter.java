@@ -7,6 +7,7 @@ import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -14,11 +15,16 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+import control.exceptions.DAOException;
+import model.dao.UserDAO;
 
 @WebFilter("/SignupFormFilter")
 public class SignupFormFilter extends HttpFilter implements Filter {
        
     private static final long serialVersionUID = 1L;
+    private ServletContext servletContext;
 
     public SignupFormFilter() {
         super();
@@ -29,6 +35,7 @@ public class SignupFormFilter extends HttpFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		UserDAO userDAO = new UserDAO((DataSource)servletContext.getAttribute("DataSource"));
 		
 		String email = httpRequest.getParameter("email");
 		String password = httpRequest.getParameter("password");
@@ -41,6 +48,15 @@ public class SignupFormFilter extends HttpFilter implements Filter {
 		
 		if(!isValidEmail(email)) {
 			errors.add("Email non valida");
+		} else {
+			try {
+				if(!userDAO.checkEmailAvailability(email)) {
+					errors.add("Email gia' registrata");
+				}
+			} catch (DAOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		if(!isValidPassword(password)) {
@@ -89,6 +105,7 @@ public class SignupFormFilter extends HttpFilter implements Filter {
     }
 
 	public void init(FilterConfig fConfig) throws ServletException {
+		this.servletContext = fConfig.getServletContext();
 	}
 
 }
