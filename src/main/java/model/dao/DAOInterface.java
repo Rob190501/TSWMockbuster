@@ -10,5 +10,5 @@ public interface DAOInterface<T> {
 
 	public T retrieveByID(int id) throws DAOException;
 
-	public Collection<T> retrieveAll(String order) throws DAOException;
+	public Collection<T> retrieveAll() throws DAOException;
 }

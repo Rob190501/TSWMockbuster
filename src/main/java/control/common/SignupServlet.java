@@ -2,6 +2,7 @@ package control.common;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,12 +23,20 @@ public class SignupServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+		request.getRequestDispatcher("/errors/methodNotAllowed.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
-		String password = toHash(request.getParameter("password"));
+		String password;
+		try {
+			password = toHash(request.getParameter("password").trim());
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new ServletException();
+		}
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		String billingAddress = request.getParameter("billingAddress");
@@ -42,24 +51,18 @@ public class SignupServlet extends HttpServlet {
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new ServletException(e);
 		}
 	}
 	
-	private String toHash(String password) {
+	private String toHash(String password) throws NoSuchAlgorithmException {
 		String hashString = null;
-		
-		try {
-			java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-512");
-			byte[] hash = digest.digest (password.getBytes(StandardCharsets.UTF_8));
-			hashString = "";
-			for (byte element : hash) {
-				hashString += Integer.toHexString((element & 0xFF) | 0x100).substring(1,3);
-			}
+		java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-512");
+		byte[] hash = digest.digest (password.getBytes(StandardCharsets.UTF_8));
+		hashString = "";
+		for (byte element : hash) {
+			hashString += Integer.toHexString((element & 0xFF) | 0x100).substring(1,3);
 		}
-		catch(java.security.NoSuchAlgorithmException e) {
-			System.out.println(e);
-		}
-		
 		return hashString;
 	}
 

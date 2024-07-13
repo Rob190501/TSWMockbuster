@@ -34,16 +34,16 @@ public class MovieRetrieveServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String order = "";
 		MovieDAO movieDAO = new MovieDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		try {
-			Collection<Movie> movieList = movieDAO.retrieveAll(order);
+			Collection<Movie> movieList = movieDAO.retrieveAll();
 			request.setAttribute("movieList", movieList);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/common/index.jsp");
 			dispatcher.forward(request, response);
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new ServletException(e);
 		}
 	}
 

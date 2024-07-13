@@ -56,6 +56,7 @@ public class SignupFormFilter extends HttpFilter implements Filter {
 			} catch (DAOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				throw new ServletException(e);
 			}
 		}
 		

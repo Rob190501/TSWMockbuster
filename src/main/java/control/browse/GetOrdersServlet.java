@@ -54,6 +54,7 @@ public class GetOrdersServlet extends HttpServlet {
 			} catch (DAOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				throw new ServletException(e);
 			}
 		}
 		
@@ -63,6 +64,7 @@ public class GetOrdersServlet extends HttpServlet {
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new ServletException();
 		}
 		dispatcher.forward(request, response);
 	}

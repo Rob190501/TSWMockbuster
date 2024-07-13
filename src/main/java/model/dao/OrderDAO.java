@@ -173,7 +173,7 @@ public class OrderDAO implements DAOInterface<Order> {
 	}
 
 	@Override
-	public Collection<Order> retrieveAll(String order) throws DAOException {
+	public Collection<Order> retrieveAll() throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

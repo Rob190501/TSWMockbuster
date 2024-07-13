@@ -35,7 +35,7 @@ public class RentedMovieDAO implements DAOInterface<RentedMovie> {
 	}
 
 	@Override
-	public Collection<RentedMovie> retrieveAll(String order) throws DAOException {
+	public Collection<RentedMovie> retrieveAll() throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -2,6 +2,7 @@ package control.common;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -27,13 +28,15 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+		request.getRequestDispatcher("/errors/methodNotAllowed.jsp").forward(request, response);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/common/login.jsp");
 		ArrayList<String> errors = new ArrayList<>();
 		HttpSession session = request.getSession();
@@ -51,9 +54,22 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		email = email.trim();
-		password = toHash(password.trim());
+		try {
+			password = toHash(password.trim());
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new ServletException();
+		}
 		
-		User user = retrieveUser(email, password);
+		User user;
+		try {
+			user = userDAO.retrieveByEmailAndPassword(email, password);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
 
 		if(user == null) {
 			errors.add("Username e/o password errati");
@@ -68,35 +84,14 @@ public class LoginServlet extends HttpServlet {
 		return;
 	}
 
-	private User retrieveUser(String email, String password) {
-		UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
-		User user = null;
-		
-		try {
-			 user = userDAO.retrieveByEmailAndPassword(email, password);
-		} catch (DAOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		return user;
-	}
-
-	private String toHash(String password) {
+	private String toHash(String password) throws NoSuchAlgorithmException {
 		String hashString = null;
-		
-		try {
-			java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-512");
-			byte[] hash = digest.digest (password.getBytes(StandardCharsets.UTF_8));
-			hashString = "";
-			for (byte element : hash) {
-				hashString += Integer.toHexString((element & 0xFF) | 0x100).substring(1,3);
-			}
+		java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-512");
+		byte[] hash = digest.digest (password.getBytes(StandardCharsets.UTF_8));
+		hashString = "";
+		for (byte element : hash) {
+			hashString += Integer.toHexString((element & 0xFF) | 0x100).substring(1,3);
 		}
-		catch(java.security.NoSuchAlgorithmException e) {
-			System.out.println(e);
-		}
-		
 		return hashString;
 	}
 }

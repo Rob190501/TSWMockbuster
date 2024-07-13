@@ -46,6 +46,7 @@ public class CheckEmailAvailabilityServlet extends HttpServlet {
 			out.print(json.toString());
 		} catch (DAOException e) {
 			e.printStackTrace();
+			throw new ServletException(e);
 		}
     }
 }

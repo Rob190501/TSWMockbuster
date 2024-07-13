@@ -32,6 +32,7 @@ public class MoviePageServlet extends HttpServlet {
 			request.setAttribute("movie", movie);
 		} catch (DAOException e) {
 			e.printStackTrace();
+			throw new ServletException(e);
 		}
 		
 		if(movie != null) {

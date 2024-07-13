@@ -9,7 +9,7 @@
 <%
 	User user = (User)session.getAttribute("user");
 	UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
-	List<User> usersList = (List<User>)userDAO.retrieveAll("");
+	List<User> usersList = (List<User>)userDAO.retrieveAll();
 %>
 
 <!DOCTYPE html>
