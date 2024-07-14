@@ -34,8 +34,8 @@ public class MovieUploadServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String title = (String)request.getAttribute("title");
-		String plot = (String)request.getParameter("plot");
+		String title = ((String)request.getAttribute("title")).trim();
+		String plot = ((String)request.getParameter("plot")).trim();
 		Integer duration = Integer.parseInt((String)request.getAttribute("duration"));
 		Integer year = Integer.parseInt((String)request.getAttribute("year"));
 		Integer availableLicenses = Integer.parseInt((String)request.getAttribute("availableLicenses"));
@@ -54,7 +54,6 @@ public class MovieUploadServlet extends HttpServlet {
 			poster.write(savePath + File.separator + posterName);
 			response.sendRedirect(request.getContextPath() + "/common/index.jsp");
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new ServletException(e);
 		}

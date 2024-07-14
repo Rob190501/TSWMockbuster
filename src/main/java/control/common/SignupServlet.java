@@ -28,18 +28,17 @@ public class SignupServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
+		String email = request.getParameter("email").trim();
 		String password;
 		try {
 			password = toHash(request.getParameter("password").trim());
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new ServletException();
+			throw new ServletException(e);
 		}
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-		String billingAddress = request.getParameter("billingAddress");
+		String firstName = request.getParameter("firstName").trim();
+		String lastName = request.getParameter("lastName").trim();
+		String billingAddress = request.getParameter("billingAddress").trim();
 		User user = new User(email, password, firstName, lastName, billingAddress);
 		
 		UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
@@ -49,7 +48,6 @@ public class SignupServlet extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			response.sendRedirect(request.getContextPath() + "/common/index.jsp");
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new ServletException(e);
 		}
