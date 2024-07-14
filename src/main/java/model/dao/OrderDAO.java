@@ -47,7 +47,7 @@ public class OrderDAO implements DAOInterface<Order> {
 	}
 	
 	public Collection<Order> retrieveByUser(int userID) throws DAOException {
-		List<Order> orders= new ArrayList<Order>();
+		ArrayList<Order> orders= new ArrayList<Order>();
 		String ordersQuery = "SELECT * FROM " + orderTable + " " +
 							 "WHERE user_id = ?";
 		

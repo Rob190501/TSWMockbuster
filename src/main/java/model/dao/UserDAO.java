@@ -114,7 +114,7 @@ public class UserDAO implements DAOInterface<User> {
 
 	@Override
 	public Collection<User> retrieveAll() throws DAOException {
-		List<User> usersList = new ArrayList<User>();
+		ArrayList<User> usersList = new ArrayList<User>();
 		String query = "SELECT * " +
 					   "FROM " + table;
 		

@@ -1,4 +1,4 @@
-package control.db;
+package control.context;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

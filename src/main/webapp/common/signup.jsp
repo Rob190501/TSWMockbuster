@@ -60,7 +60,7 @@
 			
 			<div>
 			<%
-			List<String> errors = (List<String>) request.getAttribute("errors");
+			ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
 			if(errors != null) {
 				for(String e: errors) { %>
 					<p class = "error"><%= e %></p>	

@@ -31,11 +31,11 @@ public class LoginFilter extends HttpFilter implements Filter {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/common/login.jsp");
 		
 		if(!isValidEmail(email)) {
-			errors.add("Campo Username vuoto");
+			errors.add("Email non valida");
 		}
 		
 		if(!isValidPassword(password)) {
-			errors.add("Campo Password vuoto");
+			errors.add("Password non valida");
 		}
 		
 		if(!errors.isEmpty()) {

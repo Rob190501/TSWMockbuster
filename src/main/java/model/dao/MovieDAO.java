@@ -95,7 +95,7 @@ public class MovieDAO implements DAOInterface<Movie> {
 
 	@Override
 	public Collection<Movie> retrieveAll() throws DAOException {
-		List<Movie> movieList = new ArrayList<Movie>();
+		ArrayList<Movie> movieList = new ArrayList<Movie>();
 		String query = "SELECT * " +
 					   "FROM " + table;
 		
