@@ -10,7 +10,8 @@
 </head>
 <body>
 	<div class = "page">
-		<h1>Metodo non consentito</h1>
+		<h1>Errore 405</h1>
+		<p>Metodo non consentito</p>
 	</div>
 </body>
 </html>

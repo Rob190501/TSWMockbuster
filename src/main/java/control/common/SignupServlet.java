@@ -24,7 +24,7 @@ public class SignupServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-		request.getRequestDispatcher("/errors/methodNotAllowed.jsp").forward(request, response);
+		request.getRequestDispatcher("/errors/error405.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

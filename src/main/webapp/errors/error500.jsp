@@ -10,7 +10,8 @@
 </head>
 <body>
 	<div class = "page">
-		<h1>Errore interno</h1>
+		<h1>Errore 500</h1>
+		<p>Errore interno</p>
 	</div>
 </body>
 </html>
