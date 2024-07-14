@@ -10,6 +10,7 @@ public class Order {
 	private Integer id;
 	private LocalDate date;
 	private Float amount;
+	private User user;
 	private Collection<RentedMovie> rentedMovies;
 	private Collection<PurchasedMovie> purchasedMovies;
 	
@@ -17,6 +18,16 @@ public class Order {
 		this.id = id;
 		this.date = date;
 		this.amount = amount;
+		this.user = null;
+		this.rentedMovies = new ArrayList<RentedMovie>();
+		this.purchasedMovies = new ArrayList<PurchasedMovie>();
+	}
+	
+	public Order(Integer id, LocalDate date, Float amount, User user) {
+		this.id = id;
+		this.date = date;
+		this.amount = amount;
+		this.user = user;
 		this.rentedMovies = new ArrayList<RentedMovie>();
 		this.purchasedMovies = new ArrayList<PurchasedMovie>();
 	}
@@ -43,6 +54,14 @@ public class Order {
 
 	public void setAmount(Float amount) {
 		this.amount = amount;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Collection<RentedMovie> getRentedMovies() {

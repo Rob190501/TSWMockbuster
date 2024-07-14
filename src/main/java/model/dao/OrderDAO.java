@@ -16,6 +16,7 @@ import model.Movie;
 import model.Order;
 import model.PurchasedMovie;
 import model.RentedMovie;
+import model.User;
 
 public class OrderDAO implements DAOInterface<Order> {
 
@@ -88,8 +89,10 @@ public class OrderDAO implements DAOInterface<Order> {
 				if(rs.next()) {
 					LocalDate date = rs.getDate("order_date").toLocalDate();
 					Float amount = rs.getFloat("order_amount");
+					UserDAO userDAO = new UserDAO(ds);
+					User user = userDAO.retrieveByID(userID);
 					
-					order = new Order(orderID, date, amount);
+					order = new Order(orderID, date, amount, user);
 					retrieveRents(order);
 					retrievePurchases(order);
 				}
@@ -174,8 +177,23 @@ public class OrderDAO implements DAOInterface<Order> {
 
 	@Override
 	public Collection<Order> retrieveAll() throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
+		String query = "SELECT * FROM " + orderTable;
+		ArrayList<Order> orders = new ArrayList<Order>();
+		
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();) {
+			
+			while(rs.next()) {
+				Integer orderID = rs.getInt("id");
+				Integer userID = rs.getInt("user_id");
+				
+				orders.add(retrieveOrderDetails(userID, orderID));
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+		
+		return orders;
 	}
-
 }

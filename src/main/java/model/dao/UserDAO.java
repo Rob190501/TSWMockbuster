@@ -57,7 +57,35 @@ public class UserDAO implements DAOInterface<User> {
 
 	@Override
 	public User retrieveByID(int id) throws DAOException {
-		return null;
+		User user = null;
+		String query = "SELECT * " +
+				  	   "FROM " + table + " " +
+					   "WHERE id = ?";
+		
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
+			pstmt.setInt(1, id);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+			
+				if(rs.next()) {
+					String email = rs.getString("email");
+					String password = rs.getString("password");
+					String firstName = rs.getString("first_name");
+					String lastName = rs.getString("last_name");
+					String billingAddress = rs.getString("billing_address");
+					Float credit = rs.getFloat("credit");
+					Boolean isAdmin = rs.getBoolean("is_admin"); 
+					
+					user = new User(id, email, password, firstName, lastName, billingAddress, credit, isAdmin);
+				}
+			}
+			
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+		
+		return user;
 	}
 	
 	public User retrieveByEmailAndPassword(String email, String password) throws DAOException {
@@ -73,7 +101,7 @@ public class UserDAO implements DAOInterface<User> {
 			
 			try(ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
-					int id = rs.getInt("id");
+					Integer id = rs.getInt("id");
 					String firstName = rs.getString("first_name");
 					String lastName = rs.getString("last_name");
 					String billingAddress = rs.getString("billing_address");

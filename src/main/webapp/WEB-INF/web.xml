@@ -110,6 +110,15 @@
         <servlet-name>GetOrdersServlet</servlet-name>
         <url-pattern>/browse/GetOrdersServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>GetAllOrdersServlet</servlet-name>
+	    <servlet-class>control.admin.GetAllOrdersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>GetAllOrdersServlet</servlet-name>
+        <url-pattern>/admin/GetAllOrdersServlet</url-pattern>
+    </servlet-mapping>
 	
 	
 	
