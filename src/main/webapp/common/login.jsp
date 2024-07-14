@@ -50,8 +50,9 @@
 		</form>
 		
 		<div>
-			Oppure
-			<a href="signup.jsp">Registrati</a>
+			<p>
+				Oppure <a href="signup.jsp">Registrati</a>
+			</p>
 		</div>
 	</div>
 </body>

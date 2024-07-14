@@ -34,39 +34,26 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+		String email = request.getParameter("email").trim();
+		String password = request.getParameter("password").trim();
+		
 		UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/common/login.jsp");
+		User user;
+		
 		ArrayList<String> errors = new ArrayList<>();
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/common/login.jsp");
 		HttpSession session = request.getSession();
 
-		if(email == null || email.trim().equals("")) {
-			errors.add("Campo Username vuoto");
-		}
-		if(password == null || password.trim().equals("")) {
-			errors.add("Campo Password vuoto");
-		}
-		if(!errors.isEmpty()) {
-			request.setAttribute("errors", errors);
-			dispatcher.forward(request, response);
-			return;
-		}
-
-		email = email.trim();
 		try {
 			password = toHash(password.trim());
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new ServletException();
+			throw new ServletException(e);
 		}
 		
-		User user;
 		try {
 			user = userDAO.retrieveByEmailAndPassword(email, password);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new ServletException(e);
 		}
@@ -80,8 +67,6 @@ public class LoginServlet extends HttpServlet {
 		
 		session.setAttribute("user", user);
 		response.sendRedirect(request.getContextPath() + "/common/index.jsp");
-		
-		return;
 	}
 
 	private String toHash(String password) throws NoSuchAlgorithmException {
