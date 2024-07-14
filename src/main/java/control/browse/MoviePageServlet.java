@@ -35,12 +35,12 @@ public class MoviePageServlet extends HttpServlet {
 			throw new ServletException(e);
 		}
 		
-		if(movie != null) {
-			dispatcher.forward(request, response);
+		if(movie == null) {
+			response.sendRedirect(request.getContextPath() + "/common/index.jsp");
 			return;
 		}
 		
-		response.sendRedirect(request.getContextPath() + "/common/index.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

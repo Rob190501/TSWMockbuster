@@ -29,18 +29,15 @@
 					<br>
 					<h3>Acquisti</h3>
 				<%
+				for(PurchasedMovie movie: order.getPurchasedMovies()) {
+					%>
+					<p>
+						<%= movie.getTitle() %> -
+						<%= movie.getPrice() %>€
+					<p>
+					<%
+				}
 			}
-		%>
-		
-		<%
-		for(PurchasedMovie movie: order.getPurchasedMovies()) {
-			%>
-			<p>
-				<%= movie.getTitle() %> -
-				<%= movie.getPrice() %>€
-			<p>
-			<%
-		}
 		%>
 		
 		
@@ -51,20 +48,18 @@
 					<br>
 					<h3>Noleggi</h3>
 				<%
+				
+				for(RentedMovie movie: order.getRentedMovies()) {
+					%>
+					<p>
+						<%= movie.getTitle() %> -
+						<%= movie.getDays() %> giorni x 
+						<%= movie.getDailyPrice() %>€ = 
+						<%= movie.getDays() * movie.getDailyPrice() %>€
+					</p>
+					<%
+				}
 			}
-		%>
-		
-		<%
-		for(RentedMovie movie: order.getRentedMovies()) {
-			%>
-			<p>
-				<%= movie.getTitle() %> -
-				<%= movie.getDays() %> giorni x 
-				<%= movie.getDailyPrice() %>€ = 
-				<%= movie.getDays() * movie.getDailyPrice() %>€
-			</p>
-			<%
-		}
 		%>
 	</div>
 </body>

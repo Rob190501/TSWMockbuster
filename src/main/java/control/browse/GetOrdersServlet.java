@@ -26,47 +26,30 @@ public class GetOrdersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OrderDAO orderDAO = new OrderDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		User user = (User)request.getSession().getAttribute("user");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/browse/ordersPage.jsp");
 		
-		String usertmp = request.getParameter("userid");
-		String ordertmp = request.getParameter("orderid");
-		
-		Integer userID = null;
-		Integer orderID = null;
-		
-		if(usertmp != null) {
-			userID = Integer.parseInt(usertmp);
-			orderID = Integer.parseInt(ordertmp);
-		}
-		
-		
-		if(ordertmp != null) {
+		if(request.getParameter("userid") == null || request.getParameter("orderid") == null) {
 			try {
-				Order orderDetails = orderDAO.retrieveOrderDetails(userID, orderID);
-				request.setAttribute("order", orderDetails);
-				RequestDispatcher di = request.getRequestDispatcher("/browse/orderDetailsPage.jsp");
-				di.forward(request, response);
-				return;
-				
-				
-				
-				
+				Collection<Order> orders = orderDAO.retrieveByUser(user.getId());
+				request.setAttribute("orders", orders);
 			} catch (DAOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-				throw new ServletException(e);
+				throw new ServletException();
 			}
+			request.getRequestDispatcher("/browse/ordersPage.jsp").forward(request, response);
+			return;
 		}
+		
+		Integer userID = Integer.parseInt(request.getParameter("userid"));
+		Integer orderID = Integer.parseInt(request.getParameter("orderid"));
 		
 		try {
-			Collection<Order> orders = orderDAO.retrieveByUser(user.getId());
-			request.setAttribute("orders", orders);
+			Order orderDetails = orderDAO.retrieveOrderDetails(userID, orderID);
+			request.setAttribute("order", orderDetails);
 		} catch (DAOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw new ServletException();
+			throw new ServletException(e);
 		}
-		dispatcher.forward(request, response);
+		request.getRequestDispatcher("/browse/orderDetailsPage.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

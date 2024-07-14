@@ -30,7 +30,7 @@
 					<p>Ordine n. <%= order.getId() %></p>
 					<p>Data ordine <%= order.getDate() %></p>
 					<p>Totale: <%= order.getAmount() %>€</p>
-					<a href ="<%= request.getContextPath() %>/browse/GetOrdersServlet?userid=<%=user.getId()%>&orderid=<%=order.getId()%>"> Dettagli</a>
+					<a href ="<%= request.getContextPath() %>/browse/GetOrdersServlet?userid=<%=user.getId()%>&orderid=<%=order.getId()%>">Dettagli</a>
 				</div>
 				<hr>
 				<%

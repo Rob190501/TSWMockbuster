@@ -11,12 +11,22 @@
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
+	
+	
+	
+	<resource-ref>
+	    <description>JNDI reference to a data source</description>
+	    <res-ref-name>jdbc/mockbuster</res-ref-name>
+	    <res-type>javax.sql.DataSource</res-type>
+	    <res-auth>Container</res-auth>
+  	</resource-ref>
   
   
   
 	<welcome-file-list>
 		<welcome-file>common/index.jsp</welcome-file>
 	</welcome-file-list>
+	
 	
 	
 	<error-page>
@@ -37,8 +47,6 @@
     </error-page>
     
     
-	
-	
 	
 	<servlet>
 		<servlet-name>LoginServlet</servlet-name>
@@ -104,6 +112,7 @@
     </servlet-mapping>
 	
 	
+	
 	<filter>
 		<filter-name>AccessControlFilter</filter-name>
 		<filter-class>control.filters.AccessControlFilter</filter-class>
@@ -140,12 +149,15 @@
 		<url-pattern>/admin/MovieUploadServlet</url-pattern>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>GetOrdersFilter</filter-name>
+		<filter-class>control.filters.GetOrdersFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>GetOrdersFilter</filter-name>
+		<url-pattern>/browse/GetOrdersServlet</url-pattern>
+	</filter-mapping>
 	
 	
-	<resource-ref>
-	    <description>JNDI reference to a data source</description>
-	    <res-ref-name>jdbc/mockbuster</res-ref-name>
-	    <res-type>javax.sql.DataSource</res-type>
-	    <res-auth>Container</res-auth>
-  	</resource-ref>
+	
 </web-app>
