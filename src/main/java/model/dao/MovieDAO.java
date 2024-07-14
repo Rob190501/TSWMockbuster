@@ -48,7 +48,7 @@ public class MovieDAO implements DAOInterface<Movie> {
 			}
 			
 		} catch (SQLException e) {
-			throw new DAOException(table);
+			throw new DAOException(e);
 		}
 		
 		return;
@@ -87,7 +87,7 @@ public class MovieDAO implements DAOInterface<Movie> {
 				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException(table);
+			throw new DAOException(e);
 		}
 		
 		return movie;
@@ -117,7 +117,7 @@ public class MovieDAO implements DAOInterface<Movie> {
 				movieList.add(new Movie(id, title, plot, duration, year, availableLicenses, dailyRentalPrice, purchasePrice, isVisible, posterPath));
 			}
 		} catch (SQLException e) {
-			throw new DAOException(table);
+			throw new DAOException(e);
 		}
 		
 		return movieList;

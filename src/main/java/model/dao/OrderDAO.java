@@ -68,7 +68,7 @@ public class OrderDAO implements DAOInterface<Order> {
 			}
 			
 		} catch (SQLException e) {
-			throw new DAOException(orderTable);
+			throw new DAOException(e);
 		}
 		
 		return orders;
@@ -97,7 +97,7 @@ public class OrderDAO implements DAOInterface<Order> {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new DAOException(orderTable);
+			throw new DAOException(e);
 		}
 		
 		return order;

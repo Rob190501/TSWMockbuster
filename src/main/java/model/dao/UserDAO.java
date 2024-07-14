@@ -44,7 +44,7 @@ public class UserDAO implements DAOInterface<User> {
 			}
 			
 		} catch (SQLException e) {
-			throw new DAOException(table);
+			throw new DAOException(e);
 		}
 		
 		return;
@@ -84,7 +84,7 @@ public class UserDAO implements DAOInterface<User> {
 				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException(table);
+			throw new DAOException(e);
 		}
 		
 		return user;
@@ -106,7 +106,7 @@ public class UserDAO implements DAOInterface<User> {
 				}
 			}
 		} catch (SQLException e) {
-			throw new DAOException(table);
+			throw new DAOException(e);
 		}
 		
 		return available;
@@ -134,7 +134,7 @@ public class UserDAO implements DAOInterface<User> {
 				usersList.add(new User(id, email, password, firstName, lastName, billingAddress, credit, isAdmin));
 			}
 		} catch (SQLException e) {
-			throw new DAOException(table);
+			throw new DAOException(e);
 		}
 		
 		return usersList;
