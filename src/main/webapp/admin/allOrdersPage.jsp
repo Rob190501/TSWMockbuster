@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import = "model.* , java.util.*"%>
+    pageEncoding="UTF-8" import = "model.* , java.util.*, java.time.format.DateTimeFormatter"%>
     
 <%
 	User user = (User)request.getSession().getAttribute("user");
@@ -9,6 +9,8 @@
 		request.getRequestDispatcher("/admin/GetAllOrdersServlet").forward(request, response);
 		return;	
 	}
+	
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 %>    
 
 <!DOCTYPE html>
@@ -26,6 +28,14 @@
 	<div class = "page">
 		<h1>Tutti gli ordini</h1>
 		
+		<form>
+			<label for ="from">Dal</label>
+			<input type="date" id = "from">
+			
+			<label for ="to">al</label>
+			<input type="date" id = "to">
+		</form>
+		
 		<div class = "tablecontainer">
 			<table>
 				<tr>
@@ -40,7 +50,7 @@
 					%>
 					<tr>
 						<td><%= order.getId() %></td>
-						<td><%= order.getDate() %></td>
+						<td><%= order.getDate().format(formatter) %></td>
 						<td><%= order.getAmount() %>€</td>
 						<td><%= order.getUser().getEmail() %></td>
 						<td><a href ="<%= request.getContextPath() %>/browse/GetOrdersServlet?userid=<%=order.getUser().getId()%>&orderid=<%=order.getId()%>">Dettagli</a></td>
