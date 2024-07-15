@@ -19,23 +19,35 @@
 	
 	<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
 	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/common.css">
+	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/table.css">
 </head>
 <body>
 	<jsp:include page = "/fragments/header.jsp"/>
 	<div class = "page">
-		<%
-			for(Order order : orders) {
-				%> 
-				<div>
-					<p>Ordine n. <%= order.getId() %></p>
-					<p>Data ordine <%= order.getDate() %></p>
-					<p>Totale: <%= order.getAmount() %>€</p>
-					<a href ="<%= request.getContextPath() %>/browse/GetOrdersServlet?userid=<%=user.getId()%>&orderid=<%=order.getId()%>">Dettagli</a>
-				</div>
-				<hr>
+		<h1>I miei ordini</h1>
+		
+		<div class = "tablecontainer">
+			<table>
+				<tr>
+					<th>Ordine</th>
+					<th>Data</th>
+					<th>Totale</th>
+					<th></th>
+				</tr>
 				<%
-			}
-		%>
+				for(Order order : orders) {
+					%>
+					<tr>
+						<td><%= order.getId() %></td>
+						<td><%= order.getDate() %></td>
+						<td><%= order.getAmount() %>€</td>
+						<td><a href ="<%= request.getContextPath() %>/browse/GetOrdersServlet?userid=<%=user.getId()%>&orderid=<%=order.getId()%>">Dettagli</a></td>
+					</tr>
+					<%
+				}
+				%>
+			</table>
+		</div>
 	</div>
 </body>
 </html>

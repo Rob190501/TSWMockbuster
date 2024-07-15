@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+table {
+	width: 80%;
+	margin: 20px auto;
+	border-collapse: collapse;
+}
+
+.tablecontainer {
+	overflow-x: auto;
+}
+
+th, td {
+	height: 50px;
+	text-align: center;
+	padding: 20px;
+}
+
+tr {
+	border-bottom: 2px solid #ffffff;
+}
+
+@media screen and (max-width: 850px){
+	table {
+		width: 100%;
+	}
+	
+	th, td {
+		padding: 0;
+	}
+	
+	td {
+		border: 2px solid #ffffff;
+	}
+	
+	td:first-child {
+		border-left: none;
+	}
+        
+	td:last-child {
+		border-right: none;
+	}
+}
