@@ -2,9 +2,14 @@ package model;
 
 public class RentedMovie extends Movie {
 
+	private static final long serialVersionUID = 1L;
 	private Order order;
 	private Float dailyPrice;
 	private Integer days;
+	
+	public RentedMovie() {
+		super();
+	}
 	
 	public RentedMovie(Integer id, String title, String plot, Integer duration, Integer year, Integer availableLicenses,
 			Float dailyRentalPrice, Float purchasePrice, Boolean isVisible, String posterPath, Order order,

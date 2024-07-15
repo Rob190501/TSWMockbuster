@@ -1,7 +1,10 @@
 package model;
 
-public class Movie {
+import java.io.Serializable;
+
+public class Movie implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	Integer id;
 	String title;
     String plot;
@@ -13,6 +16,11 @@ public class Movie {
     Boolean isVisible;
 	String posterPath;
 	
+	
+	
+	public Movie() {
+	}
+
 	public Movie(Integer id, String title, String plot, Integer duration, Integer year, Integer availableLicenses,
 			Float dailyRentalPrice, Float purchasePrice, Boolean isVisible, String posterPath) {
 		this.id = id;

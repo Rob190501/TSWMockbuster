@@ -1,7 +1,10 @@
 package model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String email;
 	private String password;
@@ -10,6 +13,9 @@ public class User {
 	private String billingAddress;
 	private Float credit;
 	private Boolean isAdmin;
+	
+	public User() {
+	}
 	
 	public User(Integer id, String email, String password, String firstName, String lastName, String billingAddress, Float credit, Boolean isAdmin) {
 		this.id = id;

@@ -1,18 +1,23 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class Order {
+public class Order implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private LocalDate date;
 	private Float amount;
 	private User user;
 	private Collection<RentedMovie> rentedMovies;
 	private Collection<PurchasedMovie> purchasedMovies;
+	
+	public Order() {
+	}
 	
 	public Order(Integer id, LocalDate date, Float amount) {
 		this.id = id;
