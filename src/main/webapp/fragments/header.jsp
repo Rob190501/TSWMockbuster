@@ -12,16 +12,14 @@
 	<a href = "<%= request.getContextPath() %>/common/index.jsp" class = "logo">
 		MOCKBUSTER
 	</a>
-	<div class = "userinfo">
+	
+	<div class = "nav">
 	<% if(user == null) { %>
 		<a href = "<%= request.getContextPath() %>/common/login.jsp">Accedi</a>	
 	<% } else { %>
-		<div class = "greetings">Ciao <%= user.getFirstName() %>!</div>
-		
 		<img src ="<%= request.getContextPath() %>/images/icons/menu.png"
 			id = "hamburger" class = "hamburger"
 			onclick = "toggleMenuVisibility('<%= request.getContextPath() %>')">
-	
 		
 		<div id = "menu" class = "menu">
 			<% if(user.isAdmin()) { %>
@@ -31,6 +29,21 @@
 			<% } %>
 			<a href="<%= request.getContextPath() %>/browse/ordersPage.jsp">I miei ordini</a>
 			<a href="<%= request.getContextPath() %>/common/LogoutServlet">Esci</a>
+		</div>
+		
+		<!-- <a href ="<%= request.getContextPath() %>/browse/searchPage.jsp" class = "search"> -->
+		<img src ="<%= request.getContextPath() %>/images/icons/search.png"
+			id = "lens" class = "lens"
+			<% if(request.getRequestURI().equals(request.getContextPath()+"/common/index.jsp")) {%>
+				onclick = "toggleSearchbarVisibility('<%= request.getContextPath() %>')"
+			<% } else { %>
+				onclick = "window.location.href = '<%= request.getContextPath() %>/common/index.jsp'"
+			<% } %>
+				>
+		
+		<div class = "greetings">
+			<span>Ciao <%= user.getFirstName() %>!</span>
+			<span>Saldo: <%= user.getCredit() %>€</span>
 		</div>
 	<% } %>
 	</div>

@@ -2,19 +2,18 @@
 
 header {
 	box-sizing: border-box;
+	
 	width: 95%;
-	height: auto;
+	height: 70px;
+	
 	margin: 20px 2.5%;
 	padding: 10px 20px;
 	
 	position: fixed;
 	
 	background-color: #FBA92C;
-	
 	border-radius: 50px;
-	
 	line-height: 50px;
-	
 	box-shadow: 0 0 20px #363636;
 }
 
@@ -39,23 +38,32 @@ header a:hover {
 	text-decoration: none;
 }
 
-.userinfo {
+header img {
+	width: 50px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.nav {
 	float: right;
 	margin-right: 10px;
-	
+}
+
+.nav > * {
+	float: right;
 }
 
 .greetings {
-	float: left;
 	font-weight: bold;
+	font-size: 0.8em;
 }
 
-.hamburger {
-	float: right;
-   	
-   	width: auto;
-    height: 50px;
-    
+.greetings span {
+	display: block;
+	margin-top: -15px;
+}
+
+.hamburger, .lens {
     cursor: pointer;
 }
 
@@ -63,7 +71,7 @@ header a:hover {
 	background-color: #FBA92C;
 	
 	margin-top: 85px;
-	margin-left: 50px;
+	margin-left: 120px;
 	
 	position: fixed;
 	
@@ -85,8 +93,9 @@ header a:hover {
 	}
 	
 	.menu {
-		margin-left: -40px;
+		margin-left: 0;
 		line-height: 35px;
+		margin-left: 20px;
 	}
 	
 	.menu a:not(:last-child) {
@@ -94,14 +103,23 @@ header a:hover {
 	}
 }
 
-@media screen and (max-width: 450px){
+@media screen and (max-width: 470px){
 	header {
 		width: 100%;
 		border-radius: 0;
 		margin-top: 0;
 		margin-left: 0;
 		margin-right: 0;
-		padding-left: 2px;
-		padding-right: 2px;
+		padding-left: 1px;
+		padding-right: 1px;
+	}
+	
+	.menu {
+		margin-left: 0px;
+	}
+	
+	header img {
+		width: 40px;
+   		margin-left: 2px;
 	}
 }

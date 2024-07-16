@@ -12,3 +12,23 @@ function toggleMenuVisibility(contextPath) {
 		hamburger.src = contextPath + "/images/icons/cross.png"
 	}
 }
+
+function toggleSearchbarVisibility(contextPath) {
+	let searchbar = document.getElementById("searchbar");
+	let lens = document.getElementById("lens");
+	let display = searchbar.style.display;
+	
+	if(display === "inline") {
+		searchbar.style.display = "none";
+		lens.src = contextPath + "/images/icons/search.png"
+	}
+	else {
+		searchbar.style.display = "inline";
+		lens.src = contextPath + "/images/icons/cross.png"
+	}
+}
+
+function redirectToIndex(contextPath) {
+	window.location.href = contextPath + "/common/index.jsp";
+	toggleSearchbarVisibility(contextPath);
+}

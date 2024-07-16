@@ -64,8 +64,8 @@ public class MovieDAO implements DAOInterface<Movie> {
 	public Movie retrieveByID(int id) throws DAOException {
 		Movie movie = null;
 		String query = "SELECT * " +
-				   "FROM " + table + " " +
-				   "WHERE id = ?";
+				   	   "FROM " + table + " " +
+				   	   "WHERE id = ?";
 	
 		try(Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(query);) {
@@ -91,6 +91,40 @@ public class MovieDAO implements DAOInterface<Movie> {
 		}
 		
 		return movie;
+	}
+	
+	public Collection<Movie> retrieveByTitle(String likeTitle) throws DAOException {
+		Movie movie = null;
+		String query = "SELECT * " +
+				   	   "FROM " + table + " " +
+				   	   "WHERE title LIKE ?";
+		ArrayList<Movie> movies = new ArrayList<Movie>();
+	
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query);) {
+			pstmt.setString(1, "%" + likeTitle + "%");
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				while(rs.next()) {
+					Integer id = rs.getInt("id");
+					String title = rs.getString("title");
+					String plot = rs.getString("plot");
+					Integer duration = rs.getInt("duration");
+					Integer year = rs.getInt("movie_year");
+					Integer availableLicenses = rs.getInt("available_licenses");
+					Float dailyRentalPrice = rs.getFloat("daily_rental_price");
+					Float purchasePrice = rs.getFloat("purchase_price");
+					Boolean isVisible = rs.getBoolean("is_visible");
+					String posterPath = rs.getString("poster_path");
+					
+					movies.add(new Movie(id, title, plot, duration, year, availableLicenses, dailyRentalPrice, purchasePrice, isVisible, posterPath));
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+		
+		return movies;
 	}
 
 	@Override

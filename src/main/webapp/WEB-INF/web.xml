@@ -119,6 +119,15 @@
         <servlet-name>GetAllOrdersServlet</servlet-name>
         <url-pattern>/admin/GetAllOrdersServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>SearchMovieTitleServlet</servlet-name>
+	    <servlet-class>control.browse.SearchMovieTitleServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>SearchMovieTitleServlet</servlet-name>
+        <url-pattern>/browse/SearchMovieTitleServlet</url-pattern>
+    </servlet-mapping>
 	
 	
 	
