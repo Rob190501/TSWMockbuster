@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -189,6 +190,58 @@ public class OrderDAO implements DAOInterface<Order> {
 				Integer userID = rs.getInt("user_id");
 				
 				orders.add(retrieveOrderDetails(userID, orderID));
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+		
+		return orders;
+	}
+	
+	public Collection<Order> retrieveAllBetween(LocalDate from, LocalDate to) throws DAOException {
+		String query = "SELECT * FROM " + orderTable + " " +
+					   "WHERE (order_date BETWEEN ? AND ?)";
+		ArrayList<Order> orders = new ArrayList<Order>();
+		
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
+			
+			pstmt.setDate(1, Date.valueOf(from));
+			pstmt.setDate(2, Date.valueOf(to));
+			try(ResultSet rs = pstmt.executeQuery()) {
+				while(rs.next()) {
+					Integer orderID = rs.getInt("id");
+					Integer userID = rs.getInt("user_id");
+					
+					orders.add(retrieveOrderDetails(userID, orderID));
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+		
+		return orders;
+	}
+	
+	public Collection<Order> retrieveAllBetween(LocalDate from, LocalDate to, Integer userID) throws DAOException {
+		String query = "SELECT * FROM " + orderTable + " " +
+					   "WHERE order_date BETWEEN ? AND ? " +
+					   "AND user_id = ?";
+		ArrayList<Order> orders = new ArrayList<Order>();
+		
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
+			
+			pstmt.setDate(1, Date.valueOf(from));
+			pstmt.setDate(2, Date.valueOf(to));
+			pstmt.setInt(3, userID);
+			
+			try(ResultSet rs = pstmt.executeQuery()) {
+				while(rs.next()) {
+					Integer orderID = rs.getInt("id");
+					
+					orders.add(retrieveOrderDetails(userID, orderID));
+				}
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);

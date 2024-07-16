@@ -4,8 +4,9 @@
 <%
 	User user = (User)request.getSession().getAttribute("user");
 	ArrayList<Order> orders = (ArrayList<Order>)request.getAttribute("orders");
+	ArrayList<User> users = (ArrayList<User>)request.getAttribute("users");
 	
-	if(orders == null) {
+	if(orders == null || users == null) {
 		request.getRequestDispatcher("/admin/GetAllOrdersServlet").forward(request, response);
 		return;	
 	}
@@ -28,12 +29,26 @@
 	<div class = "page">
 		<h1>Tutti gli ordini</h1>
 		
-		<form>
-			<label for ="from">Dal</label>
-			<input type="date" id = "from">
+		<form method = "get" action = "<%= request.getContextPath() %>/admin/GetAllOrdersServlet">
+			<label for = "from">Dal </label>
+			<input type = "date" id = "from" name = "from" required>
 			
-			<label for ="to">al</label>
-			<input type="date" id = "to">
+			<label for = "to">al </label>
+			<input type= "date" id = "to" name = "to" required>
+			
+			<label for = "userid">Utente: </label>
+			<select id = "userid" name = "userid">
+				<option value ="" selected>Tutti gli utenti</option>
+				<%
+				for(User u : users) {
+					%>
+					<option value="<%= u.getId() %>"><%= u.getEmail() %></option>
+					<%
+				}
+				%>
+			</select>
+			
+			<input type = "submit" value = "Ricerca">
 		</form>
 		
 		<div class = "tablecontainer">

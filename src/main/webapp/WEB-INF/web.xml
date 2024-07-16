@@ -167,6 +167,15 @@
 		<url-pattern>/browse/GetOrdersServlet</url-pattern>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>GetAllOrdersFilter</filter-name>
+		<filter-class>control.filters.GetAllOrdersFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>GetAllOrdersFilter</filter-name>
+		<url-pattern>/admin/GetAllOrdersServlet</url-pattern>
+	</filter-mapping>
+	
 	
 	
 </web-app>
