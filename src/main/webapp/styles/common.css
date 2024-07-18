@@ -26,7 +26,7 @@ hr {
 	margin: 25px auto;
 }
 
-.page a, input[type="submit"] {
+.page a, button, input[type="submit"] {
 	background-color: #FBA92C;
 	color: #ffffff;
 	text-decoration: none;
@@ -35,7 +35,7 @@ hr {
 	border: none;
 }
 
-.page a:hover, input[type="submit"]:hover {
+.page a:hover, button:hover, input[type="submit"]:hover {
 	color: #363636;
 	cursor: pointer;
 }

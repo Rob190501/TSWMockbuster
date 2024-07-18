@@ -11,12 +11,34 @@ public class RentedMovie extends Movie {
 		super();
 	}
 	
-	public RentedMovie(Integer id, String title, String plot, Integer duration, Integer year, Integer availableLicenses,
-			Float dailyRentalPrice, Float purchasePrice, Boolean isVisible, String posterPath, Order order,
-			Float dailyPrice, Integer days) {
-		super(id, title, plot, duration, year, availableLicenses, dailyRentalPrice, purchasePrice, isVisible,
-				posterPath);
+	public RentedMovie(Movie movie, Order order, Float dailyPrice, Integer days) {
+		super(movie.getId(),
+			  movie.getTitle(),
+			  movie.getPlot(), 
+			  movie.getDuration(), 
+			  movie.getYear(), 
+			  movie.getAvailableLicenses(), 
+			  movie.getDailyRentalPrice(), 
+			  movie.getPurchasePrice(),
+			  movie.isVisible(), 
+			  movie.getPosterPath());
 		this.order = order;
+		this.dailyPrice = dailyPrice;
+		this.days = days;
+	}
+	
+	public RentedMovie(Movie movie, Float dailyPrice, Integer days) {
+		super(movie.getId(),
+			  movie.getTitle(),
+			  movie.getPlot(), 
+			  movie.getDuration(), 
+			  movie.getYear(), 
+			  movie.getAvailableLicenses(), 
+			  movie.getDailyRentalPrice(), 
+			  movie.getPurchasePrice(),
+			  movie.isVisible(), 
+			  movie.getPosterPath());
+		this.order = null;
 		this.dailyPrice = dailyPrice;
 		this.days = days;
 	}

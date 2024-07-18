@@ -31,15 +31,18 @@
 			<a href="<%= request.getContextPath() %>/common/LogoutServlet">Esci</a>
 		</div>
 		
-		<!-- <a href ="<%= request.getContextPath() %>/browse/searchPage.jsp" class = "search"> -->
 		<img src ="<%= request.getContextPath() %>/images/icons/search.png"
 			id = "lens" class = "lens"
 			<% if(request.getRequestURI().equals(request.getContextPath()+"/common/index.jsp")) {%>
 				onclick = "toggleSearchbarVisibility('<%= request.getContextPath() %>')"
 			<% } else { %>
-				onclick = "window.location.href = '<%= request.getContextPath() %>/common/index.jsp'"
+				onclick = "window.location.href = '<%= request.getContextPath() %>/common/index.jsp?search='"
 			<% } %>
-				>
+		>
+		
+		<a href = "<%= request.getContextPath() %>/browse/cartPage.jsp">
+			<img src = "<%= request.getContextPath() %>/images/icons/cart.png">
+		</a>
 		
 		<div class = "greetings">
 			<span>Ciao <%= user.getFirstName() %>!</span>

@@ -24,11 +24,7 @@ function toggleSearchbarVisibility(contextPath) {
 	}
 	else {
 		searchbar.style.display = "inline";
+		searchbar.focus();
 		lens.src = contextPath + "/images/icons/cross.png"
 	}
-}
-
-function redirectToIndex(contextPath) {
-	window.location.href = contextPath + "/common/index.jsp";
-	toggleSearchbarVisibility(contextPath);
 }

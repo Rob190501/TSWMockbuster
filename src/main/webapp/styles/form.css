@@ -31,6 +31,10 @@ input, textarea {
 	width: 95%;
 }
 
+form input[type="submit"] {
+	border: 3px solid #363636;
+}
+
 textarea {
 	resize: none;
 }

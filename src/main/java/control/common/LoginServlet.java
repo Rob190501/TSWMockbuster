@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import control.exceptions.DAOException;
+import model.Cart;
 import model.User;
 import model.dao.UserDAO;
 
@@ -66,6 +67,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		
 		session.setAttribute("user", user);
+		session.setAttribute("cart", new Cart());
 		response.sendRedirect(request.getContextPath() + "/common/index.jsp");
 	}
 

@@ -5,10 +5,11 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     z-index: 0;
+    background-attachment: fixed;
 }
 
 .overlay {
-	position: absolute;
+	position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -29,9 +30,28 @@ header {
 }
 
 .details {
+	float: left;
 	text-align: left;
 }
 
-p {
-	max-width: 50%;
+.controls {
+	float: right;
+	margin-top: -100px;
+	margin-right: 50px;
+}
+
+.controls * {
+	display: block;
+	margin: 15px auto;
+}
+
+a {
+	width: 120px;
+	height: 70px;
+	
+	font-size: 1em;
+}
+
+input[type="range"] {
+	width: 150px;
 }

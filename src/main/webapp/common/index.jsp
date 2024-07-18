@@ -41,5 +41,14 @@
 			%>
 		</div>
 	</div>
+	
+	<%
+	if(request.getParameter("search") != null) { %>
+		<script type="text/javascript">
+			toggleSearchbarVisibility('<%= request.getContextPath() %>');
+		</script>
+	<%
+	}
+	%>
 </body>
 </html>

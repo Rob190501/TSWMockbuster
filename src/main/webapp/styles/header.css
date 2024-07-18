@@ -38,12 +38,6 @@ header a:hover {
 	text-decoration: none;
 }
 
-header img {
-	width: 50px;
-    height: auto;
-    margin-left: 10px;
-}
-
 .nav {
 	float: right;
 	margin-right: 10px;
@@ -51,6 +45,12 @@ header img {
 
 .nav > * {
 	float: right;
+}
+
+.nav img {
+	width: 50px;
+    height: auto;
+    margin-left: 10px;
 }
 
 .greetings {
@@ -118,7 +118,7 @@ header img {
 		margin-left: 0px;
 	}
 	
-	header img {
+	.nav img {
 		width: 40px;
    		margin-left: 2px;
 	}

@@ -128,6 +128,15 @@
         <servlet-name>SearchMovieTitleServlet</servlet-name>
         <url-pattern>/browse/SearchMovieTitleServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>UpdateCartServlet</servlet-name>
+	    <servlet-class>control.browse.UpdateCartServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>UpdateCartServlet</servlet-name>
+        <url-pattern>/browse/UpdateCartServlet</url-pattern>
+    </servlet-mapping>
 	
 	
 	
@@ -184,6 +193,25 @@
 		<filter-name>GetAllOrdersFilter</filter-name>
 		<url-pattern>/admin/GetAllOrdersServlet</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>RefreshCartFilter</filter-name>
+		<filter-class>control.filters.RefreshCartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RefreshCartFilter</filter-name>
+		<url-pattern>/browse/cartPage.jsp</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>UpdateCartFilter</filter-name>
+		<filter-class>control.filters.UpdateCartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UpdateCartFilter</filter-name>
+		<url-pattern>/browse/UpdateCartServlet</url-pattern>
+	</filter-mapping>
+
 	
 	
 	

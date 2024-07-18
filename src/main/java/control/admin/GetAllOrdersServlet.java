@@ -52,7 +52,6 @@ public class GetAllOrdersServlet extends HttpServlet {
 		if(temp == null || temp.trim().equals("")) {
 			userID = null;
 		}
-		
 		try {
 			userID = Integer.parseInt(temp);
 		} catch (Exception e) {

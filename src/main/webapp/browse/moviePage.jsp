@@ -17,6 +17,8 @@
 	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/common.css">
 	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/moviePage.css">
 	
+	<script type="text/javascript" src = "<%= request.getContextPath() %>/scripts/moviePage.js"></script>
+	
 	<style type="text/css">
 		body {
 			background-image: url("<%= request.getContextPath() %>/images/posters/<%= movie.getPosterPath() %>");
@@ -32,6 +34,22 @@
 		<div class = "details">
 			<h1><%= movie.getTitle() %></h1>
 			<p><%= movie.getPlot() %></p>
+		</div>
+		
+		<div class = "controls">
+			<p>Disponibilità: <%= movie.getAvailableLicenses() %></p>
+			
+			<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=add&type=purchase&movieid=<%= movie.getId()%>">
+				Acquista: <%= movie.getPurchasePrice() %>€
+			</a>
+			
+			<a id = "rentButton" href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=add&type=rent&movieid=<%= movie.getId() %>&days=3">
+				Noleggia: <%= movie.getDailyRentalPrice() %>€/gg x 3gg
+			</a>
+			
+			<input type = "range" min = "1" max = "7" value = "3"
+				class = "slider" id = "rentDays"
+				oninput = "updateRentButton('<%= request.getContextPath() %>', <%= movie.getId() %>, <%= movie.getDailyRentalPrice() %>)">
 		</div>
 		
 	</div>

@@ -11,29 +11,27 @@ import javax.sql.DataSource;
 import control.exceptions.DAOException;
 import model.Movie;
 import model.Order;
-import model.RentedMovie;
+import model.PurchasedMovie;
 
-public class RentedMovieDAO implements DAOInterface<RentedMovie> {
+public class PurchasedMovieDAO implements DAOInterface<PurchasedMovie> {
 
-	private DataSource ds = null;
-	private static String table = "movie_rental_order";
+	private DataSource ds;
+	private static String table = "movie_purchase_order";
 	
-	public RentedMovieDAO(DataSource ds) {
+	public PurchasedMovieDAO(DataSource ds) {
 		this.ds = ds;
 	}
 
 	@Override
-	public void save(RentedMovie bean) throws DAOException {
-		
+	public void save(PurchasedMovie bean) throws DAOException {
 	}
 
 	@Override
 	public void delete(int id) throws DAOException {
-		
 	}
 
 	@Override
-	public RentedMovie retrieveByID(int id) throws DAOException {
+	public PurchasedMovie retrieveByID(int id) throws DAOException {
 		return null;
 	}
 	
@@ -49,13 +47,12 @@ public class RentedMovieDAO implements DAOInterface<RentedMovie> {
 			try(ResultSet rs = pstmt.executeQuery()) {
 				while(rs.next()) {
 					Integer movieID = rs.getInt("movie_id");
-					Float dailyPrice = rs.getFloat("daily_price");
-					Integer days = rs.getInt("days");
+					Float price = rs.getFloat("price");
 					
 					Movie movie = movieDAO.retrieveByID(movieID);
 					
-					RentedMovie rentedMovie = new RentedMovie(movie, order, dailyPrice, days);
-					order.addRentedMovie(rentedMovie);
+					PurchasedMovie purchasedMovie = new PurchasedMovie(movie, order, price);
+					order.addPurchasedMovie(purchasedMovie);
 				}
 			}
 		}
@@ -63,7 +60,7 @@ public class RentedMovieDAO implements DAOInterface<RentedMovie> {
 	}
 
 	@Override
-	public Collection<RentedMovie> retrieveAll() throws DAOException {
+	public Collection<PurchasedMovie> retrieveAll() throws DAOException {
 		return null;
 	}
 

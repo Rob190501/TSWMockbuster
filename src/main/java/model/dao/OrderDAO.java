@@ -22,9 +22,7 @@ import model.User;
 public class OrderDAO implements DAOInterface<Order> {
 
 	private DataSource ds;
-	private static String orderTable = "orders";
-	private static String rentTable = "movie_rental_order";
-	private static String purchaseTable = "movie_purchase_order";
+	private static String table = "orders";
 	
 	public OrderDAO(DataSource ds) {
 		this.ds = ds;
@@ -32,25 +30,22 @@ public class OrderDAO implements DAOInterface<Order> {
 
 	@Override
 	public void save(Order bean) throws DAOException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void delete(int id) throws DAOException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Order retrieveByID(int id) throws DAOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	public Collection<Order> retrieveByUser(int userID) throws DAOException {
 		ArrayList<Order> orders= new ArrayList<Order>();
-		String ordersQuery = "SELECT * FROM " + orderTable + " " +
+		String ordersQuery = "SELECT * FROM " + table + " " +
 							 "WHERE user_id = ?";
 		
 		try(Connection conn = ds.getConnection();
@@ -78,7 +73,7 @@ public class OrderDAO implements DAOInterface<Order> {
 	
 	public Order retrieveOrderDetails(Integer userID, Integer orderID) throws DAOException {
 		Order order = null;
-		String query = "SELECT * FROM " + orderTable + " " +
+		String query = "SELECT * FROM " + table + " " +
 					   "WHERE id = ? AND user_id = ?";
 		
 		try(Connection conn = ds.getConnection();
@@ -91,11 +86,14 @@ public class OrderDAO implements DAOInterface<Order> {
 					LocalDate date = rs.getDate("order_date").toLocalDate();
 					Float amount = rs.getFloat("order_amount");
 					UserDAO userDAO = new UserDAO(ds);
+					RentedMovieDAO rmd = new RentedMovieDAO(ds);
+					PurchasedMovieDAO pmd = new PurchasedMovieDAO(ds);
+					
 					User user = userDAO.retrieveByID(userID);
 					
 					order = new Order(orderID, date, amount, user);
-					retrieveRents(order);
-					retrievePurchases(order);
+					rmd.retrieveByOrder(order);
+					pmd.retrieveByOrder(order);
 				}
 			}
 			
@@ -106,79 +104,10 @@ public class OrderDAO implements DAOInterface<Order> {
 		
 		return order;
 	}
-	
-	private void retrieveRents(Order order) throws SQLException, DAOException {
-		String rentQuery = "SELECT * FROM " + rentTable + " " +
-				   		   "WHERE order_id = ?";
-		MovieDAO movieDAO = new MovieDAO(ds);
-		
-		try(Connection conn = ds.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(rentQuery)) {
-			pstmt.setInt(1, order.getId());
-			
-			try(ResultSet rs = pstmt.executeQuery()) {
-				while(rs.next()) {
-					Integer movieID = rs.getInt("movie_id");
-					Float dailyPrice = rs.getFloat("daily_price");
-					Integer days = rs.getInt("days");
-					
-					Movie movie = movieDAO.retrieveByID(movieID);
-					
-					RentedMovie rentedMovie = new RentedMovie(movie.getId(),
-															  movie.getTitle(),
-															  movie.getPlot(), 
-															  movie.getDuration(), 
-															  movie.getYear(), 
-															  movie.getAvailableLicenses(), 
-															  movie.getDailyRentalPrice(), 
-															  movie.getPurchasePrice(),
-															  movie.isVisible(), 
-															  movie.getPosterPath(),
-															  order, dailyPrice, days);
-					order.addRentedMovie(rentedMovie);
-				}
-			}
-		}
-		return;
-	}
-	
-	private void retrievePurchases(Order order) throws SQLException, DAOException {
-		String rentQuery = "SELECT * FROM " + purchaseTable + " " +
-				   		   "WHERE order_id = ?";
-		MovieDAO movieDAO = new MovieDAO(ds);
-		
-		try(Connection conn = ds.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(rentQuery)) {
-			pstmt.setInt(1, order.getId());
-			
-			try(ResultSet rs = pstmt.executeQuery()) {
-				while(rs.next()) {
-					Integer movieID = rs.getInt("movie_id");
-					Float price = rs.getFloat("price");
-					
-					Movie movie = movieDAO.retrieveByID(movieID);
-					
-					PurchasedMovie purchasedMovie = new PurchasedMovie(movie.getId(),
-															  		   movie.getTitle(),
-															  		   movie.getPlot(), 
-															  		   movie.getDuration(), 
-															  		   movie.getYear(), 
-															  		   movie.getAvailableLicenses(), 
-															  		   movie.getDailyRentalPrice(), 
-															  		   movie.getPurchasePrice(),
-															  		   movie.isVisible(), 
-															  		   movie.getPosterPath(),
-															  		   order, price);
-					order.addPurchasedMovie(purchasedMovie);
-				}
-			}
-		}
-		return;
-	}
 
 	@Override
 	public Collection<Order> retrieveAll() throws DAOException {
-		String query = "SELECT * FROM " + orderTable;
+		String query = "SELECT * FROM " + table;
 		ArrayList<Order> orders = new ArrayList<Order>();
 		
 		try(Connection conn = ds.getConnection();
@@ -199,7 +128,7 @@ public class OrderDAO implements DAOInterface<Order> {
 	}
 	
 	public Collection<Order> retrieveAllBetween(LocalDate from, LocalDate to) throws DAOException {
-		String query = "SELECT * FROM " + orderTable + " " +
+		String query = "SELECT * FROM " + table + " " +
 					   "WHERE (order_date BETWEEN ? AND ?)";
 		ArrayList<Order> orders = new ArrayList<Order>();
 		
@@ -224,7 +153,7 @@ public class OrderDAO implements DAOInterface<Order> {
 	}
 	
 	public Collection<Order> retrieveAllBetween(LocalDate from, LocalDate to, Integer userID) throws DAOException {
-		String query = "SELECT * FROM " + orderTable + " " +
+		String query = "SELECT * FROM " + table + " " +
 					   "WHERE order_date BETWEEN ? AND ? " +
 					   "AND user_id = ?";
 		ArrayList<Order> orders = new ArrayList<Order>();
