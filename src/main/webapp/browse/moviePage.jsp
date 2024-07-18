@@ -53,7 +53,6 @@
 					oninput = "updateRentButton('<%= request.getContextPath() %>', <%= movie.getId() %>, <%= movie.getDailyRentalPrice() %>)">
 			<% } %>
 		</div>
-		
 	</div>
 </body>
 </html>

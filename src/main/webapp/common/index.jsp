@@ -42,6 +42,8 @@
 		</div>
 	</div>
 	
+	<jsp:include page = "/fragments/footer.jsp"/>
+	
 	<%
 	if(request.getParameter("search") != null) { %>
 		<script type="text/javascript">
