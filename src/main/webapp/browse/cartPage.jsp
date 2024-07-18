@@ -26,7 +26,7 @@
 			
 			<div>
 				<h3>Totale carrello: <%= cart.getTotal() %>€</h3>
-				<a href = "">Ordina</a>
+				<a href = "<%= request.getContextPath() %>/browse/PlaceOrderServlet">Ordina</a>
 				<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=empty">
 					Svuota carrello
 				</a>

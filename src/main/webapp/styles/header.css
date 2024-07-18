@@ -71,7 +71,7 @@ header a:hover {
 	background-color: #FBA92C;
 	
 	margin-top: 85px;
-	margin-left: 120px;
+	margin-left: 190px;
 	
 	position: fixed;
 	
@@ -88,14 +88,22 @@ header a:hover {
 }
 
 @media screen and (max-width: 750px){
+	.logo {
+		font-size: 1.7em;
+	}
+	
 	.greetings {
 		display: none;
+	}
+	
+	.nav img {
+		width: 45px;
 	}
 	
 	.menu {
 		margin-left: 0;
 		line-height: 35px;
-		margin-left: 20px;
+		margin-left: 70px;
 	}
 	
 	.menu a:not(:last-child) {
@@ -115,7 +123,7 @@ header a:hover {
 	}
 	
 	.menu {
-		margin-left: 0px;
+		margin-left: 10px;
 	}
 	
 	.nav img {

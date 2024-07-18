@@ -39,17 +39,19 @@
 		<div class = "controls">
 			<p>Disponibilità: <%= movie.getAvailableLicenses() %></p>
 			
-			<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=add&type=purchase&movieid=<%= movie.getId()%>">
-				Acquista: <%= movie.getPurchasePrice() %>€
-			</a>
-			
-			<a id = "rentButton" href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=add&type=rent&movieid=<%= movie.getId() %>&days=3">
-				Noleggia: <%= movie.getDailyRentalPrice() %>€/gg x 3gg
-			</a>
-			
-			<input type = "range" min = "1" max = "<%= movie.getAvailableLicenses() %>" value = "3"
-				class = "slider" id = "rentDays"
-				oninput = "updateRentButton('<%= request.getContextPath() %>', <%= movie.getId() %>, <%= movie.getDailyRentalPrice() %>)">
+			<% if(movie.getAvailableLicenses() > 0) { %>
+				<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=add&type=purchase&movieid=<%= movie.getId()%>">
+					Acquista: <%= movie.getPurchasePrice() %>€
+				</a>
+				
+				<a id = "rentButton" href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=add&type=rent&movieid=<%= movie.getId() %>&days=1">
+					Noleggia: <%= movie.getDailyRentalPrice() %>€/gg x 1gg
+				</a>
+				
+				<input type = "range" min = "1" max = "<%= movie.getAvailableLicenses() %>" value = "1"
+					class = "slider" id = "rentDays"
+					oninput = "updateRentButton('<%= request.getContextPath() %>', <%= movie.getId() %>, <%= movie.getDailyRentalPrice() %>)">
+			<% } %>
 		</div>
 		
 	</div>

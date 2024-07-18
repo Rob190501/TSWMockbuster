@@ -32,10 +32,12 @@ header {
 .details {
 	float: left;
 	text-align: left;
+	width: 60%;
 }
 
 .controls {
 	float: right;
+	width: 20%;
 	margin-top: -100px;
 	margin-right: 50px;
 }
@@ -45,13 +47,24 @@ header {
 	margin: 15px auto;
 }
 
-a {
+.controls a {
 	width: 120px;
 	height: 70px;
 	
 	font-size: 1em;
 }
 
-input[type="range"] {
-	width: 150px;
+@media screen and (max-width: 750px){
+	.page {
+		top: 5px;
+	}
+	
+	.details {
+		width: 80%;
+	}
+	
+	.controls {
+		width: 80%;
+		margin-top: 20px;
+	}
 }

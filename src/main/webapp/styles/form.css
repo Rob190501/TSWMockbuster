@@ -17,7 +17,7 @@ form {
 	margin: 25px auto;
 }
 
-label, span {
+form label, form span {
 	display: block;
 	max-width: 95%;
 }
