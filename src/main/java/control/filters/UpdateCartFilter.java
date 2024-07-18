@@ -40,10 +40,21 @@ public class UpdateCartFilter extends HttpFilter implements Filter {
 		allowedActions.add("add");
 		allowedActions.add("remove");
 		allowedActions.add("empty");
+		allowedActions.add("increasedays");
+		allowedActions.add("decreasedays");
 		
 		if(action == null || !allowedActions.contains(action)) {
 			httpResponse.sendRedirect(cartPage);
 			return;
+		}
+		
+		if(!action.equals("empty")) {
+			try {
+				Integer movieID = Integer.parseInt(httpRequest.getParameter("movieid"));
+			} catch(Exception e) {
+				httpResponse.sendRedirect(cartPage);
+				return;
+			}
 		}
 		
 		if(action.equals("add")) {
@@ -55,14 +66,13 @@ public class UpdateCartFilter extends HttpFilter implements Filter {
 				httpResponse.sendRedirect(cartPage);
 				return;
 			}
-		}
-		
-		if(action.equals("add") || action.equals("remove")) {
-			try {
-				Integer movieID = Integer.parseInt(httpRequest.getParameter("movieid"));
-			} catch(Exception e) {
-				httpResponse.sendRedirect(cartPage);
-				return;
+			if(type.equals("rent")) {
+				try {
+					Integer days = Integer.parseInt(httpRequest.getParameter("days"));
+				} catch(Exception e) {
+					httpResponse.sendRedirect(cartPage);
+					return;
+				}
 			}
 		}
 		

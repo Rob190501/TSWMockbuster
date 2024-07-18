@@ -68,6 +68,28 @@ public class Cart {
 	public Boolean isEmpty() {
 		return rentedMovies.isEmpty() && purchasedMovies.isEmpty();
 	}
+	
+	public void decreaseRentDays(Integer movieID) {
+		for(RentedMovie movie : rentedMovies) {
+			if(movie.getId().equals(movieID)) {
+				if(movie.getDays() > 1) {
+					movie.setDays(movie.getDays()-1);
+				}
+				return;
+			}
+		}
+	}
+	
+	public void increaseRentDays(Integer movieID) {
+		for(RentedMovie movie : rentedMovies) {
+			if(movie.getId().equals(movieID)) {
+				if(movie.getDays() < movie.getAvailableLicenses()) {
+					movie.setDays(movie.getDays()+1);
+				}
+				return;
+			}
+		}
+	}
 
 	public Collection<RentedMovie> getRentedMovies() {
 		return rentedMovies;

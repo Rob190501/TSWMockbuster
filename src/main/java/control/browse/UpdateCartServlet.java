@@ -35,6 +35,16 @@ public class UpdateCartServlet extends HttpServlet {
 			Cart cart = (Cart)request.getSession().getAttribute("cart");
 			cart.empty();
 		}
+		if(action.equals("increasedays")) {
+			Cart cart = (Cart)request.getSession().getAttribute("cart");
+			Integer movieID = Integer.parseInt(request.getParameter("movieid"));
+			cart.increaseRentDays(movieID);
+		}
+		if(action.equals("decreasedays")) {
+			Cart cart = (Cart)request.getSession().getAttribute("cart");
+			Integer movieID = Integer.parseInt(request.getParameter("movieid"));
+			cart.decreaseRentDays(movieID);
+		}
 		
 		response.sendRedirect(request.getContextPath() + "/browse/cartPage.jsp");
 	}
@@ -53,7 +63,7 @@ public class UpdateCartServlet extends HttpServlet {
 				if(type.equals("rent")) {
 					Integer days = Integer.parseInt(request.getParameter("days"));
 					RentedMovie rentedMovie = new RentedMovie(movie, movie.getDailyRentalPrice(), days);
-					if(rentedMovie != null) {
+					if(rentedMovie != null && days >= 0 && days <= rentedMovie.getAvailableLicenses()) {
 						cart.addRentedMovie(rentedMovie);
 					}
 					return;
@@ -61,7 +71,7 @@ public class UpdateCartServlet extends HttpServlet {
 				
 				if(type.equals("purchase")) {			
 					PurchasedMovie purchasedMovie = new PurchasedMovie(movie, movie.getPurchasePrice());
-					if(purchasedMovie != null) {
+					if(purchasedMovie != null && purchasedMovie.getAvailableLicenses() >= 1) {
 						cart.addPurchasedMovie(purchasedMovie);
 					}
 					return;

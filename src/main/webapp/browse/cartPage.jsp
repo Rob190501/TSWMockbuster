@@ -14,6 +14,7 @@
 	<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
 	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/common.css">
 	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/table.css">
+	<script type = "text/javascript" src = "<%= request.getContextPath() %>/scripts/cartPage.js"></script>
 </head>
 <body>
 	<jsp:include page = "/fragments/header.jsp" />
@@ -78,7 +79,11 @@
 						<tr>
 							<td><%= movie.getTitle() %></td>
 							<td><%= movie.getDailyPrice() %>€</td>
-							<td><%= movie.getDays() %></td>
+							<td>
+								<%= movie.getDays() %>
+								<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=decreasedays&movieid=<%=movie.getId()%>">-</a>
+								<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=increasedays&movieid=<%=movie.getId()%>">+</a>
+							</td>
 							<td><%= movie.getDailyPrice() * movie.getDays() %>€</td>
 							<td>
 								<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=remove&movieid=<%= movie.getId() %>">

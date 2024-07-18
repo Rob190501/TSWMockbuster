@@ -47,7 +47,7 @@
 				Noleggia: <%= movie.getDailyRentalPrice() %>€/gg x 3gg
 			</a>
 			
-			<input type = "range" min = "1" max = "7" value = "3"
+			<input type = "range" min = "1" max = "<%= movie.getAvailableLicenses() %>" value = "3"
 				class = "slider" id = "rentDays"
 				oninput = "updateRentButton('<%= request.getContextPath() %>', <%= movie.getId() %>, <%= movie.getDailyRentalPrice() %>)">
 		</div>
