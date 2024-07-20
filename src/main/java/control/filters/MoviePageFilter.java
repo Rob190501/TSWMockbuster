@@ -30,6 +30,7 @@ public class MoviePageFilter extends HttpFilter implements Filter {
 			Integer id = Integer.parseInt(httpRequest.getParameter("id").trim());
 		} catch(Exception e) {
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/common/index.jsp");
+			return;
 		}
 		
 		
