@@ -196,8 +196,21 @@ public class UserDAO implements DAOInterface<User> {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
+	}
+	
+	public void setAdmin(Integer id, Boolean isAdmin) throws DAOException {
+		String query = "UPDATE " + table + " SET is_admin = ? WHERE id = ?";
 		
-		
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
+			
+			pstmt.setBoolean(1, isAdmin);
+			pstmt.setInt(2, id);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
 	}
 
 }

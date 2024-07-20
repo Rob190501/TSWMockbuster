@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 table {
-	width: 80%;
+	width: 1000px;
 	margin: 20px auto;
 	border-collapse: collapse;
 }
@@ -11,6 +11,7 @@ table {
 }
 
 th, td {
+	min-width: fit-content;
 	height: 50px;
 	text-align: center;
 	padding: 20px;
@@ -20,24 +21,12 @@ tr {
 	border-bottom: 2px solid #ffffff;
 }
 
-@media screen and (max-width: 850px){
+@media screen and (max-width: 950px){
 	table {
-		width: 100%;
+		width: 850px;
 	}
 	
 	th, td {
 		padding: 0;
-	}
-	
-	td {
-		border: 2px solid #ffffff;
-	}
-	
-	td:first-child {
-		border-left: none;
-	}
-        
-	td:last-child {
-		border-right: none;
 	}
 }

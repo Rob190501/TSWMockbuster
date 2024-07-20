@@ -185,6 +185,24 @@
         <servlet-name>UpdateUserServlet</servlet-name>
         <url-pattern>/browse/UpdateUserServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>GetAllUsersServlet</servlet-name>
+	    <servlet-class>control.admin.GetAllUsersServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>GetAllUsersServlet</servlet-name>
+        <url-pattern>/admin/GetAllUsersServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>SetAdminServlet</servlet-name>
+	    <servlet-class>control.admin.SetAdminServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>SetAdminServlet</servlet-name>
+        <url-pattern>/admin/SetAdminServlet</url-pattern>
+    </servlet-mapping>
 	
 	
 	
@@ -298,6 +316,15 @@
 	<filter-mapping>
 		<filter-name>UpdateUserFilter</filter-name>
 		<url-pattern>/browse/UpdateUserServlet</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>SetAdminFilter</filter-name>
+		<filter-class>control.filters.SetAdminFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SetAdminFilter</filter-name>
+		<url-pattern>/admin/SetAdminServlet</url-pattern>
 	</filter-mapping>
 	
 	
