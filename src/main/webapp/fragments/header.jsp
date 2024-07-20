@@ -27,8 +27,9 @@
 				<a href = "<%= request.getContextPath() %>/admin/movieUpload.jsp">Movie upload</a>
 				<a href = "<%= request.getContextPath() %>/admin/allOrdersPage.jsp">Tutti gli ordini</a>	
 			<% } %>
-			<a href="<%= request.getContextPath() %>/browse/ordersPage.jsp">I miei ordini</a>
-			<a href="<%= request.getContextPath() %>/common/LogoutServlet">Esci</a>
+			<a href = "<%= request.getContextPath() %>/browse/ordersPage.jsp">I miei ordini</a>
+			<a href = "<%= request.getContextPath() %>/browse/myAccountPage.jsp">Il mio account</a>
+			<a href = "<%= request.getContextPath() %>/common/LogoutServlet">Esci</a>
 		</div>
 		
 		<img src ="<%= request.getContextPath() %>/images/icons/search.png"

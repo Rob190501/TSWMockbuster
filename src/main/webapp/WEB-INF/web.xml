@@ -176,6 +176,15 @@
         <servlet-name>MovieUpdateServlet</servlet-name>
         <url-pattern>/admin/MovieUpdateServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>UpdateUserServlet</servlet-name>
+	    <servlet-class>control.browse.UpdateUserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>UpdateUserServlet</servlet-name>
+        <url-pattern>/browse/UpdateUserServlet</url-pattern>
+    </servlet-mapping>
 	
 	
 	
@@ -281,6 +290,17 @@
 		<filter-name>MoviePageFilter</filter-name>
 		<url-pattern>/browse/MoviePageServlet</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>UpdateUserFilter</filter-name>
+		<filter-class>control.filters.UpdateUserFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UpdateUserFilter</filter-name>
+		<url-pattern>/browse/UpdateUserServlet</url-pattern>
+	</filter-mapping>
+	
+	
 	
 	
 	

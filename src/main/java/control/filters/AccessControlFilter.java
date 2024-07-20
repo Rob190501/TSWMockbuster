@@ -44,6 +44,20 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		
 		User user = (User)httpRequest.getSession().getAttribute("user");
 		
+		if(user != null) {
+			if(httpRequest.getSession().getAttribute("cart") == null) {
+				httpRequest.getSession().setAttribute("cart", new Cart());
+			}
+			UserDAO userDAO = new UserDAO((DataSource)httpRequest.getServletContext().getAttribute("DataSource"));
+			try {
+				httpRequest.getSession().setAttribute("user", userDAO.retrieveByID(user.getId()));
+			} catch (DAOException e) {
+				httpRequest.getSession().invalidate();
+				e.printStackTrace();
+				throw new ServletException(e);
+			}
+		}
+		
 		if((targetPage.contains("browse") || targetPage.contains("admin")) && user == null) {
 			httpResponse.sendRedirect(indexPage);
 			return;
@@ -62,20 +76,6 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		if((targetPage.contains("login") || targetPage.contains("signup")) && user != null) {
 			httpResponse.sendRedirect(indexPage);
 			return;
-		}
-		
-		if(user != null) {
-			if(httpRequest.getSession().getAttribute("cart") == null) {
-				httpRequest.getSession().setAttribute("cart", new Cart());
-			}
-			UserDAO userDAO = new UserDAO((DataSource)httpRequest.getServletContext().getAttribute("DataSource"));
-			try {
-				httpRequest.setAttribute("user", userDAO.retrieveByID(user.getId()));
-			} catch (DAOException e) {
-				httpRequest.getSession().invalidate();
-				e.printStackTrace();
-				throw new ServletException(e);
-			}
 		}
 		
 		chain.doFilter(request, response);

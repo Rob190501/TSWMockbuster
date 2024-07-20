@@ -179,5 +179,25 @@ public class UserDAO implements DAOInterface<User> {
 			throw new DAOException(e);
 		}
 	}
+	
+	public void updateUser(User bean) throws DAOException {
+		String query = "UPDATE " + table + " SET first_name = ?, last_name = ?, billing_address = ?, credit = ? WHERE id = ?";
+		
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
+			
+			pstmt.setString(1, bean.getFirstName());
+			pstmt.setString(2, bean.getLastName());
+			pstmt.setString(3, bean.getBillingAddress());
+			pstmt.setFloat(4, bean.getCredit());
+			pstmt.setInt(5, bean.getId());
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+		
+		
+	}
 
 }
