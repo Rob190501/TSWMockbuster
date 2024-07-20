@@ -33,6 +33,7 @@ public class MovieUploadFormFilter extends HttpFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		request.setCharacterEncoding("UTF-8");
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/admin/movieUpload.jsp");
 		ArrayList<String> errors = new ArrayList<>();
@@ -40,7 +41,7 @@ public class MovieUploadFormFilter extends HttpFilter implements Filter {
 		Map<String, String> formFields = new HashMap<>();
         for (Part part : httpRequest.getParts()) {
             if (part.getSubmittedFileName() == null) { // It is a form field
-                formFields.put(part.getName(), new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8));
+                formFields.put(part.getName(), new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim());
             }
         }
         
@@ -99,7 +100,7 @@ public class MovieUploadFormFilter extends HttpFilter implements Filter {
 	}
 	
 	public boolean isValidText(String text) {
-		String regex = "[\\w\\s]+";
+		String regex = "[\\w\\sàèìòù.,']+";
 		return text == null ? Boolean.FALSE : text.trim().matches(regex);
 	}
 	

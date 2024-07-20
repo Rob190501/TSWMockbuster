@@ -1,8 +1,6 @@
 package control.browse;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,32 +10,33 @@ import javax.sql.DataSource;
 
 import control.exceptions.DAOException;
 import model.Cart;
-import model.Movie;
+import model.Order;
 import model.User;
-import model.dao.MovieDAO;
+import model.dao.OrderDAO;
+import model.dao.UserDAO;
 
-public class MoviePageServlet extends HttpServlet {
+public class PlaceOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public MoviePageServlet() {
+   
+    public PlaceOrderServlet() {
         super();
     }
-
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Integer id = Integer.parseInt(request.getParameter("id"));
+		Cart cart = (Cart)request.getSession().getAttribute("cart");
 		User user = (User)request.getSession().getAttribute("user");
-		MovieDAO movieDAO = new MovieDAO((DataSource)getServletContext().getAttribute("DataSource"));
+		
+		Order order = new Order(user);
+		order.setPurchasedMovies(cart.getPurchasedMovies());
+		order.setRentedMovies(cart.getRentedMovies());
+		order.setTotal(cart.getTotal());
+		
+		OrderDAO orderDAO = new OrderDAO((DataSource)request.getServletContext().getAttribute("DataSource"));
 		
 		try {
-			Movie movie = movieDAO.retrieveByID(id);
-			if(movie == null || (!user.isAdmin() && !movie.isVisible()) ) {
-				response.sendRedirect(request.getContextPath() + "/common/index.jsp");
-				return;
-			}
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/browse/moviePage.jsp");
-			request.setAttribute("movie", movie);
-			dispatcher.forward(request, response);
+			orderDAO.placeOrder(order);
+			cart.empty();
+			response.sendRedirect(request.getContextPath() + "/browse/GetOrdersServlet?userid=" + user.getId() + "&orderid=" + order.getId());
 			return;
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -48,5 +47,4 @@ public class MoviePageServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

@@ -24,6 +24,32 @@ public class PurchasedMovieDAO implements DAOInterface<PurchasedMovie> {
 
 	@Override
 	public void save(PurchasedMovie bean) throws DAOException {
+		String query = "INSERT INTO " + table + " (order_id, movie_id, price) VALUES (?, ?, ?)";
+		
+		try(Connection conn = ds.getConnection(); 
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
+			pstmt.setInt(1, bean.getOrder().getId());
+			pstmt.setInt(2, bean.getId());
+			pstmt.setFloat(3, bean.getPurchasePrice());
+				
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+	}
+	
+	public void save(PurchasedMovie bean, Connection conn) throws DAOException {
+		String query = "INSERT INTO " + table + " (order_id, movie_id, price) VALUES (?, ?, ?)";
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+			pstmt.setInt(1, bean.getOrder().getId());
+			pstmt.setInt(2, bean.getId());
+			pstmt.setFloat(3, bean.getPurchasePrice());
+				
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
 	}
 
 	@Override
@@ -35,7 +61,7 @@ public class PurchasedMovieDAO implements DAOInterface<PurchasedMovie> {
 		return null;
 	}
 	
-	public void retrieveByOrder(Order order) throws SQLException, DAOException {
+	public void retrieveByOrder(Order order) throws DAOException {
 		String rentQuery = "SELECT * FROM " + table + " " +
 				   		   "WHERE order_id = ?";
 		MovieDAO movieDAO = new MovieDAO(ds);
@@ -55,8 +81,9 @@ public class PurchasedMovieDAO implements DAOInterface<PurchasedMovie> {
 					order.addPurchasedMovie(purchasedMovie);
 				}
 			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
 		}
-		return;
 	}
 
 	@Override

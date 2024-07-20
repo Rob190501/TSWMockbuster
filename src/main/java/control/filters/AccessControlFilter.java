@@ -13,8 +13,12 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
+import control.exceptions.DAOException;
+import model.Cart;
 import model.User;
+import model.dao.UserDAO;
 
 @WebFilter("/AccessControlFilter")
 public class AccessControlFilter extends HttpFilter implements Filter {
@@ -43,7 +47,7 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 			return;
 		}
 		
-		if(targetPage.contains("moviepage.jsp") && request.getAttribute("movie") == null) {
+		if(targetPage.contains("moviepage.jsp") && httpRequest.getAttribute("movie") == null) {
 			httpResponse.sendRedirect(indexPage);
 			return;
 		}
@@ -56,6 +60,20 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		if((targetPage.contains("login") || targetPage.contains("signup")) && user != null) {
 			httpResponse.sendRedirect(indexPage);
 			return;
+		}
+		
+		if(user != null) {
+			if(httpRequest.getSession().getAttribute("cart") == null) {
+				httpRequest.getSession().setAttribute("cart", new Cart());
+			}
+			UserDAO userDAO = new UserDAO((DataSource)httpRequest.getServletContext().getAttribute("DataSource"));
+			try {
+				httpRequest.setAttribute("user", userDAO.retrieveByID(user.getId()));
+			} catch (DAOException e) {
+				httpRequest.getSession().invalidate();
+				e.printStackTrace();
+				throw new ServletException(e);
+			}
 		}
 		
 		chain.doFilter(request, response);

@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,15 +28,100 @@ public class OrderDAO implements DAOInterface<Order> {
 	public OrderDAO(DataSource ds) {
 		this.ds = ds;
 	}
+	
+	public void placeOrder(Order order) throws DAOException{
+		try(Connection conn = ds.getConnection()) {
+			conn.setAutoCommit(false);
+			
+			save(order, conn);
+			saveRentsAndPurchases(order, conn);
+			updateUserCredit(order, conn);
+			
+			try {
+				conn.commit();
+			} catch (SQLException e) {
+				try {
+					conn.rollback();
+				} catch(SQLException f) {
+					throw new DAOException(f);
+				}
+				throw new DAOException(e);
+			}
+			
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+	}
 
+
+	public void save(Order bean, Connection conn) throws DAOException {
+		String query = "INSERT INTO orders (order_date, total, user_id) VALUES (?, ?, ?)";
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+				
+			pstmt.setDate(1, Date.valueOf(bean.getDate()));
+			pstmt.setFloat(2, bean.getTotal());
+			pstmt.setInt(3, bean.getUser().getId());
+				
+			pstmt.executeUpdate();
+			try(ResultSet rs = pstmt.getGeneratedKeys()) {
+				if(rs.next()) {
+					bean.setId(rs.getInt(1));
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+	}
+	
+	private void saveRentsAndPurchases(Order order, Connection conn) throws DAOException {
+		MovieDAO movieDAO = new MovieDAO(ds);
+		
+		RentedMovieDAO rmd = new RentedMovieDAO(ds);
+		for(RentedMovie movie : order.getRentedMovies()) {
+			rmd.save(movie, conn);
+			movie.setAvailableLicenses(movie.getAvailableLicenses() - movie.getDays());
+			movieDAO.updateAvailableLicenses(movie, conn);
+		}	
+		PurchasedMovieDAO pmd = new PurchasedMovieDAO(ds);
+		for(PurchasedMovie movie : order.getPurchasedMovies()) {
+			pmd.save(movie, conn);
+			movie.setAvailableLicenses(movie.getAvailableLicenses() - 1);
+			movieDAO.updateAvailableLicenses(movie, conn);
+		}
+	}
+	
+	private void updateUserCredit(Order order, Connection conn) throws DAOException {
+		User user = order.getUser();
+		user.setCredit(user.getCredit() - order.getTotal());
+		UserDAO userDAO = new UserDAO(ds);
+		userDAO.updateCredit(user, conn);
+	}
+	
 	@Override
 	public void save(Order bean) throws DAOException {
+		String query = "INSERT INTO orders (order_date, total, user_id) VALUES (?, ?, ?)";
 		
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+				
+			pstmt.setDate(1, Date.valueOf(bean.getDate()));
+			pstmt.setFloat(2, bean.getTotal());
+			pstmt.setInt(3, bean.getUser().getId());
+				
+			pstmt.executeUpdate();
+			try(ResultSet rs = pstmt.getGeneratedKeys()) {
+				if(rs.next()) {
+					bean.setId(rs.getInt(1));
+				}
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
 	}
 
 	@Override
 	public void delete(int id) throws DAOException {
-		
 	}
 
 	@Override
@@ -56,9 +142,9 @@ public class OrderDAO implements DAOInterface<Order> {
 				while(rs.next()) {
 					Integer orderID = rs.getInt("id");
 					LocalDate date = rs.getDate("order_date").toLocalDate();
-					Float amount = rs.getFloat("order_amount");
+					Float total = rs.getFloat("total");
 					
-					Order order = new Order(orderID, date, amount);
+					Order order = new Order(orderID, date, total);
 					
 					orders.add(order);
 				}
@@ -84,21 +170,20 @@ public class OrderDAO implements DAOInterface<Order> {
 			try(ResultSet rs = pstmt.executeQuery()) {
 				if(rs.next()) {
 					LocalDate date = rs.getDate("order_date").toLocalDate();
-					Float amount = rs.getFloat("order_amount");
+					Float total = rs.getFloat("total");
 					UserDAO userDAO = new UserDAO(ds);
 					RentedMovieDAO rmd = new RentedMovieDAO(ds);
 					PurchasedMovieDAO pmd = new PurchasedMovieDAO(ds);
 					
 					User user = userDAO.retrieveByID(userID);
 					
-					order = new Order(orderID, date, amount, user);
+					order = new Order(orderID, date, total, user);
 					rmd.retrieveByOrder(order);
 					pmd.retrieveByOrder(order);
 				}
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new DAOException(e);
 		}
 		

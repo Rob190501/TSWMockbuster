@@ -8,4 +8,9 @@
         username="rob"
         password="923027"
         url="jdbc:mysql://localhost:3306/mockbuster?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+
+	
+    <CookieProcessor className="org.apache.tomcat.util.http.Rfc6265CookieProcessor"
+                     sameSiteCookies="Strict" />
+	
 </Context>

@@ -48,6 +48,19 @@ public class Movie implements Serializable{
 		this.isVisible = Boolean.TRUE;
 		this.posterPath = posterPath;
 	}
+	
+	public Movie(Integer id, String title, String plot, Integer duration, Integer year, Integer availableLicenses,
+			Float dailyRentalPrice, Float purchasePrice, Boolean isVisible) {
+		this.id = id;
+		this.title = title;
+		this.plot = plot;
+		this.duration = duration;
+		this.year = year;
+		this.availableLicenses = availableLicenses;
+		this.dailyRentalPrice = dailyRentalPrice;
+		this.purchasePrice = purchasePrice;
+		this.isVisible = isVisible;
+	}
 
 	public Integer getId() {
 		return id;

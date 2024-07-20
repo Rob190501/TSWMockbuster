@@ -12,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
 
 @WebFilter("/LoginFilter")
 public class LoginFilter extends HttpFilter implements Filter {
@@ -24,11 +25,13 @@ public class LoginFilter extends HttpFilter implements Filter {
 	}
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+		request.setCharacterEncoding("UTF-8");
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		String email = httpRequest.getParameter("email");
+		String password = httpRequest.getParameter("password");
 		
 		ArrayList<String> errors = new ArrayList<>();
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/common/login.jsp");
+		RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/common/login.jsp");
 		
 		if(!isValidEmail(email)) {
 			errors.add("Email non valida");
@@ -39,7 +42,7 @@ public class LoginFilter extends HttpFilter implements Filter {
 		}
 		
 		if(!errors.isEmpty()) {
-			request.setAttribute("errors", errors);
+			httpRequest.setAttribute("errors", errors);
 			dispatcher.forward(request, response);
 			return;
 		}

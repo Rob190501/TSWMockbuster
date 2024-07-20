@@ -21,6 +21,7 @@ import model.Cart;
 import model.Movie;
 import model.PurchasedMovie;
 import model.RentedMovie;
+import model.User;
 import model.dao.MovieDAO;
 
 public class RefreshCartFilter extends HttpFilter implements Filter {
@@ -35,9 +36,10 @@ public class RefreshCartFilter extends HttpFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		Cart cart = (Cart)httpRequest.getSession().getAttribute("cart");
+		User user = (User)httpRequest.getSession().getAttribute("user");
 		MovieDAO movieDAO = new MovieDAO((DataSource)httpRequest.getServletContext().getAttribute("DataSource"));
 		
-		if (cart == null) {
+		if (user != null && cart == null) {
 	        cart = new Cart();
 	        httpRequest.getSession().setAttribute("cart", cart);
 	    }
@@ -46,14 +48,18 @@ public class RefreshCartFilter extends HttpFilter implements Filter {
 			Collection<RentedMovie> refreshedRentedMovies = new ArrayList<RentedMovie>();
 			for(RentedMovie movie : cart.getRentedMovies()) {
 				Movie refreshed = movieDAO.retrieveByID(movie.getId());
-				refreshedRentedMovies.add(new RentedMovie(refreshed, refreshed.getDailyRentalPrice(), movie.getDays()));
+				if((movie.getDays() >= 1 && refreshed.getAvailableLicenses() >= movie.getDays()) && movie.isVisible()) {
+					refreshedRentedMovies.add(new RentedMovie(refreshed, refreshed.getDailyRentalPrice(), movie.getDays()));
+				}
 			}
 			cart.setRentedMovies(refreshedRentedMovies);
 			
 			Collection<PurchasedMovie> refreshedPurchasedMovies = new ArrayList<PurchasedMovie>();
 			for(PurchasedMovie movie : cart.getPurchasedMovies()) {
 				Movie refreshed = movieDAO.retrieveByID(movie.getId());
-				refreshedPurchasedMovies.add(new PurchasedMovie(refreshed, refreshed.getPurchasePrice()));
+				if(movie.getAvailableLicenses() >= 1 && movie.isVisible()) {
+					refreshedPurchasedMovies.add(new PurchasedMovie(refreshed, refreshed.getPurchasePrice()));
+				}
 			}
 			cart.setPurchasedMovies(refreshedPurchasedMovies);
 		} catch (DAOException e) {

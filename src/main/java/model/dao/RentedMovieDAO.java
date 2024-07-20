@@ -1,9 +1,11 @@
 package model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 
 import javax.sql.DataSource;
@@ -24,7 +26,32 @@ public class RentedMovieDAO implements DAOInterface<RentedMovie> {
 
 	@Override
 	public void save(RentedMovie bean) throws DAOException {
+		String query = "INSERT INTO " + table + " (order_id, movie_id, daily_price, days) VALUES (?, ?, ?, ?)";
 		
+		try(Connection conn = ds.getConnection(); 
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
+				pstmt.setInt(1, bean.getOrder().getId());
+				pstmt.setInt(2, bean.getId());
+				pstmt.setFloat(3, bean.getDailyRentalPrice());
+				pstmt.setInt(4, bean.getDays());
+				pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+	}
+	
+	public void save(RentedMovie bean, Connection conn) throws DAOException {
+		String query = "INSERT INTO " + table + " (order_id, movie_id, daily_price, days) VALUES (?, ?, ?, ?)";
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+				pstmt.setInt(1, bean.getOrder().getId());
+				pstmt.setInt(2, bean.getId());
+				pstmt.setFloat(3, bean.getDailyRentalPrice());
+				pstmt.setInt(4, bean.getDays());
+				pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
 	}
 
 	@Override
@@ -37,13 +64,13 @@ public class RentedMovieDAO implements DAOInterface<RentedMovie> {
 		return null;
 	}
 	
-	public void retrieveByOrder(Order order) throws SQLException, DAOException {
-		String rentQuery = "SELECT * FROM " + table + " " +
-				   		   "WHERE order_id = ?";
+	public void retrieveByOrder(Order order) throws DAOException {
+		String query = "SELECT * FROM " + table + " " +
+				   	   "WHERE order_id = ?";
 		MovieDAO movieDAO = new MovieDAO(ds);
 		
 		try(Connection conn = ds.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(rentQuery)) {
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
 			pstmt.setInt(1, order.getId());
 			
 			try(ResultSet rs = pstmt.executeQuery()) {
@@ -58,8 +85,9 @@ public class RentedMovieDAO implements DAOInterface<RentedMovie> {
 					order.addRentedMovie(rentedMovie);
 				}
 			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
 		}
-		return;
 	}
 
 	@Override

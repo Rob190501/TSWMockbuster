@@ -66,7 +66,7 @@
 					<tr>
 						<td><%= order.getId() %></td>
 						<td><%= order.getDate().format(formatter) %></td>
-						<td><%= order.getAmount() %>€</td>
+						<td><%= order.getTotal() %>€</td>
 						<td><%= order.getUser().getEmail() %></td>
 						<td><a href ="<%= request.getContextPath() %>/browse/GetOrdersServlet?userid=<%=order.getUser().getId()%>&orderid=<%=order.getId()%>">Dettagli</a></td>
 					</tr>

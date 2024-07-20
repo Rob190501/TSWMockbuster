@@ -21,7 +21,7 @@
 		
 		<h1>Ordine n.<%= order.getId() %></h1>
 		<h3>Data ordine <%= order.getDate() %></h3>
-		<h3>Totale: <%= order.getAmount() %>€</h3>
+		<h3>Totale: <%= order.getTotal() %>€</h3>
 		
 		<%
 			if(!order.getPurchasedMovies().isEmpty()) {

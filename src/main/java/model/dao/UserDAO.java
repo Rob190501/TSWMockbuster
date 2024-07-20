@@ -167,5 +167,17 @@ public class UserDAO implements DAOInterface<User> {
 		
 		return usersList;
 	}
+	
+	public void updateCredit(User bean, Connection conn) throws DAOException {
+		String query = "UPDATE " + table + " SET credit = ? WHERE id = ?";
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+			pstmt.setFloat(1, bean.getCredit());
+			pstmt.setInt(2, bean.getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+	}
 
 }

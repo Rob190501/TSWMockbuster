@@ -12,6 +12,27 @@
 		</user-data-constraint>
 	</security-constraint>
 	
+	<filter>
+		<filter-name>httpHeaderSecurity</filter-name>
+		<filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
+		<init-param>
+			<param-name>xssProtectionEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>antiClickJackingEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>antiClickJackingOption</param-name>
+			<param-value>DENY</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>httpHeaderSecurity</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	
 	
 	<resource-ref>
@@ -137,6 +158,24 @@
         <servlet-name>UpdateCartServlet</servlet-name>
         <url-pattern>/browse/UpdateCartServlet</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>PlaceOrderServlet</servlet-name>
+	    <servlet-class>control.browse.PlaceOrderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>PlaceOrderServlet</servlet-name>
+        <url-pattern>/browse/PlaceOrderServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>MovieUpdateServlet</servlet-name>
+	    <servlet-class>control.admin.MovieUpdateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>MovieUpdateServlet</servlet-name>
+        <url-pattern>/admin/MovieUpdateServlet</url-pattern>
+    </servlet-mapping>
 	
 	
 	
@@ -202,6 +241,10 @@
 		<filter-name>RefreshCartFilter</filter-name>
 		<url-pattern>/browse/cartPage.jsp</url-pattern>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>RefreshCartFilter</filter-name>
+		<url-pattern>/browse/PlaceOrderServlet</url-pattern>
+	</filter-mapping>
 	
 	<filter>
 		<filter-name>UpdateCartFilter</filter-name>
@@ -211,7 +254,24 @@
 		<filter-name>UpdateCartFilter</filter-name>
 		<url-pattern>/browse/UpdateCartServlet</url-pattern>
 	</filter-mapping>
-
+	
+	<filter>
+		<filter-name>PlaceOrderFilter</filter-name>
+		<filter-class>control.filters.PlaceOrderFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PlaceOrderFilter</filter-name>
+		<url-pattern>/browse/PlaceOrderServlet</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>MovieUpdateFilter</filter-name>
+		<filter-class>control.filters.MovieUpdateFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MovieUpdateFilter</filter-name>
+		<url-pattern>/admin/MovieUpdateServlet</url-pattern>
+	</filter-mapping>
 	
 	
 	

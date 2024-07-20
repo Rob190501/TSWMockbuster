@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import = "model.*"%>
+    pageEncoding="UTF-8" import = "model.*, java.util.*"%>
 
 <%
 	Cart cart = (Cart)request.getSession().getAttribute("cart");
@@ -30,6 +30,14 @@
 				<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=empty">
 					Svuota carrello
 				</a>
+				<%
+				ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
+				if(errors != null) {
+					for(String e: errors) { %>
+						<p class = "error"><%= e %></p>	
+					<%}
+				}
+				%>
 			</div>
 			
 		<% } %>

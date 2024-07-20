@@ -11,7 +11,7 @@ public class Order implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private LocalDate date;
-	private Float amount;
+	private Float total;
 	private User user;
 	private Collection<RentedMovie> rentedMovies;
 	private Collection<PurchasedMovie> purchasedMovies;
@@ -19,19 +19,28 @@ public class Order implements Serializable{
 	public Order() {
 	}
 	
-	public Order(Integer id, LocalDate date, Float amount) {
+	public Order(User user) {
+		this.id = -1;
+		this.date = LocalDate.now();
+		this.total = 0.0f;
+		this.user = user;
+		this.rentedMovies = new ArrayList<RentedMovie>();
+		this.purchasedMovies = new ArrayList<PurchasedMovie>();
+	}
+	
+	public Order(Integer id, LocalDate date, Float total) {
 		this.id = id;
 		this.date = date;
-		this.amount = amount;
+		this.total = total;
 		this.user = null;
 		this.rentedMovies = new ArrayList<RentedMovie>();
 		this.purchasedMovies = new ArrayList<PurchasedMovie>();
 	}
 	
-	public Order(Integer id, LocalDate date, Float amount, User user) {
+	public Order(Integer id, LocalDate date, Float total, User user) {
 		this.id = id;
 		this.date = date;
-		this.amount = amount;
+		this.total = total;
 		this.user = user;
 		this.rentedMovies = new ArrayList<RentedMovie>();
 		this.purchasedMovies = new ArrayList<PurchasedMovie>();
@@ -53,12 +62,12 @@ public class Order implements Serializable{
 		this.date = date;
 	}
 
-	public Float getAmount() {
-		return amount;
+	public Float getTotal() {
+		return total;
 	}
 
-	public void setAmount(Float amount) {
-		this.amount = amount;
+	public void setTotal(Float total) {
+		this.total = total;
 	}
 
 	public User getUser() {
@@ -73,7 +82,16 @@ public class Order implements Serializable{
 		return rentedMovies;
 	}
 	
+	public void setRentedMovies(Collection<RentedMovie> rentedMovies) {
+		this.rentedMovies = rentedMovies;
+		
+		for(RentedMovie movie : this.rentedMovies) {
+			movie.setOrder(this);
+		}
+	}
+	
 	public void addRentedMovie(RentedMovie movie) {
+		movie.setOrder(this);
 		this.rentedMovies.add(movie);
 	}
 	
@@ -81,7 +99,16 @@ public class Order implements Serializable{
 		return purchasedMovies;
 	}
 	
+	public void setPurchasedMovies(Collection<PurchasedMovie> purchasedMovies) {
+		this.purchasedMovies = purchasedMovies;
+		
+		for(PurchasedMovie movie : this.purchasedMovies) {
+			movie.setOrder(this);
+		}
+	}
+	
 	public void addPurchasedMovie(PurchasedMovie movie) {
+		movie.setOrder(this);
 		this.purchasedMovies.add(movie);
 	}
 }

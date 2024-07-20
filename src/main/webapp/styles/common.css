@@ -39,3 +39,7 @@ hr {
 	color: #363636;
 	cursor: pointer;
 }
+
+.error {
+	color: red;
+}

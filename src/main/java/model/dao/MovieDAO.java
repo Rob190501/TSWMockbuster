@@ -156,4 +156,40 @@ public class MovieDAO implements DAOInterface<Movie> {
 		
 		return movieList;
 	}
+	
+	public void updateAvailableLicenses(Movie bean, Connection conn) throws DAOException {
+		String query = "UPDATE " + table + " SET available_licenses = ? WHERE id = ?";
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(query)) {
+			pstmt.setInt(1, bean.getAvailableLicenses());
+			pstmt.setInt(2, bean.getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+	}
+	
+	public void updateMovie(Movie bean) throws DAOException {
+		String query = "UPDATE " + table + " " +
+					   "SET title = ?, plot = ?, duration = ?, movie_year = ?, available_licenses = ?, daily_rental_price = ?, purchase_price = ?, is_visible = ? " +
+					   "WHERE id = ?";
+		
+		try(Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(query)) {
+			
+			pstmt.setString(1, bean.getTitle());
+			pstmt.setString(2, bean.getPlot());
+			pstmt.setInt(3, bean.getDuration());
+			pstmt.setInt(4, bean.getYear());
+			pstmt.setInt(5, bean.getAvailableLicenses());
+			pstmt.setFloat(6, bean.getDailyRentalPrice());
+			pstmt.setFloat(7, bean.getPurchasePrice());
+			pstmt.setBoolean(8, bean.isVisible());
+			pstmt.setInt(9, bean.getId());
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+	}
 }

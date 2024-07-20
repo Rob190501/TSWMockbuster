@@ -25,7 +25,11 @@ public class SearchMovieTitleServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		String title = request.getParameter("title");
+		if (title == null) {
+			title = "";
+		}
 		MovieDAO movieDAO = new MovieDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		
 		response.setContentType("application/json");
@@ -37,10 +41,12 @@ public class SearchMovieTitleServlet extends HttpServlet {
 			JSONObject jsonResponse = new JSONObject();
 			
 			for(Movie movie : movies) {
-				JSONObject jsonMovie = new JSONObject();
-				jsonMovie.put("id", movie.getId());
-				jsonMovie.put("posterpath", movie.getPosterPath());
-				jsonMovies.put(jsonMovie);
+				if(movie.isVisible()) {
+					JSONObject jsonMovie = new JSONObject();
+					jsonMovie.put("id", movie.getId());
+					jsonMovie.put("posterpath", movie.getPosterPath());
+					jsonMovies.put(jsonMovie);
+				}
 			}
 			
 			jsonResponse.put("movies", jsonMovies);

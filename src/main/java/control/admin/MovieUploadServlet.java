@@ -35,7 +35,7 @@ public class MovieUploadServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String title = ((String)request.getAttribute("title")).trim();
-		String plot = ((String)request.getParameter("plot")).trim();
+		String plot = ((String)request.getAttribute("plot")).trim();
 		Integer duration = Integer.parseInt((String)request.getAttribute("duration"));
 		Integer year = Integer.parseInt((String)request.getAttribute("year"));
 		Integer availableLicenses = Integer.parseInt((String)request.getAttribute("availableLicenses"));

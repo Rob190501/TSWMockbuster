@@ -24,7 +24,6 @@ import model.dao.UserDAO;
 public class SignupFormFilter extends HttpFilter implements Filter {
        
     private static final long serialVersionUID = 1L;
-    private ServletContext servletContext;
 
     public SignupFormFilter() {
         super();
@@ -35,7 +34,7 @@ public class SignupFormFilter extends HttpFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		UserDAO userDAO = new UserDAO((DataSource)servletContext.getAttribute("DataSource"));
+		UserDAO userDAO = new UserDAO((DataSource)httpRequest.getServletContext().getAttribute("DataSource"));
 		
 		String email = httpRequest.getParameter("email");
 		String password = httpRequest.getParameter("password");
@@ -54,7 +53,6 @@ public class SignupFormFilter extends HttpFilter implements Filter {
 					errors.add("Email gia' registrata");
 				}
 			} catch (DAOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				throw new ServletException(e);
 			}
@@ -105,8 +103,7 @@ public class SignupFormFilter extends HttpFilter implements Filter {
         return address == null ? Boolean.FALSE : address.trim().matches(regex);
     }
 
-	public void init(FilterConfig fConfig) throws ServletException {
-		this.servletContext = fConfig.getServletContext();
+	public void init() throws ServletException {
 	}
 
 }

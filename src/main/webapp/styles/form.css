@@ -35,12 +35,19 @@ form input[type="submit"] {
 	border: 3px solid #363636;
 }
 
-textarea {
-	resize: none;
+.checkboxspan {
+	display: inline;
+	max-width: content-fit; 
 }
 
-.error {
-	color: red;
+input[type="checkbox"] {
+	display: inline;
+	width: 20px;
+	height: 20px;
+}
+
+textarea {
+	resize: none;
 }
 
 input.error, textarea.error {

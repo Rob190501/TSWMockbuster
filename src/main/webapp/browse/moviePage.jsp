@@ -33,11 +33,19 @@
 	<div class = "page">
 		<div class = "details">
 			<h1><%= movie.getTitle() %></h1>
+			<p><%= movie.getYear() %> - <%= movie.getDuration() %> min.</p>
 			<p><%= movie.getPlot() %></p>
 		</div>
 		
 		<div class = "controls">
-			<p>Disponibilità: <%= movie.getAvailableLicenses() %></p>
+			<p>
+				Disponibilità: <%= movie.getAvailableLicenses() %>
+				<% if(user.isAdmin()) { %>
+					<a href = "<%= request.getContextPath() %>/admin/MovieUpdateServlet?movieid=<%= movie.getId() %>">
+						Modifica
+					</a>
+				<% } %>
+			</p>
 			
 			<% if(movie.getAvailableLicenses() > 0) { %>
 				<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=add&type=purchase&movieid=<%= movie.getId()%>">
