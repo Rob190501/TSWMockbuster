@@ -24,24 +24,22 @@ public class UpdateCartServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action").trim();
+		Cart cart = (Cart)request.getSession().getAttribute("cart");
+		Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
 		
 		if(action.equals("add")) {
 			addToCart(request, response);
 		}
-		Cart cart = (Cart)request.getSession().getAttribute("cart");
-		if(action.equals("remove")) {
-			Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
-			cart.removeFromCart(movieID);
-		}
 		if(action.equals("empty")) {
 			cart.empty();
 		}
+		if(action.equals("remove")) {
+			cart.removeFromCart(movieID);
+		}
 		if(action.equals("increasedays")) {
-			Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
 			cart.increaseRentDays(movieID);
 		}
 		if(action.equals("decreasedays")) {
-			Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
 			cart.decreaseRentDays(movieID);
 		}
 		
@@ -59,21 +57,23 @@ public class UpdateCartServlet extends HttpServlet {
 			if(!cart.purchasesContains(movieID) && !cart.rentsContains(movieID)) {
 				Movie movie = movieDAO.retrieveByID(movieID);
 				
-				if(type.equals("rent")) {
-					Integer days = Integer.parseInt(request.getParameter("days"));
-					RentedMovie rentedMovie = new RentedMovie(movie, movie.getDailyRentalPrice(), days);
-					if(rentedMovie != null && days >= 0 && days <= rentedMovie.getAvailableLicenses()) {
-						cart.addRentedMovie(rentedMovie);
+				if(movie != null && movie.isVisible()) {
+					if(type.equals("rent")) {
+						Integer days = Integer.parseInt(request.getParameter("days").trim());
+						RentedMovie rentedMovie = new RentedMovie(movie, movie.getDailyRentalPrice(), days);
+						if(days >= 1 && days <= rentedMovie.getAvailableLicenses()) {
+							cart.addRentedMovie(rentedMovie);
+						}
+						return;
 					}
-					return;
-				}
-				
-				if(type.equals("purchase")) {			
-					PurchasedMovie purchasedMovie = new PurchasedMovie(movie, movie.getPurchasePrice());
-					if(purchasedMovie != null && purchasedMovie.getAvailableLicenses() >= 1) {
-						cart.addPurchasedMovie(purchasedMovie);
+					
+					if(type.equals("purchase")) {			
+						PurchasedMovie purchasedMovie = new PurchasedMovie(movie, movie.getPurchasePrice());
+						if(purchasedMovie.getAvailableLicenses() >= 1) {
+							cart.addPurchasedMovie(purchasedMovie);
+						}
+						return;
 					}
-					return;
 				}
 			}
 		} catch (DAOException e) {

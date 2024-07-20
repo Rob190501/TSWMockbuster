@@ -273,6 +273,15 @@
 		<url-pattern>/admin/MovieUpdateServlet</url-pattern>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>MoviePageFilter</filter-name>
+		<filter-class>control.filters.MoviePageFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MoviePageFilter</filter-name>
+		<url-pattern>/browse/MoviePageServlet</url-pattern>
+	</filter-mapping>
+	
 	
 	
 </web-app>

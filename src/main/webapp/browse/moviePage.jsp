@@ -40,14 +40,17 @@
 		<div class = "controls">
 			<p>
 				Disponibilità: <%= movie.getAvailableLicenses() %>
-				<% if(user.isAdmin()) { %>
-					<a href = "<%= request.getContextPath() %>/admin/MovieUpdateServlet?movieid=<%= movie.getId() %>">
-						Modifica
-					</a>
-				<% } %>
 			</p>
+			<% if(user.isAdmin()) { %>
+				<% if(!movie.isVisible()) { %>
+					<p>NON IN CATALOGO</p>
+				<% } %>
+				<a href = "<%= request.getContextPath() %>/admin/MovieUpdateServlet?movieid=<%= movie.getId() %>">
+					Modifica
+				</a>
+			<% } %>
 			
-			<% if(movie.getAvailableLicenses() > 0) { %>
+			<% if(movie.getAvailableLicenses() > 0 && movie.isVisible()) { %>
 				<a href = "<%= request.getContextPath() %>/browse/UpdateCartServlet?action=add&type=purchase&movieid=<%= movie.getId()%>">
 					Acquista: <%= movie.getPurchasePrice() %>€
 				</a>
