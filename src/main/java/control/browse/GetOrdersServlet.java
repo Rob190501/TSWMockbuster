@@ -31,12 +31,12 @@ public class GetOrdersServlet extends HttpServlet {
 			try {
 				Collection<Order> orders = orderDAO.retrieveByUser(user.getId());
 				request.setAttribute("orders", orders);
+				request.getRequestDispatcher("/browse/ordersPage.jsp").forward(request, response);
+				return;
 			} catch (DAOException e) {
 				e.printStackTrace();
 				throw new ServletException();
 			}
-			request.getRequestDispatcher("/browse/ordersPage.jsp").forward(request, response);
-			return;
 		}
 		
 		Integer userID = Integer.parseInt(request.getParameter("userid"));
@@ -44,16 +44,19 @@ public class GetOrdersServlet extends HttpServlet {
 		
 		try {
 			Order orderDetails = orderDAO.retrieveOrderDetails(userID, orderID);
+			
 			if(orderDetails == null) {
 				response.sendRedirect(request.getContextPath() + "/browse/GetOrdersServlet");
 				return;
 			}
+			
 			request.setAttribute("order", orderDetails);
+			request.getRequestDispatcher("/browse/orderDetailsPage.jsp").forward(request, response);
+			return;
 		} catch (DAOException e) {
 			e.printStackTrace();
 			throw new ServletException(e);
 		}
-		request.getRequestDispatcher("/browse/orderDetailsPage.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

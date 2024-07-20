@@ -29,8 +29,7 @@ public class MovieRetrieveServlet extends HttpServlet {
 		try {
 			Collection<Movie> movieList = movieDAO.retrieveAll();
 			request.setAttribute("movieList", movieList);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/common/index.jsp");
-			dispatcher.forward(request, response);
+			request.getRequestDispatcher("/common/index.jsp").forward(request, response);
 		} catch (DAOException e) {
 			e.printStackTrace();
 			throw new ServletException(e);

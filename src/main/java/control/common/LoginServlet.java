@@ -39,36 +39,28 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password").trim();
 		
 		UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
-		User user;
 		
-		ArrayList<String> errors = new ArrayList<>();
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/common/login.jsp");
-		HttpSession session = request.getSession();
-
 		try {
-			password = toHash(password.trim());
-		} catch (NoSuchAlgorithmException e) {
+			password = toHash(password);
+			
+			User user = userDAO.retrieveByEmailAndPassword(email, password);
+			
+			if(user == null) {
+				ArrayList<String> errors = new ArrayList<>();
+				errors.add("Username e/o password errati");
+				request.setAttribute("errors", errors);
+				request.getRequestDispatcher("/common/login.jsp").forward(request, response);
+				return;
+			}
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("user", user);
+			session.setAttribute("cart", new Cart());
+			response.sendRedirect(request.getContextPath() + "/common/index.jsp");
+		} catch (NoSuchAlgorithmException | DAOException e) {
 			e.printStackTrace();
 			throw new ServletException(e);
 		}
-		
-		try {
-			user = userDAO.retrieveByEmailAndPassword(email, password);
-		} catch (DAOException e) {
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
-
-		if(user == null) {
-			errors.add("Username e/o password errati");
-			request.setAttribute("errors", errors);
-			dispatcher.forward(request, response);
-			return;
-		}
-		
-		session.setAttribute("user", user);
-		session.setAttribute("cart", new Cart());
-		response.sendRedirect(request.getContextPath() + "/common/index.jsp");
 	}
 
 	private String toHash(String password) throws NoSuchAlgorithmException {

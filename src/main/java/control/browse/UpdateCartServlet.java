@@ -28,21 +28,20 @@ public class UpdateCartServlet extends HttpServlet {
 		if(action.equals("add")) {
 			addToCart(request, response);
 		}
+		Cart cart = (Cart)request.getSession().getAttribute("cart");
 		if(action.equals("remove")) {
-			removeFromCart(request, response);
+			Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
+			cart.removeFromCart(movieID);
 		}
 		if(action.equals("empty")) {
-			Cart cart = (Cart)request.getSession().getAttribute("cart");
 			cart.empty();
 		}
 		if(action.equals("increasedays")) {
-			Cart cart = (Cart)request.getSession().getAttribute("cart");
-			Integer movieID = Integer.parseInt(request.getParameter("movieid"));
+			Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
 			cart.increaseRentDays(movieID);
 		}
 		if(action.equals("decreasedays")) {
-			Cart cart = (Cart)request.getSession().getAttribute("cart");
-			Integer movieID = Integer.parseInt(request.getParameter("movieid"));
+			Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
 			cart.decreaseRentDays(movieID);
 		}
 		
@@ -54,7 +53,7 @@ public class UpdateCartServlet extends HttpServlet {
 		MovieDAO movieDAO = new MovieDAO((DataSource)request.getServletContext().getAttribute("DataSource"));
 		
 		String type = request.getParameter("type").trim();
-		Integer movieID = Integer.parseInt(request.getParameter("movieid"));
+		Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
 			
 		try {
 			if(!cart.purchasesContains(movieID) && !cart.rentsContains(movieID)) {
@@ -81,13 +80,6 @@ public class UpdateCartServlet extends HttpServlet {
 			e.printStackTrace();
 			throw new ServletException(e);
 		}
-	}
-	
-	private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-		Cart cart = (Cart)request.getSession().getAttribute("cart");
-		Integer movieID = Integer.parseInt(request.getParameter("movieid"));
-		cart.removeFromCart(movieID);
-		return;
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

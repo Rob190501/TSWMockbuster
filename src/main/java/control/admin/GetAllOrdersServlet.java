@@ -43,17 +43,13 @@ public class GetAllOrdersServlet extends HttpServlet {
 			}
 		}
 		
-		LocalDate from = LocalDate.parse(request.getParameter("from"), DateTimeFormatter.ISO_DATE);
-		LocalDate to = LocalDate.parse(request.getParameter("to"), DateTimeFormatter.ISO_DATE);
+		LocalDate from = LocalDate.parse(request.getParameter("from").trim(), DateTimeFormatter.ISO_DATE);
+		LocalDate to = LocalDate.parse(request.getParameter("to").trim(), DateTimeFormatter.ISO_DATE);
 		
 		Integer userID;
-		String temp = request.getParameter("userid");
 		
-		if(temp == null || temp.trim().equals("")) {
-			userID = null;
-		}
 		try {
-			userID = Integer.parseInt(temp);
+			userID = Integer.parseInt(request.getParameter("userid").trim());
 		} catch (Exception e) {
 			userID = null;
 		}

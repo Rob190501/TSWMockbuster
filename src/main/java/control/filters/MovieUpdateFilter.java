@@ -34,7 +34,7 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 		
 		if(method.equals("get")) {
 			try {
-				Integer movieid = Integer.parseInt(request.getParameter("movieid"));
+				Integer movieid = Integer.parseInt(request.getParameter("movieid").trim());
 			}
 			catch (Exception e) {
 				httpResponse.sendRedirect(httpRequest.getContextPath() + "/common/index.jsp");

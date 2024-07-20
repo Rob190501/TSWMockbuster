@@ -31,9 +31,8 @@ public class GetAllOrdersFilter extends HttpFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
 		try {
-			LocalDate from = LocalDate.parse(httpRequest.getParameter("from"), DateTimeFormatter.ISO_DATE);
-			LocalDate to = LocalDate.parse(httpRequest.getParameter("to"), DateTimeFormatter.ISO_DATE);
-			System.out.println(to);
+			LocalDate from = LocalDate.parse(httpRequest.getParameter("from").trim(), DateTimeFormatter.ISO_DATE);
+			LocalDate to = LocalDate.parse(httpRequest.getParameter("to").trim(), DateTimeFormatter.ISO_DATE);
 		} catch (Exception e) {
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/admin/allOrdersPage.jsp");
 			return;

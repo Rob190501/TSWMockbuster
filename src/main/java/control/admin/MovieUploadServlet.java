@@ -36,11 +36,11 @@ public class MovieUploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String title = ((String)request.getAttribute("title")).trim();
 		String plot = ((String)request.getAttribute("plot")).trim();
-		Integer duration = Integer.parseInt((String)request.getAttribute("duration"));
-		Integer year = Integer.parseInt((String)request.getAttribute("year"));
-		Integer availableLicenses = Integer.parseInt((String)request.getAttribute("availableLicenses"));
-		Float dailyRentalPrice = Float.parseFloat((String)request.getAttribute("dailyRentalPrice"));
-		Float purchasePrice = Float.parseFloat((String)request.getAttribute("purchasePrice"));
+		Integer duration = Integer.parseInt(((String)request.getAttribute("duration")).trim());
+		Integer year = Integer.parseInt(((String)request.getAttribute("year")).trim());
+		Integer availableLicenses = Integer.parseInt(((String)request.getAttribute("availableLicenses")).trim());
+		Float dailyRentalPrice = Float.parseFloat(((String)request.getAttribute("dailyRentalPrice")).trim());
+		Float purchasePrice = Float.parseFloat(((String)request.getAttribute("purchasePrice")).trim());
 		Part poster = request.getPart("poster");
 		String posterName = poster.getSubmittedFileName();
 		
@@ -53,7 +53,7 @@ public class MovieUploadServlet extends HttpServlet {
 			movieDAO.save(movie);
 			poster.write(savePath + File.separator + posterName);
 			response.sendRedirect(request.getContextPath() + "/common/index.jsp");
-		} catch (DAOException e) {
+		} catch (DAOException | IOException e) {
 			e.printStackTrace();
 			throw new ServletException(e);
 		}

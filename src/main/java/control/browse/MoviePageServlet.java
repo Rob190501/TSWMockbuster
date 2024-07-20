@@ -24,7 +24,7 @@ public class MoviePageServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Integer id = Integer.parseInt(request.getParameter("id"));
+		Integer id = Integer.parseInt(request.getParameter("id").trim());
 		User user = (User)request.getSession().getAttribute("user");
 		MovieDAO movieDAO = new MovieDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		
@@ -35,9 +35,8 @@ public class MoviePageServlet extends HttpServlet {
 				return;
 			}
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/browse/moviePage.jsp");
 			request.setAttribute("movie", movie);
-			dispatcher.forward(request, response);
+			request.getRequestDispatcher("/browse/moviePage.jsp").forward(request, response);
 			return;
 		} catch (DAOException e) {
 			e.printStackTrace();

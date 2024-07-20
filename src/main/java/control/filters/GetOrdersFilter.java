@@ -34,8 +34,8 @@ public class GetOrdersFilter extends HttpFilter implements Filter {
 		User user = (User) httpRequest.getSession().getAttribute("user");
 		
 		try {
-			Integer userID = Integer.parseInt(httpRequest.getParameter("userid"));
-			Integer orderID = Integer.parseInt(httpRequest.getParameter("orderid"));
+			Integer userID = Integer.parseInt(httpRequest.getParameter("userid").trim());
+			Integer orderID = Integer.parseInt(httpRequest.getParameter("orderid").trim());
 			
 			if(!user.isAdmin() && !user.getId().equals(userID)) {
 				throw new Exception();

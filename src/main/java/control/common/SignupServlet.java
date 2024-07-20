@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import control.exceptions.DAOException;
+import model.Cart;
 import model.User;
 import model.dao.UserDAO;
 
@@ -28,26 +29,22 @@ public class SignupServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email").trim();
-		String password;
 		try {
-			password = toHash(request.getParameter("password").trim());
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
-		String firstName = request.getParameter("firstName").trim();
-		String lastName = request.getParameter("lastName").trim();
-		String billingAddress = request.getParameter("billingAddress").trim();
-		User user = new User(email, password, firstName, lastName, billingAddress);
+			String password = toHash(request.getParameter("password").trim());
+			String email = request.getParameter("email").trim();
+			
+			String firstName = request.getParameter("firstName").trim();
+			String lastName = request.getParameter("lastName").trim();
+			String billingAddress = request.getParameter("billingAddress").trim();
+			User user = new User(email, password, firstName, lastName, billingAddress);
+			
+			UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		
-		UserDAO userDAO = new UserDAO((DataSource)getServletContext().getAttribute("DataSource"));
-		
-		try {
 			userDAO.save(user);
 			request.getSession().setAttribute("user", user);
+			request.getSession().setAttribute("cart", new Cart());
 			response.sendRedirect(request.getContextPath() + "/common/index.jsp");
-		} catch (DAOException e) {
+		} catch (NoSuchAlgorithmException | DAOException e) {
 			e.printStackTrace();
 			throw new ServletException(e);
 		}

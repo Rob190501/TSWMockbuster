@@ -22,7 +22,7 @@ public class MovieUpdateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MovieDAO movieDAO = new MovieDAO((DataSource)getServletContext().getAttribute("DataSource"));
-		Integer movieid = Integer.parseInt(request.getParameter("movieid"));
+		Integer movieid = Integer.parseInt(request.getParameter("movieid").trim());
 		try {
 			Movie movie = movieDAO.retrieveByID(movieid);
 			
@@ -45,14 +45,14 @@ public class MovieUpdateServlet extends HttpServlet {
 		
 		MovieDAO movieDAO = new MovieDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		
-		Integer id = Integer.parseInt(request.getParameter("movieid"));
-		String title = (request.getParameter("title")).trim();
-		String plot = (request.getParameter("plot")).trim();
-		Integer duration = Integer.parseInt(request.getParameter("duration"));
-		Integer year = Integer.parseInt(request.getParameter("year"));
-		Integer availableLicenses = Integer.parseInt(request.getParameter("availableLicenses"));
-		Float dailyRentalPrice = Float.parseFloat(request.getParameter("dailyRentalPrice"));
-		Float purchasePrice = Float.parseFloat(request.getParameter("purchasePrice"));
+		Integer id = Integer.parseInt(request.getParameter("movieid").trim());
+		String title = request.getParameter("title").trim();
+		String plot = request.getParameter("plot").trim();
+		Integer duration = Integer.parseInt(request.getParameter("duration").trim());
+		Integer year = Integer.parseInt(request.getParameter("year").trim());
+		Integer availableLicenses = Integer.parseInt(request.getParameter("availableLicenses").trim());
+		Float dailyRentalPrice = Float.parseFloat(request.getParameter("dailyRentalPrice").trim());
+		Float purchasePrice = Float.parseFloat(request.getParameter("purchasePrice").trim());
 		Boolean isVisible = request.getParameter("isVisible") != null;
 		
 		Movie movie = new Movie(id, title, plot, duration, year, availableLicenses, dailyRentalPrice, purchasePrice, isVisible);
