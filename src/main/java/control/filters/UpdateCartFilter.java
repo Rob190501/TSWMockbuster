@@ -34,47 +34,39 @@ public class UpdateCartFilter extends HttpFilter implements Filter {
 			httpRequest.getSession().setAttribute("cart", new Cart());
 		}
 		
-		String cartPage = httpRequest.getContextPath() + "/browse/cartPage.jsp";
-		
-		String action = httpRequest.getParameter("action").trim();
-		ArrayList<String> allowedActions = new ArrayList<String>();
-		allowedActions.add("add");
-		allowedActions.add("remove");
-		allowedActions.add("empty");
-		allowedActions.add("increasedays");
-		allowedActions.add("decreasedays");
-		
-		if(action == null || !allowedActions.contains(action)) {
-			httpResponse.sendRedirect(cartPage);
-			return;
-		}
-		
-		if(!action.equals("empty")) {
-			try {
-				Integer movieID = Integer.parseInt(httpRequest.getParameter("movieid"));
-			} catch(Exception e) {
-				httpResponse.sendRedirect(cartPage);
-				return;
+		try {
+			String action = httpRequest.getParameter("action").trim();
+			ArrayList<String> allowedActions = new ArrayList<String>();
+			allowedActions.add("add");
+			allowedActions.add("remove");
+			allowedActions.add("empty");
+			allowedActions.add("increasedays");
+			allowedActions.add("decreasedays");
+			
+			if(!allowedActions.contains(action)) {
+				throw new Exception();
 			}
-		}
-		
-		if(action.equals("add")) {
-			String type = httpRequest.getParameter("type").trim();
-			ArrayList<String> allowedTypes = new ArrayList<String>();
-			allowedTypes.add("purchase");
-			allowedTypes.add("rent");
-			if(type == null || !allowedTypes.contains(type)) {
-				httpResponse.sendRedirect(cartPage);
-				return;
+			
+			if(!action.equals("empty")) {
+				Integer movieID = Integer.parseInt(httpRequest.getParameter("movieid").trim());
 			}
-			if(type.equals("rent")) {
-				try {
-					Integer days = Integer.parseInt(httpRequest.getParameter("days"));
-				} catch(Exception e) {
-					httpResponse.sendRedirect(cartPage);
-					return;
+			
+			if(action.equals("add")) {
+				String type = httpRequest.getParameter("type").trim();
+				ArrayList<String> allowedTypes = new ArrayList<String>();
+				allowedTypes.add("purchase");
+				allowedTypes.add("rent");
+				
+				if(!allowedTypes.contains(type)) {
+					throw new Exception();
+				}
+				if(type.equals("rent")) {
+					Integer days = Integer.parseInt(httpRequest.getParameter("days").trim());
 				}
 			}
+		} catch(Exception e) {
+			httpResponse.sendRedirect(httpRequest.getContextPath() + "/browse/cartPage.jsp");
+			return;
 		}
 		
 		chain.doFilter(request, response);
