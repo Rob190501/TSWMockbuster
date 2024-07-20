@@ -37,6 +37,8 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
+		httpRequest.setCharacterEncoding("UTF-8");
+		
 		String targetPage = httpRequest.getServletPath().toLowerCase();
 		String indexPage = httpRequest.getContextPath() + "/common/index.jsp";
 		

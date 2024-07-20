@@ -30,6 +30,8 @@ public class GetAllOrdersFilter extends HttpFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
+		httpRequest.setCharacterEncoding("UTF-8");
+		
 		try {
 			LocalDate from = LocalDate.parse(httpRequest.getParameter("from").trim(), DateTimeFormatter.ISO_DATE);
 			LocalDate to = LocalDate.parse(httpRequest.getParameter("to").trim(), DateTimeFormatter.ISO_DATE);

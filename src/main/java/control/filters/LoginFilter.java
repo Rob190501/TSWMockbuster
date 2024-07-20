@@ -25,8 +25,9 @@ public class LoginFilter extends HttpFilter implements Filter {
 	}
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding("UTF-8");
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		httpRequest.setCharacterEncoding("UTF-8");
+		
 		String email = httpRequest.getParameter("email").trim();
 		String password = httpRequest.getParameter("password").trim();
 		

@@ -35,6 +35,8 @@ public class RefreshCartFilter extends HttpFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
+		httpRequest.setCharacterEncoding("UTF-8");
+		
 		Cart cart = (Cart)httpRequest.getSession().getAttribute("cart");
 		User user = (User)httpRequest.getSession().getAttribute("user");
 		MovieDAO movieDAO = new MovieDAO((DataSource)httpRequest.getServletContext().getAttribute("DataSource"));

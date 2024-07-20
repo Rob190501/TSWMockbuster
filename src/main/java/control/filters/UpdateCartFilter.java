@@ -28,6 +28,7 @@ public class UpdateCartFilter extends HttpFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse)response;
+		httpRequest.setCharacterEncoding("UTF-8");
 		
 		if(httpRequest.getSession().getAttribute("cart") == null) {
 			httpRequest.getSession().setAttribute("cart", new Cart());

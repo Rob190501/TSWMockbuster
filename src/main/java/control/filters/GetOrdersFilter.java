@@ -31,6 +31,8 @@ public class GetOrdersFilter extends HttpFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
+		httpRequest.setCharacterEncoding("UTF-8");
+		
 		User user = (User) httpRequest.getSession().getAttribute("user");
 		
 		try {

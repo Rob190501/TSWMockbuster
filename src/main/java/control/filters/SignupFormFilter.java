@@ -34,6 +34,8 @@ public class SignupFormFilter extends HttpFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		httpRequest.setCharacterEncoding("UTF-8");
+		
 		UserDAO userDAO = new UserDAO((DataSource)httpRequest.getServletContext().getAttribute("DataSource"));
 		
 		String email = httpRequest.getParameter("email");

@@ -33,8 +33,9 @@ public class MovieUploadFormFilter extends HttpFilter implements Filter {
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		request.setCharacterEncoding("UTF-8");
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		httpRequest.setCharacterEncoding("UTF-8");
+		
 		RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/admin/movieUpload.jsp");
 		ArrayList<String> errors = new ArrayList<>();
 		
