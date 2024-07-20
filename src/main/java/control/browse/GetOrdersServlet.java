@@ -44,6 +44,10 @@ public class GetOrdersServlet extends HttpServlet {
 		
 		try {
 			Order orderDetails = orderDAO.retrieveOrderDetails(userID, orderID);
+			if(orderDetails == null) {
+				response.sendRedirect(request.getContextPath() + "/browse/GetOrdersServlet");
+				return;
+			}
 			request.setAttribute("order", orderDetails);
 		} catch (DAOException e) {
 			e.printStackTrace();
