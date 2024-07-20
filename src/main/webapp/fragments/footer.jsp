@@ -4,7 +4,7 @@
 <link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/footer.css">
 
 <footer>
-	<p class = "e">
+	<p">
 		© 2024 Mockbuster
 	</p>
 </footer>
