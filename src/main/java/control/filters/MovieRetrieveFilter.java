@@ -12,6 +12,8 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.User;
+
 @WebFilter("/MovieRetrieveFilter")
 public class MovieRetrieveFilter extends HttpFilter implements Filter {
 	
@@ -31,6 +33,13 @@ public class MovieRetrieveFilter extends HttpFilter implements Filter {
 			
 			if(!page.equals("index") && !page.equals("notvisible")) {
 				throw new Exception();
+			}
+			
+			User user = (User)httpRequest.getSession().getAttribute("user");
+			if(!page.equals("index")) {
+				if(user == null || !user.isAdmin()) {
+					throw new Exception();
+				}
 			}
 		} catch(Exception e) {
 			httpResponse.sendRedirect(httpRequest.getContextPath() + "/common/index.jsp");
