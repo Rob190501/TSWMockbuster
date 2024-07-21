@@ -32,7 +32,7 @@
 		    <div>
 		        <label for = "title">Titolo</label>
 		        <input type = "text" id = "title" name = "title" 
-		        	required pattern = "^[\w\sàèìòù.,']+$"
+		        	required pattern = "^[\w\sàèìòù.,']{1,200}$"
 		        	value = "<%= movie.getTitle() %>"
 		        	onblur = "validateFormField(this, 'titleErrorSpan', textError)">
 		        <span id = "titleErrorSpan" class="error"></span>

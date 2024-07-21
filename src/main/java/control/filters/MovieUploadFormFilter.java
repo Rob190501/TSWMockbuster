@@ -63,11 +63,11 @@ public class MovieUploadFormFilter extends HttpFilter implements Filter {
 			Part poster = httpRequest.getPart("poster");
 			
 			if(!isValidText(title)) {
-				errors.add("Titolo non valido. Consentite solo lettere, numeri e spazi.");
+				errors.add("Titolo non valido. Consentite solo max 200 lettere, numeri e spazi.");
 			}
 			
 			if(!isValidText(plot)) {
-				errors.add("Trama non valida. Consentite solo lettere, numeri e spazi.");
+				errors.add("Trama non valida. Consentite solo max 200 lettere, numeri e spazi.");
 			}
 			
 			if(!isValidInteger(duration)) {
@@ -113,7 +113,7 @@ public class MovieUploadFormFilter extends HttpFilter implements Filter {
 	}
 	
 	public boolean isValidText(String text) {
-		String regex = "[\\w\\sàèìòù.,']+";
+		String regex = "[\\w\\sàèìòù.,']{1,200}";
 		return text == null ? Boolean.FALSE : text.trim().matches(regex);
 	}
 	

@@ -41,6 +41,7 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 		}
 		
 		if(method.equals("post")) {
+			
 			String id = httpRequest.getParameter("movieid");
 			if(!isValidID(id)) {
 				httpResponse.sendRedirect(httpRequest.getContextPath() + "/common/index.jsp");
@@ -57,10 +58,10 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 			ArrayList<String> errors = new ArrayList<>();
 			
 			if(!isValidText(title)) {
-				errors.add("Titolo non valido. Consentite solo lettere, numeri e spazi.");
+				errors.add("Titolo non valido. Consentite solo max 200 lettere, numeri e spazi.");
 			}
 			if(!isValidText(plot)) {
-				errors.add("Trama non valida. Consentite solo lettere, numeri e spazi.");
+				errors.add("Trama non valida. Consentite solo max 200 lettere, numeri e spazi.");
 			}
 			if(!isValidInteger(duration)) {
 				errors.add("Durata non valida. Consentiti solo numeri interi >= 0.");
@@ -79,8 +80,9 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 			}
 			
 			if(!errors.isEmpty()) {
+				httpRequest.setAttribute("movieid", id);
 				httpRequest.setAttribute("errors", errors);
-				httpRequest.getRequestDispatcher("/admin/MovieUpdateServlet?movieid=" + id).forward(request, response);
+				httpRequest.getRequestDispatcher("/admin/MovieUpdateServlet").forward(request, response);
 				return;
 			}
 		}
@@ -98,7 +100,7 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 	}
 	
 	public boolean isValidText(String text) {
-		String regex = "[\\w\\sàèìòù.,']+";
+		String regex = "[\\w\\sàèìòù.,']{1,200}";
 		return text == null ? Boolean.FALSE : text.trim().matches(regex);
 	}
 	

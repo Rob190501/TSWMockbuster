@@ -2,7 +2,7 @@ const emptyError = "Campo vuoto";
 const numberError = "Consentiti solo numeri interi >= 0";
 const priceError = "Consentiti solo numeri >= 0";
 const yearError = "Anno min. 1888";
-const textError = "Consentite solo lettere, numeri e spazi";
+const textError = "Consentite solo max 200 lettere, numeri e spazi";
 
 function validateFormField(field, errorSpanId, errorMessage) {
 	let errorSpan = document.getElementById(errorSpanId);
@@ -22,7 +22,7 @@ function validateFormField(field, errorSpanId, errorMessage) {
 
 function validateTextArea(textArea, errorSpanId, errorMessage) {
 	let errorSpan = document.getElementById(errorSpanId);
-	let pattern = /^[\w\sàèìòù.,']+$/;
+	let pattern = /^[\w\sàèìòù.,']{1,200}$/;
 	
 	if(pattern.test(textArea.value)) {
 		textArea.classList.remove("error");
