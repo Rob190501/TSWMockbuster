@@ -17,6 +17,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 @WebFilter("/MovieUploadFormFilter")
@@ -39,62 +40,74 @@ public class MovieUploadFormFilter extends HttpFilter implements Filter {
 		RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/admin/movieUpload.jsp");
 		ArrayList<String> errors = new ArrayList<>();
 		
-		Map<String, String> formFields = new HashMap<>();
-        for (Part part : httpRequest.getParts()) {
-            if (part.getSubmittedFileName() == null) { // It is a form field
-                formFields.put(part.getName(), new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim());
-            }
-        }
-        
-        String title = formFields.get("title");
-        String plot = formFields.get("plot");
-        String duration = formFields.get("duration");
-        String year = formFields.get("year");
-        String availableLicenses = formFields.get("availableLicenses");
-        String dailyRentalPrice = formFields.get("dailyRentalPrice");
-        String purchasePrice = formFields.get("purchasePrice");
-		Part poster = httpRequest.getPart("poster");
-		
-		if(!isValidText(title)) {
-			errors.add("Titolo non valido. Consentite solo lettere, numeri e spazi.");
-		}
-		
-		if(!isValidText(plot)) {
-			errors.add("Trama non valida. Consentite solo lettere, numeri e spazi.");
-		}
-		
-		if(!isValidInteger(duration)) {
-			errors.add("Durata non valida. Consentiti solo numeri interi >= 0.");
-		}
-		
-		if(!isValidYear(year)) {
-			errors.add("Anno non valido. Anno min. 1888.");
-		}
-		
-		if(!isValidInteger(availableLicenses)) {
-			errors.add("Numero licenze non valido. Consentiti solo numeri interi >= 0.");
-		}
-		
-		if(!isValidPrice(dailyRentalPrice)) {
-			errors.add("Prezzo Noleggio Giornaliero non valido. Consentiti solo numeri interi >= 0.");
-		}
-		
-		if(!isValidPrice(purchasePrice)) {
-			errors.add("Prezzo di acquisto non valido. Consentiti solo numeri interi >= 0.");
-		}
-		
-		if(!isValidPoster(poster)) {
-			errors.add("Locandina non valida. Consentite solo immagini JPEG e PNG max 10MB.");
-		}
-		
-		if(!errors.isEmpty()) {
+		try {
+			if (httpRequest.getContentLengthLong() > MAX_FILE_SIZE) {
+				errors.add("File troppo grande");
+	            throw new Exception();
+	        }
+			
+			Map<String, String> formFields = new HashMap<>();
+	        for (Part part : httpRequest.getParts()) {
+	            if (part.getSubmittedFileName() == null) { // It is a form field
+	                formFields.put(part.getName(), new String(part.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim());
+	            }
+	        }
+	        
+	        String title = formFields.get("title");
+	        String plot = formFields.get("plot");
+	        String duration = formFields.get("duration");
+	        String year = formFields.get("year");
+	        String availableLicenses = formFields.get("availableLicenses");
+	        String dailyRentalPrice = formFields.get("dailyRentalPrice");
+	        String purchasePrice = formFields.get("purchasePrice");
+			Part poster = httpRequest.getPart("poster");
+			
+			if(!isValidText(title)) {
+				errors.add("Titolo non valido. Consentite solo lettere, numeri e spazi.");
+			}
+			
+			if(!isValidText(plot)) {
+				errors.add("Trama non valida. Consentite solo lettere, numeri e spazi.");
+			}
+			
+			if(!isValidInteger(duration)) {
+				errors.add("Durata non valida. Consentiti solo numeri interi >= 0.");
+			}
+			
+			if(!isValidYear(year)) {
+				errors.add("Anno non valido. Anno min. 1888.");
+			}
+			
+			if(!isValidInteger(availableLicenses)) {
+				errors.add("Numero licenze non valido. Consentiti solo numeri interi >= 0.");
+			}
+			
+			if(!isValidPrice(dailyRentalPrice)) {
+				errors.add("Prezzo Noleggio Giornaliero non valido. Consentiti solo numeri interi >= 0.");
+			}
+			
+			if(!isValidPrice(purchasePrice)) {
+				errors.add("Prezzo di acquisto non valido. Consentiti solo numeri interi >= 0.");
+			}
+			
+			if(!isValidPoster(poster)) {
+				errors.add("Locandina non valida. Consentite solo immagini JPEG e PNG max 10MB.");
+			}
+			
+			if(!errors.isEmpty()) {
+				httpRequest.setAttribute("errors", errors);
+				dispatcher.forward(request, response);
+				return;
+			}
+			
+			for (Map.Entry<String, String> entry : formFields.entrySet()) {
+			    httpRequest.setAttribute(entry.getKey(), entry.getValue());
+			}
+		} catch(Exception e) {
+			errors.add("Erorre upload");
 			httpRequest.setAttribute("errors", errors);
 			dispatcher.forward(request, response);
 			return;
-		}
-		
-		for (Map.Entry<String, String> entry : formFields.entrySet()) {
-		    httpRequest.setAttribute(entry.getKey(), entry.getValue());
 		}
 		
 		chain.doFilter(request, response);
