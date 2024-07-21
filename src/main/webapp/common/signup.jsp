@@ -72,5 +72,7 @@
 			<input type = "submit" value = "Registrati" onclick="return validateSignup()">
 		</form>
 	</div>
+	
+	<jsp:include page = "/fragments/footer.jsp"/>
 </body>
 </html>
