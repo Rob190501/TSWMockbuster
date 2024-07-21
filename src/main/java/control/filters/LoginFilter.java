@@ -28,8 +28,8 @@ public class LoginFilter extends HttpFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		httpRequest.setCharacterEncoding("UTF-8");
 		
-		String email = httpRequest.getParameter("email").trim();
-		String password = httpRequest.getParameter("password").trim();
+		String email = httpRequest.getParameter("email");
+		String password = httpRequest.getParameter("password");
 		
 		ArrayList<String> errors = new ArrayList<>();
 		RequestDispatcher dispatcher = httpRequest.getRequestDispatcher("/common/login.jsp");

@@ -50,8 +50,10 @@ public class RefreshCartFilter extends HttpFilter implements Filter {
 			Collection<RentedMovie> refreshedRentedMovies = new ArrayList<RentedMovie>();
 			for(RentedMovie movie : cart.getRentedMovies()) {
 				Movie refreshed = movieDAO.retrieveByID(movie.getId());
-				if((movie.getDays() >= 1 && refreshed.getAvailableLicenses() >= movie.getDays()) && movie.isVisible()) {
-					refreshedRentedMovies.add(new RentedMovie(refreshed, refreshed.getDailyRentalPrice(), movie.getDays()));
+				if(refreshed != null) {
+					if((movie.getDays() >= 1 && refreshed.getAvailableLicenses() >= movie.getDays()) && refreshed.isVisible()) {
+						refreshedRentedMovies.add(new RentedMovie(refreshed, refreshed.getDailyRentalPrice(), movie.getDays()));
+					}
 				}
 			}
 			cart.setRentedMovies(refreshedRentedMovies);
@@ -59,8 +61,10 @@ public class RefreshCartFilter extends HttpFilter implements Filter {
 			Collection<PurchasedMovie> refreshedPurchasedMovies = new ArrayList<PurchasedMovie>();
 			for(PurchasedMovie movie : cart.getPurchasedMovies()) {
 				Movie refreshed = movieDAO.retrieveByID(movie.getId());
-				if(movie.getAvailableLicenses() >= 1 && movie.isVisible()) {
-					refreshedPurchasedMovies.add(new PurchasedMovie(refreshed, refreshed.getPurchasePrice()));
+				if(refreshed != null) {
+					if(refreshed.getAvailableLicenses() >= 1 && refreshed.isVisible()) {
+						refreshedPurchasedMovies.add(new PurchasedMovie(refreshed, refreshed.getPurchasePrice()));
+					}
 				}
 			}
 			cart.setPurchasedMovies(refreshedPurchasedMovies);

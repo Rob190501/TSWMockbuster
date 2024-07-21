@@ -83,7 +83,7 @@ public class UpdateUserFilter extends HttpFilter implements Filter {
 	
 	private static boolean isValidCredit(String newCredit, Float oldCredit) {
 		try {
-			return Float.parseFloat(newCredit) >= oldCredit;
+			return Float.parseFloat(newCredit.trim()) >= oldCredit;
 		} catch(Exception e) {
 			return false;
 		}

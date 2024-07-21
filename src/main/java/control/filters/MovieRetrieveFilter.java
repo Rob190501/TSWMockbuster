@@ -35,8 +35,8 @@ public class MovieRetrieveFilter extends HttpFilter implements Filter {
 				throw new Exception();
 			}
 			
-			User user = (User)httpRequest.getSession().getAttribute("user");
-			if(!page.equals("index")) {
+			if(page.equals("notvisible")) {
+				User user = (User)httpRequest.getSession().getAttribute("user");
 				if(user == null || !user.isAdmin()) {
 					throw new Exception();
 				}

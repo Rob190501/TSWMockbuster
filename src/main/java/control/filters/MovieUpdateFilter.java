@@ -33,29 +33,27 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 		String method = httpRequest.getMethod().toLowerCase();
 		
 		if(method.equals("get")) {
-			try {
-				Integer movieid = Integer.parseInt(request.getParameter("movieid").trim());
-			}
-			catch (Exception e) {
+			String id = httpRequest.getParameter("movieid");
+			if(!isValidID(id)) {
 				httpResponse.sendRedirect(httpRequest.getContextPath() + "/common/index.jsp");
 				return;
 			}
 		}
 		
 		if(method.equals("post")) {
-			String id = httpRequest.getParameter("movieid").trim();
-			if(!isValidInteger(id)) {
+			String id = httpRequest.getParameter("movieid");
+			if(!isValidID(id)) {
 				httpResponse.sendRedirect(httpRequest.getContextPath() + "/common/index.jsp");
 				return;
 			}
 			
-			String title = httpRequest.getParameter("title").trim();
-			String plot = httpRequest.getParameter("plot").trim();
-			String duration = httpRequest.getParameter("duration").trim();
-			String year = httpRequest.getParameter("year").trim();
-			String availableLicenses = httpRequest.getParameter("availableLicenses").trim();
-			String dailyRentalPrice = httpRequest.getParameter("dailyRentalPrice").trim();
-			String purchasePrice = httpRequest.getParameter("purchasePrice").trim();
+			String title = httpRequest.getParameter("title");
+			String plot = httpRequest.getParameter("plot");
+			String duration = httpRequest.getParameter("duration");
+			String year = httpRequest.getParameter("year");
+			String availableLicenses = httpRequest.getParameter("availableLicenses");
+			String dailyRentalPrice = httpRequest.getParameter("dailyRentalPrice");
+			String purchasePrice = httpRequest.getParameter("purchasePrice");
 			ArrayList<String> errors = new ArrayList<>();
 			
 			if(!isValidText(title)) {
@@ -90,6 +88,15 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 	
+	public boolean isValidID(String id) {
+		try {
+			Integer.parseInt(id.trim());
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	public boolean isValidText(String text) {
 		String regex = "[\\w\\sàèìòù.,']+";
 		return text == null ? Boolean.FALSE : text.trim().matches(regex);
@@ -97,7 +104,7 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 	
 	public boolean isValidInteger(String integer) {
 		try {
-			return Integer.parseInt(integer) >= 0;
+			return Integer.parseInt(integer.trim()) >= 0;
 		} catch (Exception e) {
 			return false;
 		}
@@ -105,7 +112,7 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 	
 	public boolean isValidYear(String year) {
 		try {
-			return Integer.parseInt(year) >= 1888;
+			return Integer.parseInt(year.trim()) >= 1888;
 		} catch (Exception e) {
 			return false;
 		}
@@ -113,7 +120,7 @@ public class MovieUpdateFilter extends HttpFilter implements Filter {
 	
 	public boolean isValidPrice(String price) {
 		try {
-			return Float.parseFloat(price) >= 0;
+			return Float.parseFloat(price.trim()) >= 0;
 		} catch (Exception e) {
 			return false;
 		}

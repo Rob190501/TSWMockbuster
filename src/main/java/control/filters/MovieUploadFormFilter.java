@@ -104,7 +104,6 @@ public class MovieUploadFormFilter extends HttpFilter implements Filter {
 			    httpRequest.setAttribute(entry.getKey(), entry.getValue());
 			}
 		} catch(Exception e) {
-			errors.add("Erorre upload");
 			httpRequest.setAttribute("errors", errors);
 			dispatcher.forward(request, response);
 			return;
