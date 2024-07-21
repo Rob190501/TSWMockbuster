@@ -27,9 +27,18 @@ public class MovieRetrieveServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		MovieDAO movieDAO = new MovieDAO((DataSource)getServletContext().getAttribute("DataSource"));
 		try {
+			String page = request.getParameter("page").trim();
 			Collection<Movie> movieList = movieDAO.retrieveAll();
 			request.setAttribute("movieList", movieList);
-			request.getRequestDispatcher("/common/index.jsp").forward(request, response);
+			
+			if(page.equals("index")) {
+				request.getRequestDispatcher("/common/index.jsp").forward(request, response);
+				return;
+			}
+			if(page.equals("notvisible")) {
+				request.getRequestDispatcher("/admin/notVisiblePage.jsp").forward(request, response);
+				return;
+			}
 		} catch (DAOException e) {
 			e.printStackTrace();
 			throw new ServletException(e);

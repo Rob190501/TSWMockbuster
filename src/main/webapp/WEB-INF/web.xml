@@ -327,6 +327,15 @@
 		<url-pattern>/admin/SetAdminServlet</url-pattern>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>MovieRetrieveFilter</filter-name>
+		<filter-class>control.filters.MovieRetrieveFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MovieRetrieveFilter</filter-name>
+		<url-pattern>/common/MovieRetrieveServlet</url-pattern>
+	</filter-mapping>
+	
 	
 	
 	

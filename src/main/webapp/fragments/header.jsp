@@ -24,6 +24,7 @@
 		<div id = "menu" class = "menu">
 			<% if(user.isAdmin()) { %>
 				<a href = "<%= request.getContextPath() %>/admin/allUsersPage.jsp">Gestisci utenti</a>
+				<a href = "<%= request.getContextPath() %>/admin/notVisiblePage.jsp">Non in catalogo</a>
 				<a href = "<%= request.getContextPath() %>/admin/movieUpload.jsp">Movie upload</a>
 				<a href = "<%= request.getContextPath() %>/admin/allOrdersPage.jsp">Tutti gli ordini</a>	
 			<% } %>

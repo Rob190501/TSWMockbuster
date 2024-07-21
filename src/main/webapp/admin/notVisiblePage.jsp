@@ -4,7 +4,7 @@
 <%
 	ArrayList<Movie> movieList = (ArrayList<Movie>)request.getAttribute("movieList");
 	if(movieList == null) {
-		request.getRequestDispatcher("/common/MovieRetrieveServlet?page=index").forward(request, response);
+		request.getRequestDispatcher("/common/MovieRetrieveServlet?page=notvisible").forward(request, response);
 		return;	
 	}
 %>
@@ -14,7 +14,7 @@
 <head>
 	<meta charset = "UTF-8">
 	
-	<title>Mockbuster</title>
+	<title>Non visibili</title>
 	
 	<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
 	<link rel = "stylesheet" href = "<%= request.getContextPath() %>/styles/common.css">
@@ -24,13 +24,9 @@
 <body>
 	<jsp:include page = "/fragments/header.jsp" />
 	<div class = "page">
-		
-		<input type="text" id = "searchbar" class = "searchbar"
-			onkeyup = "retrieveMovies('<%=request.getContextPath()%>')">
-		
 		<div id = "containers">
 			<% for(Movie movie : movieList) {
-			   	if(movie.isVisible()) { %>
+			   	if(!movie.isVisible()) { %>
 					<div class = "container">
 						<a href = "<%= request.getContextPath() %>/browse/MoviePageServlet?id=<%= movie.getId() %>">
 							<img src = "<%= request.getContextPath() %>/images/posters/<%= movie.getPosterPath() %>"
@@ -45,14 +41,5 @@
 	</div>
 	
 	<jsp:include page = "/fragments/footer.jsp"/>
-	
-	<%
-	if(request.getParameter("search") != null) { %>
-		<script type="text/javascript">
-			toggleSearchbarVisibility('<%= request.getContextPath() %>');
-		</script>
-	<%
-	}
-	%>
 </body>
 </html>
