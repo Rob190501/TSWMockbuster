@@ -79,15 +79,19 @@ public class OrderDAO implements DAOInterface<Order> {
 		
 		RentedMovieDAO rmd = new RentedMovieDAO(ds);
 		for(RentedMovie movie : order.getRentedMovies()) {
-			rmd.save(movie, conn);
-			movie.setAvailableLicenses(movie.getAvailableLicenses() - movie.getDays());
-			movieDAO.updateAvailableLicenses(movie, conn);
+			if(movie.isVisible() && movie.getAvailableLicenses() >= movie.getDays()) {
+				rmd.save(movie, conn);
+				movie.setAvailableLicenses(movie.getAvailableLicenses() - movie.getDays());
+				movieDAO.updateAvailableLicenses(movie, conn);
+			}
 		}	
 		PurchasedMovieDAO pmd = new PurchasedMovieDAO(ds);
 		for(PurchasedMovie movie : order.getPurchasedMovies()) {
-			pmd.save(movie, conn);
-			movie.setAvailableLicenses(movie.getAvailableLicenses() - 1);
-			movieDAO.updateAvailableLicenses(movie, conn);
+			if(movie.isVisible() && movie.getAvailableLicenses() >= 1) {
+				pmd.save(movie, conn);
+				movie.setAvailableLicenses(movie.getAvailableLicenses() - 1);
+				movieDAO.updateAvailableLicenses(movie, conn);
+			}
 		}
 	}
 	

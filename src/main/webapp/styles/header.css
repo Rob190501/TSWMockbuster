@@ -71,7 +71,9 @@ header a:hover {
 	background-color: #FBA92C;
 	
 	margin-top: 85px;
-	margin-left: 190px;
+	
+	
+	margin-left: 170px;
 	
 	position: fixed;
 	
@@ -101,9 +103,8 @@ header a:hover {
 	}
 	
 	.menu {
-		margin-left: 0;
 		line-height: 35px;
-		margin-left: 70px;
+		margin-left: 50px;
 	}
 	
 	.menu a:not(:last-child) {
@@ -123,7 +124,7 @@ header a:hover {
 	}
 	
 	.menu {
-		margin-left: 10px;
+		margin-left: 0px;
 	}
 	
 	.nav img {

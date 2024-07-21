@@ -25,24 +25,25 @@ public class UpdateCartServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action").trim();
 		Cart cart = (Cart)request.getSession().getAttribute("cart");
-		Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
 		
-		if(action.equals("add")) {
-			addToCart(request, response);
-		}
 		if(action.equals("empty")) {
 			cart.empty();
+		} else {
+			Integer movieID = Integer.parseInt(request.getParameter("movieid").trim());
+			
+			if(action.equals("add")) {
+				addToCart(request, response);
+			}
+			if(action.equals("remove")) {
+				cart.removeFromCart(movieID);
+			}
+			if(action.equals("increasedays")) {
+				cart.increaseRentDays(movieID);
+			}
+			if(action.equals("decreasedays")) {
+				cart.decreaseRentDays(movieID);
+			}
 		}
-		if(action.equals("remove")) {
-			cart.removeFromCart(movieID);
-		}
-		if(action.equals("increasedays")) {
-			cart.increaseRentDays(movieID);
-		}
-		if(action.equals("decreasedays")) {
-			cart.decreaseRentDays(movieID);
-		}
-		
 		response.sendRedirect(request.getContextPath() + "/browse/cartPage.jsp");
 	}
 	
