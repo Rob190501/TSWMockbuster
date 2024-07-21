@@ -33,7 +33,8 @@
 			   	if(movie.isVisible()) { %>
 					<div class = "container">
 						<a href = "<%= request.getContextPath() %>/browse/MoviePageServlet?id=<%= movie.getId() %>">
-							<img src = "<%= request.getContextPath() %>/images/posters/<%= movie.getPosterPath() %>">
+							<img src = "<%= request.getContextPath() %>/images/posters/<%= movie.getPosterPath() %>"
+								onerror="this.src='<%= request.getContextPath() %>/images/posters/error.jpg'">
 						</a>
 					</div>
 				<%
